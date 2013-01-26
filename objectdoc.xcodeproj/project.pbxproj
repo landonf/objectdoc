@@ -35,7 +35,6 @@
 		05BE064716B43ECE00DF46D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		05BE064A16B43ECE00DF46D5 /* objectdoc-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "objectdoc-Info.plist"; sourceTree = "<group>"; };
 		05BE064C16B43ECE00DF46D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		05BE064E16B43ECE00DF46D5 /* objectdoc-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "objectdoc-Prefix.pch"; sourceTree = "<group>"; };
 		05BE064F16B43ECE00DF46D5 /* objectdoc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objectdoc.h; sourceTree = "<group>"; };
 		05BE065016B43ECE00DF46D5 /* objectdoc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = objectdoc.m; sourceTree = "<group>"; };
 		05BE065716B43ECF00DF46D5 /* objectdocTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = objectdocTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,7 +121,6 @@
 			children = (
 				05BE064A16B43ECE00DF46D5 /* objectdoc-Info.plist */,
 				05BE064B16B43ECE00DF46D5 /* InfoPlist.strings */,
-				05BE064E16B43ECE00DF46D5 /* objectdoc-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -329,6 +327,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LLVM_INSTALL_DIR = /usr/local/llvm;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -353,6 +352,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LLVM_INSTALL_DIR = /usr/local/llvm;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
@@ -365,9 +365,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "objectdoc/objectdoc-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/include",
+				);
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-lclangTooling",
+					"-lclangBasic",
+					"-lclangAST",
+					"-lclangASTMatchers",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -380,9 +392,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "objectdoc/objectdoc-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/include",
+				);
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-lclangTooling",
+					"-lclangBasic",
+					"-lclangAST",
+					"-lclangASTMatchers",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -433,6 +457,7 @@
 				05BE066B16B43ECF00DF46D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		05BE066C16B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "objectdocTests" */ = {
 			isa = XCConfigurationList;
@@ -441,6 +466,7 @@
 				05BE066E16B43ECF00DF46D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
