@@ -11,3 +11,5 @@
 @interface objectdoc : NSObject
 
 @end
+
+int RunTool (int argc, const char *argv[]);

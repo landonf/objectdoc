@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05BE064316B43ECE00DF46D5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE064216B43ECE00DF46D5 /* Cocoa.framework */; };
 		05BE064D16B43ECE00DF46D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05BE064B16B43ECE00DF46D5 /* InfoPlist.strings */; };
-		05BE065116B43ECE00DF46D5 /* objectdoc.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE065016B43ECE00DF46D5 /* objectdoc.m */; };
+		05BE065116B43ECE00DF46D5 /* ObjectDoc.mm in Sources */ = {isa = PBXBuildFile; fileRef = 05BE065016B43ECE00DF46D5 /* ObjectDoc.mm */; };
 		05BE065916B43ECF00DF46D5 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE065816B43ECF00DF46D5 /* SenTestingKit.framework */; };
 		05BE065A16B43ECF00DF46D5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE064216B43ECE00DF46D5 /* Cocoa.framework */; };
-		05BE065D16B43ECF00DF46D5 /* objectdoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE063F16B43ECE00DF46D5 /* objectdoc.framework */; };
+		05BE065D16B43ECF00DF46D5 /* ObjectDoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE063F16B43ECE00DF46D5 /* ObjectDoc.framework */; };
 		05BE066316B43ECF00DF46D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 05BE066116B43ECF00DF46D5 /* InfoPlist.strings */; };
 		05BE066616B43ECF00DF46D5 /* objectdocTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE066516B43ECF00DF46D5 /* objectdocTests.m */; };
+		05BE067A16B4422C00DF46D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE067916B4422C00DF46D5 /* Foundation.framework */; };
+		05BE067D16B4422C00DF46D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05BE067C16B4422C00DF46D5 /* main.m */; };
+		05BE068716B4424900DF46D5 /* ObjectDoc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE063F16B43ECE00DF46D5 /* ObjectDoc.framework */; };
+		05BE068D16B4474100DF46D5 /* ObjectDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = 05BE064F16B43ECE00DF46D5 /* ObjectDoc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		05BE068E16B4494200DF46D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE064716B43ECE00DF46D5 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,24 +29,46 @@
 			remoteGlobalIDString = 05BE063E16B43ECE00DF46D5;
 			remoteInfo = objectdoc;
 		};
+		05BE068516B4424500DF46D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 05BE063516B43ECE00DF46D5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 05BE063E16B43ECE00DF46D5;
+			remoteInfo = objectdoc;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		05BE067516B4422C00DF46D5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		05BE063F16B43ECE00DF46D5 /* objectdoc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = objectdoc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		05BE063F16B43ECE00DF46D5 /* ObjectDoc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectDoc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		05BE064216B43ECE00DF46D5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		05BE064516B43ECE00DF46D5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		05BE064616B43ECE00DF46D5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		05BE064716B43ECE00DF46D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		05BE064A16B43ECE00DF46D5 /* objectdoc-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "objectdoc-Info.plist"; sourceTree = "<group>"; };
 		05BE064C16B43ECE00DF46D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		05BE064F16B43ECE00DF46D5 /* objectdoc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objectdoc.h; sourceTree = "<group>"; };
-		05BE065016B43ECE00DF46D5 /* objectdoc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = objectdoc.m; sourceTree = "<group>"; };
-		05BE065716B43ECF00DF46D5 /* objectdocTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = objectdocTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		05BE064F16B43ECE00DF46D5 /* ObjectDoc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectDoc.h; sourceTree = "<group>"; };
+		05BE065016B43ECE00DF46D5 /* ObjectDoc.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ObjectDoc.mm; sourceTree = "<group>"; };
+		05BE065716B43ECF00DF46D5 /* ObjectDocTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObjectDocTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05BE065816B43ECF00DF46D5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		05BE066016B43ECF00DF46D5 /* objectdocTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "objectdocTests-Info.plist"; sourceTree = "<group>"; };
 		05BE066216B43ECF00DF46D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		05BE066416B43ECF00DF46D5 /* objectdocTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objectdocTests.h; sourceTree = "<group>"; };
 		05BE066516B43ECF00DF46D5 /* objectdocTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = objectdocTests.m; sourceTree = "<group>"; };
+		05BE067716B4422C00DF46D5 /* doctool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doctool; sourceTree = BUILT_PRODUCTS_DIR; };
+		05BE067916B4422C00DF46D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		05BE067C16B4422C00DF46D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05BE064316B43ECE00DF46D5 /* Cocoa.framework in Frameworks */,
+				05BE068E16B4494200DF46D5 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,7 +86,16 @@
 			files = (
 				05BE065916B43ECF00DF46D5 /* SenTestingKit.framework in Frameworks */,
 				05BE065A16B43ECF00DF46D5 /* Cocoa.framework in Frameworks */,
-				05BE065D16B43ECF00DF46D5 /* objectdoc.framework in Frameworks */,
+				05BE065D16B43ECF00DF46D5 /* ObjectDoc.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		05BE067416B4422C00DF46D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05BE067A16B4422C00DF46D5 /* Foundation.framework in Frameworks */,
+				05BE068716B4424900DF46D5 /* ObjectDoc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,8 +105,9 @@
 		05BE063316B43ECE00DF46D5 = {
 			isa = PBXGroup;
 			children = (
-				05BE064816B43ECE00DF46D5 /* objectdoc */,
-				05BE065E16B43ECF00DF46D5 /* objectdocTests */,
+				05BE064816B43ECE00DF46D5 /* ObjectDoc */,
+				05BE065E16B43ECF00DF46D5 /* ObjectDocTests */,
+				05BE067B16B4422C00DF46D5 /* doctool */,
 				05BE064116B43ECE00DF46D5 /* Frameworks */,
 				05BE064016B43ECE00DF46D5 /* Products */,
 			);
@@ -80,8 +116,9 @@
 		05BE064016B43ECE00DF46D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				05BE063F16B43ECE00DF46D5 /* objectdoc.framework */,
-				05BE065716B43ECF00DF46D5 /* objectdocTests.octest */,
+				05BE063F16B43ECE00DF46D5 /* ObjectDoc.framework */,
+				05BE065716B43ECF00DF46D5 /* ObjectDocTests.octest */,
+				05BE067716B4422C00DF46D5 /* doctool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,6 +128,7 @@
 			children = (
 				05BE064216B43ECE00DF46D5 /* Cocoa.framework */,
 				05BE065816B43ECF00DF46D5 /* SenTestingKit.framework */,
+				05BE067916B4422C00DF46D5 /* Foundation.framework */,
 				05BE064416B43ECE00DF46D5 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -106,13 +144,14 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		05BE064816B43ECE00DF46D5 /* objectdoc */ = {
+		05BE064816B43ECE00DF46D5 /* ObjectDoc */ = {
 			isa = PBXGroup;
 			children = (
-				05BE064F16B43ECE00DF46D5 /* objectdoc.h */,
-				05BE065016B43ECE00DF46D5 /* objectdoc.m */,
+				05BE064F16B43ECE00DF46D5 /* ObjectDoc.h */,
+				05BE065016B43ECE00DF46D5 /* ObjectDoc.mm */,
 				05BE064916B43ECE00DF46D5 /* Supporting Files */,
 			);
+			name = ObjectDoc;
 			path = objectdoc;
 			sourceTree = "<group>";
 		};
@@ -125,13 +164,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		05BE065E16B43ECF00DF46D5 /* objectdocTests */ = {
+		05BE065E16B43ECF00DF46D5 /* ObjectDocTests */ = {
 			isa = PBXGroup;
 			children = (
 				05BE066416B43ECF00DF46D5 /* objectdocTests.h */,
 				05BE066516B43ECF00DF46D5 /* objectdocTests.m */,
 				05BE065F16B43ECF00DF46D5 /* Supporting Files */,
 			);
+			name = ObjectDocTests;
 			path = objectdocTests;
 			sourceTree = "<group>";
 		};
@@ -144,6 +184,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		05BE067B16B4422C00DF46D5 /* doctool */ = {
+			isa = PBXGroup;
+			children = (
+				05BE067C16B4422C00DF46D5 /* main.m */,
+				05BE067E16B4422C00DF46D5 /* Supporting Files */,
+			);
+			path = doctool;
+			sourceTree = "<group>";
+		};
+		05BE067E16B4422C00DF46D5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -151,15 +207,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05BE068D16B4474100DF46D5 /* ObjectDoc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		05BE063E16B43ECE00DF46D5 /* objectdoc */ = {
+		05BE063E16B43ECE00DF46D5 /* ObjectDoc */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 05BE066916B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "objectdoc" */;
+			buildConfigurationList = 05BE066916B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "ObjectDoc" */;
 			buildPhases = (
 				05BE063A16B43ECE00DF46D5 /* Sources */,
 				05BE063B16B43ECE00DF46D5 /* Frameworks */,
@@ -170,14 +227,14 @@
 			);
 			dependencies = (
 			);
-			name = objectdoc;
+			name = ObjectDoc;
 			productName = objectdoc;
-			productReference = 05BE063F16B43ECE00DF46D5 /* objectdoc.framework */;
+			productReference = 05BE063F16B43ECE00DF46D5 /* ObjectDoc.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		05BE065616B43ECF00DF46D5 /* objectdocTests */ = {
+		05BE065616B43ECF00DF46D5 /* ObjectDocTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 05BE066C16B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "objectdocTests" */;
+			buildConfigurationList = 05BE066C16B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "ObjectDocTests" */;
 			buildPhases = (
 				05BE065216B43ECF00DF46D5 /* Sources */,
 				05BE065316B43ECF00DF46D5 /* Frameworks */,
@@ -189,10 +246,28 @@
 			dependencies = (
 				05BE065C16B43ECF00DF46D5 /* PBXTargetDependency */,
 			);
-			name = objectdocTests;
+			name = ObjectDocTests;
 			productName = objectdocTests;
-			productReference = 05BE065716B43ECF00DF46D5 /* objectdocTests.octest */;
+			productReference = 05BE065716B43ECF00DF46D5 /* ObjectDocTests.octest */;
 			productType = "com.apple.product-type.bundle";
+		};
+		05BE067616B4422C00DF46D5 /* doctool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05BE068216B4422C00DF46D5 /* Build configuration list for PBXNativeTarget "doctool" */;
+			buildPhases = (
+				05BE067316B4422C00DF46D5 /* Sources */,
+				05BE067416B4422C00DF46D5 /* Frameworks */,
+				05BE067516B4422C00DF46D5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				05BE068616B4424500DF46D5 /* PBXTargetDependency */,
+			);
+			name = doctool;
+			productName = doctool;
+			productReference = 05BE067716B4422C00DF46D5 /* doctool */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -203,7 +278,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Landon Fuller";
 			};
-			buildConfigurationList = 05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "objectdoc" */;
+			buildConfigurationList = 05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "ObjectDoc" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -215,8 +290,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				05BE063E16B43ECE00DF46D5 /* objectdoc */,
-				05BE065616B43ECF00DF46D5 /* objectdocTests */,
+				05BE063E16B43ECE00DF46D5 /* ObjectDoc */,
+				05BE065616B43ECF00DF46D5 /* ObjectDocTests */,
+				05BE067616B4422C00DF46D5 /* doctool */,
 			);
 		};
 /* End PBXProject section */
@@ -261,7 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05BE065116B43ECE00DF46D5 /* objectdoc.m in Sources */,
+				05BE065116B43ECE00DF46D5 /* ObjectDoc.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,13 +349,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		05BE067316B4422C00DF46D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05BE067D16B4422C00DF46D5 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		05BE065C16B43ECF00DF46D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 05BE063E16B43ECE00DF46D5 /* objectdoc */;
+			target = 05BE063E16B43ECE00DF46D5 /* ObjectDoc */;
 			targetProxy = 05BE065B16B43ECF00DF46D5 /* PBXContainerItemProxy */;
+		};
+		05BE068616B4424500DF46D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 05BE063E16B43ECE00DF46D5 /* ObjectDoc */;
+			targetProxy = 05BE068516B4424500DF46D5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -308,7 +397,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CONFIG_LDFLAGS = "$(LLVM_INSTALL_DIR)/lib/libclang.a -lclangARCMigrate -lclangAST -lclangASTMatchers -lclangAnalysis -lclangBasic -lclangCodeGen -lclangDriver -lclangEdit -lclangFormat -lclangFrontend -lclangFrontendTool -lclangLex -lclangParse -lclangRewriteCore -lclangRewriteFrontend -lclangSema -lclangSerialization -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangStaticAnalyzerFrontend -lclangTooling";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -316,6 +406,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -327,10 +418,27 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/lib",
+				);
+				LLVM_CONFIG_CFLAGS = "-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wno-shorten-64-to-32";
+				LLVM_CONFIG_LDFLAGS = "-lLLVMAsmParser -lLLVMInstrumentation -lLLVMArchive -lLLVMBitReader -lLLVMLinker -lLLVMDebugInfo -lLLVMOption -lLLVMipo -lLLVMVectorize -lLLVMBitWriter -lLLVMTableGen -lLLVMXCoreDisassembler -lLLVMXCoreCodeGen -lLLVMXCoreDesc -lLLVMXCoreInfo -lLLVMXCoreAsmPrinter -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMSparcCodeGen -lLLVMSparcDesc -lLLVMSparcInfo -lLLVMPowerPCCodeGen -lLLVMPowerPCDesc -lLLVMPowerPCInfo -lLLVMPowerPCAsmPrinter -lLLVMNVPTXCodeGen -lLLVMNVPTXDesc -lLLVMNVPTXInfo -lLLVMNVPTXAsmPrinter -lLLVMMSP430CodeGen -lLLVMMSP430Desc -lLLVMMSP430Info -lLLVMMSP430AsmPrinter -lLLVMMBlazeDisassembler -lLLVMMBlazeCodeGen -lLLVMMBlazeDesc -lLLVMMBlazeAsmPrinter -lLLVMMBlazeAsmParser -lLLVMMBlazeInfo -lLLVMMipsDisassembler -lLLVMMipsCodeGen -lLLVMMipsAsmParser -lLLVMMipsDesc -lLLVMMipsInfo -lLLVMMipsAsmPrinter -lLLVMHexagonCodeGen -lLLVMHexagonDesc -lLLVMHexagonInfo -lLLVMHexagonAsmPrinter -lLLVMCppBackendCodeGen -lLLVMCppBackendInfo -lLLVMARMDisassembler -lLLVMARMCodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMAsmParser -lLLVMARMDesc -lLLVMARMInfo -lLLVMARMAsmPrinter -lLLVMMCDisassembler -lLLVMMCParser -lLLVMInterpreter -lLLVMMCJIT -lLLVMJIT -lLLVMCodeGen -lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMipa -lLLVMAnalysis -lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore -lLLVMSupport";
 				LLVM_INSTALL_DIR = /usr/local/llvm;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Werror",
+					"-pedantic",
+					"-Wno-unused-parameter",
+				);
 			};
 			name = Debug;
 		};
@@ -339,7 +447,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CONFIG_LDFLAGS = "$(LLVM_INSTALL_DIR)/lib/libclang.a -lclangARCMigrate -lclangAST -lclangASTMatchers -lclangAnalysis -lclangBasic -lclangCodeGen -lclangDriver -lclangEdit -lclangFormat -lclangFrontend -lclangFrontendTool -lclangLex -lclangParse -lclangRewriteCore -lclangRewriteFrontend -lclangSema -lclangSerialization -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangStaticAnalyzerFrontend -lclangTooling";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -347,14 +456,32 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LLVM_INSTALL_DIR)/lib",
+				);
+				LLVM_CONFIG_CFLAGS = "-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wno-shorten-64-to-32";
+				LLVM_CONFIG_LDFLAGS = "-lLLVMAsmParser -lLLVMInstrumentation -lLLVMArchive -lLLVMBitReader -lLLVMLinker -lLLVMDebugInfo -lLLVMOption -lLLVMipo -lLLVMVectorize -lLLVMBitWriter -lLLVMTableGen -lLLVMXCoreDisassembler -lLLVMXCoreCodeGen -lLLVMXCoreDesc -lLLVMXCoreInfo -lLLVMXCoreAsmPrinter -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMSparcCodeGen -lLLVMSparcDesc -lLLVMSparcInfo -lLLVMPowerPCCodeGen -lLLVMPowerPCDesc -lLLVMPowerPCInfo -lLLVMPowerPCAsmPrinter -lLLVMNVPTXCodeGen -lLLVMNVPTXDesc -lLLVMNVPTXInfo -lLLVMNVPTXAsmPrinter -lLLVMMSP430CodeGen -lLLVMMSP430Desc -lLLVMMSP430Info -lLLVMMSP430AsmPrinter -lLLVMMBlazeDisassembler -lLLVMMBlazeCodeGen -lLLVMMBlazeDesc -lLLVMMBlazeAsmPrinter -lLLVMMBlazeAsmParser -lLLVMMBlazeInfo -lLLVMMipsDisassembler -lLLVMMipsCodeGen -lLLVMMipsAsmParser -lLLVMMipsDesc -lLLVMMipsInfo -lLLVMMipsAsmPrinter -lLLVMHexagonCodeGen -lLLVMHexagonDesc -lLLVMHexagonInfo -lLLVMHexagonAsmPrinter -lLLVMCppBackendCodeGen -lLLVMCppBackendInfo -lLLVMARMDisassembler -lLLVMARMCodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMARMAsmParser -lLLVMARMDesc -lLLVMARMInfo -lLLVMARMAsmPrinter -lLLVMMCDisassembler -lLLVMMCParser -lLLVMInterpreter -lLLVMMCJIT -lLLVMJIT -lLLVMCodeGen -lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMipa -lLLVMAnalysis -lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore -lLLVMSupport";
 				LLVM_INSTALL_DIR = /usr/local/llvm;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Werror",
+					"-pedantic",
+					"-Wno-unused-parameter",
+				);
 			};
 			name = Release;
 		};
@@ -365,20 +492,15 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LLVM_INSTALL_DIR)/include",
-				);
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
+				OTHER_CFLAGS = (
 					"$(inherited)",
-					"$(LLVM_INSTALL_DIR)/lib",
+					"$(LLVM_CONFIG_CFLAGS)",
 				);
 				OTHER_LDFLAGS = (
-					"-lclangTooling",
-					"-lclangBasic",
-					"-lclangAST",
-					"-lclangASTMatchers",
+					"$(inherited)",
+					"$(CLANG_CONFIG_LDFLAGS)",
+					"$(LLVM_CONFIG_LDFLAGS)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
@@ -392,20 +514,15 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LLVM_INSTALL_DIR)/include",
-				);
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
+				OTHER_CFLAGS = (
 					"$(inherited)",
-					"$(LLVM_INSTALL_DIR)/lib",
+					"$(LLVM_CONFIG_CFLAGS)",
 				);
 				OTHER_LDFLAGS = (
-					"-lclangTooling",
-					"-lclangBasic",
-					"-lclangAST",
-					"-lclangASTMatchers",
+					"$(inherited)",
+					"$(CLANG_CONFIG_LDFLAGS)",
+					"$(LLVM_CONFIG_LDFLAGS)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
@@ -417,9 +534,11 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "objectdoc/objectdoc-Prefix.pch";
 				INFOPLIST_FILE = "objectdocTests/objectdocTests-Info.plist";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"$(LLVM_CONFIG_CFLAGS)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -430,18 +549,36 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "objectdoc/objectdoc-Prefix.pch";
 				INFOPLIST_FILE = "objectdocTests/objectdocTests-Info.plist";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"$(LLVM_CONFIG_CFLAGS)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		05BE068316B4422C00DF46D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		05BE068416B4422C00DF46D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "objectdoc" */ = {
+		05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "ObjectDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05BE066716B43ECF00DF46D5 /* Debug */,
@@ -450,7 +587,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		05BE066916B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "objectdoc" */ = {
+		05BE066916B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "ObjectDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05BE066A16B43ECF00DF46D5 /* Debug */,
@@ -459,11 +596,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		05BE066C16B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "objectdocTests" */ = {
+		05BE066C16B43ECF00DF46D5 /* Build configuration list for PBXNativeTarget "ObjectDocTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05BE066D16B43ECF00DF46D5 /* Debug */,
 				05BE066E16B43ECF00DF46D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05BE068216B4422C00DF46D5 /* Build configuration list for PBXNativeTarget "doctool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05BE068316B4422C00DF46D5 /* Debug */,
+				05BE068416B4422C00DF46D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
