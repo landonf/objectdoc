@@ -278,7 +278,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Landon Fuller";
 			};
-			buildConfigurationList = 05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "objectdoc" */;
+			buildConfigurationList = 05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "ObjectDoc" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -582,7 +582,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "objectdoc" */ = {
+		05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "ObjectDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05BE066716B43ECF00DF46D5 /* Debug */,

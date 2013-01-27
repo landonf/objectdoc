@@ -1,44 +1,29 @@
-//
-//  objectdoc.m
-//  objectdoc
-//
-//  Created by Landon Fuller on 1/26/13.
-//  Copyright (c) 2013 Landon Fuller. All rights reserved.
-//
-
-#include <clang/Frontend/FrontendActions.h>
-#include <clang/Tooling/CommonOptionsParser.h>
-#include <clang/Tooling/Tooling.h>
-#include <llvm/Support/CommandLine.h>
-
-#include <dispatch/dispatch.h>
-
-using namespace clang::tooling;
-using namespace llvm;
-
-// CommonOptionsParser declares HelpMessage with a description of the common
-// command-line options related to the compilation database and input files.
-// It's nice to have this help message in all tools.
-static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
-
-// A help message for this specific tool can be added afterwards.
-static cl::extrahelp MoreHelp("\nMore help text...");
-
-/**
- * Run the clang tool
+/*
+ * Author: Landon Fuller <landonf@plausible.coop>
  *
- * @param argc Program argc
- * @param argv Program argv
+ * Copyright (c) 2013 Plausible Labs Cooperative, Inc.
+ * All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
-extern "C" int RunTool (int argc, const char *argv[]) {
-    CommonOptionsParser OptionsParser(argc, argv);
-    ClangTool Tool(OptionsParser.getCompilations(), OptionsParser.getSourcePathList());
-    return Tool.run(newFrontendActionFactory<clang::SyntaxOnlyAction>());
-}
 
-#import "objectdoc.h"
-
-@implementation objectdoc
-
-
-@end
+#import "ObjectDoc.h"
