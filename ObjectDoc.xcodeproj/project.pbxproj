@@ -278,7 +278,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Landon Fuller";
 			};
-			buildConfigurationList = 05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "ObjectDoc" */;
+			buildConfigurationList = 05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "objectdoc" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -493,6 +493,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
+				INSTALL_PATH = "@rpath";
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"$(LLVM_CONFIG_CFLAGS)",
@@ -515,6 +516,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
+				INSTALL_PATH = "@rpath";
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"$(LLVM_CONFIG_CFLAGS)",
@@ -563,6 +565,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -571,6 +574,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -578,7 +582,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "ObjectDoc" */ = {
+		05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "objectdoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				05BE066716B43ECF00DF46D5 /* Debug */,

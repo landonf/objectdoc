@@ -24,13 +24,13 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 // A help message for this specific tool can be added afterwards.
 static cl::extrahelp MoreHelp("\nMore help text...");
 
-/*@
+/**
  * Run the clang tool
  *
  * @param argc Program argc
  * @param argv Program argv
  */
-int RunTool (int argc, const char *argv[]) {
+extern "C" int RunTool (int argc, const char *argv[]) {
     CommonOptionsParser OptionsParser(argc, argv);
     ClangTool Tool(OptionsParser.getCompilations(), OptionsParser.getSourcePathList());
     return Tool.run(newFrontendActionFactory<clang::SyntaxOnlyAction>());
