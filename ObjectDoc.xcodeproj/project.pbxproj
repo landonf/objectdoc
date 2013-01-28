@@ -466,7 +466,7 @@
 				WARNING_CFLAGS = (
 					"-Weverything",
 					"-Werror",
-					"-pedantic",
+					"-Wno-pedantic",
 					"-Wno-unused-parameter",
 				);
 			};
@@ -509,7 +509,7 @@
 				WARNING_CFLAGS = (
 					"-Weverything",
 					"-Werror",
-					"-pedantic",
+					"-Wno-pedantic",
 					"-Wno-unused-parameter",
 				);
 			};

@@ -31,25 +31,76 @@
     return self;
 }
 
-- (PLTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments {
-    // TODO
-    return nil;
-}
-
+/**
+ * Add a new translation unit to the receiver.
+ *
+ * @param The on-disk path to the source file.
+ * @param data The source file's data.
+ * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
+ *
+ * @todo Investigate support for providing multiple in-memory files (pchs?)
+ */
 - (PLTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments {
-    // TODO
-    return nil;
-}
-
-- (PLTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments {
+    /* NOTE: This implementation fetches backing data/string pointers from the passed in Objective-C arguments; these values
+     * are not guaranteed to survive past the lifetime of the current autorelease pool. */
     CXTranslationUnit tu;
-    tu = clang_parseTranslationUnit(_cIndex, [path fileSystemRepresentation], NULL, 0, NULL, 0, CXTranslationUnit_DetailedPreprocessingRecord);
+    char **argv = calloc(sizeof(char *), [arguments count]);
+    const char *cPath = NULL;
+    struct CXUnsavedFile unsavedFile;
+    unsigned int unsavedFileCount = 0;
+
+    if (path != nil)
+        cPath = [path fileSystemRepresentation];
+
+    if (data != nil) {
+        unsavedFileCount = 1;
+        unsavedFile.Contents = [data bytes];
+        unsavedFile.Length = [data length];
+        unsavedFile.Filename = [path fileSystemRepresentation];
+    }
+
+    for (NSUInteger i = 0; i < [arguments count]; i++)
+        argv[i] = (char *) [[arguments objectAtIndex: i] UTF8String];
+
+    tu = clang_parseTranslationUnit(_cIndex,
+            [path fileSystemRepresentation],
+            (const char **) argv,
+            [arguments count],
+            unsavedFileCount ? &unsavedFile : NULL,
+            unsavedFileCount,
+            CXTranslationUnit_DetailedPreprocessingRecord);
+
+    free(argv);
+
     if (tu == NULL) {
         // TODO - report error?
         return nil;
     }
 
-    return [[PLTranslationUnit alloc] initWithCXTranslationUnit: tu];
+    PLTranslationUnit *pltu = [[PLTranslationUnit alloc] initWithCXTranslationUnit: tu];
+    [_translationUnits addObject: pltu];
+
+    return pltu;
+}
+
+/**
+ * Add a new translation unit to the receiver.
+ *
+ * @param arguments Clang compiler arguments to be used when reading the translation unit. The path to
+ * the source file must be provided as a compiler argument.
+ */
+- (PLTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments {
+    return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments];
+}
+
+/**
+ * Add a new translation unit to the receiver.
+ *
+ * @param The on-disk path to the source file.
+ * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
+ */
+- (PLTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments {
+    return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments];
 }
 
 
