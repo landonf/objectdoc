@@ -26,15 +26,41 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <ObjectDoc/ObjectDoc.h>
+#import <clang-c/Index.h>
 
-int main (int argc, const char *argv[]) {
-    /* Run via dispatch */
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // TODO
-    });
+#import "PLAdditions.h"
 
-    /* Park in event loop */
-    dispatch_main();
-    // unreachable
+#import "PLSourceIndex.h"
+
+#import "PLTranslationUnit.h"
+
+@implementation PLTranslationUnit {
+@private
+    /** Backing clang translation unit. */
+    CXTranslationUnit _tu;
 }
+
+- (void) dealloc {
+    if (_tu != NULL)
+        clang_disposeTranslationUnit(_tu);
+}
+
+@end
+
+
+@implementation PLTranslationUnit (PackagePrivate)
+
+/**
+ * Initialize with the given translation unit.
+ *
+ * @param tu Backing clang translation unit. The receiver will assume ownership over the value.
+ */
+- (id) initWithCXTranslationUnit: (CXTranslationUnit) tu {
+    PLSuperInit();
+
+    _tu = tu;
+
+    return self;
+}
+
+@end

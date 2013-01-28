@@ -26,15 +26,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <ObjectDoc/ObjectDoc.h>
+#import <Foundation/Foundation.h>
+#import "PLTranslationUnit.h"
 
-int main (int argc, const char *argv[]) {
-    /* Run via dispatch */
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // TODO
-    });
+#import <clang-c/Index.h>
 
-    /* Park in event loop */
-    dispatch_main();
-    // unreachable
-}
+@interface PLTranslationUnit (PackagePrivate)
+
+- (id) initWithCXTranslationUnit: (CXTranslationUnit) tu;
+
+@end

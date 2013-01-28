@@ -4,7 +4,7 @@
  */
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "PLSourceIndexer.h"
+#import "PLSourceIndex.h"
 
 @interface PLSourceIndexerTests : SenTestCase @end
 
