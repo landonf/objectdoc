@@ -19,7 +19,7 @@
 		05BE068D16B4474100DF46D5 /* ObjectDoc.h in Headers */ = {isa = PBXBuildFile; fileRef = 05BE064F16B43ECE00DF46D5 /* ObjectDoc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		05BE068E16B4494200DF46D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE064716B43ECE00DF46D5 /* Foundation.framework */; };
 		FCE451D5799804E72BFF018E /* PLSourceIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45E244C142558C5D4C756 /* PLSourceIndex.m */; };
-		FCE4537F110EF2EFC316238D /* PLSourceIndexerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexerTests.m */; };
+		FCE4537F110EF2EFC316238D /* PLSourceIndexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexTests.m */; };
 		FCE4543E40F4E5713B72D5C9 /* PLAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4502439DC9B6948831382 /* PLAdditions.h */; };
 		FCE4575C39A4106D000DF0D4 /* PLSourceIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4500562CD408DEE335EAC /* PLSourceIndex.h */; };
 		FCE45B63F2F1F5AFFDA3C842 /* PLTranslationUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE45B80F05F0110FB4FDD2B /* PLTranslationUnit.h */; };
@@ -78,7 +78,7 @@
 		FCE4509877E08051C0B7C274 /* PLTranslationUnitPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLTranslationUnitPrivate.h; path = ObjectDoc/PLTranslationUnitPrivate.h; sourceTree = SOURCE_ROOT; };
 		FCE45B80F05F0110FB4FDD2B /* PLTranslationUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLTranslationUnit.h; path = ObjectDoc/PLTranslationUnit.h; sourceTree = SOURCE_ROOT; };
 		FCE45E244C142558C5D4C756 /* PLSourceIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSourceIndex.m; path = ObjectDoc/PLSourceIndex.m; sourceTree = SOURCE_ROOT; };
-		FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSourceIndexerTests.m; path = ObjectDoc/PLSourceIndexerTests.m; sourceTree = SOURCE_ROOT; };
+		FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSourceIndexTests.m; path = ObjectDoc/PLSourceIndexTests.m; sourceTree = SOURCE_ROOT; };
 		FCE45F1FA9A659F1E1ECF0D4 /* PLTranslationUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLTranslationUnit.m; path = ObjectDoc/PLTranslationUnit.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -215,7 +215,7 @@
 			children = (
 				FCE4500562CD408DEE335EAC /* PLSourceIndex.h */,
 				FCE45E244C142558C5D4C756 /* PLSourceIndex.m */,
-				FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexerTests.m */,
+				FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexTests.m */,
 				FCE45F1FA9A659F1E1ECF0D4 /* PLTranslationUnit.m */,
 				FCE45B80F05F0110FB4FDD2B /* PLTranslationUnit.h */,
 				FCE4502439DC9B6948831382 /* PLAdditions.h */,
@@ -375,7 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCE4537F110EF2EFC316238D /* PLSourceIndexerTests.m in Sources */,
+				FCE4537F110EF2EFC316238D /* PLSourceIndexTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,9 +464,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (
-					"-Weverything",
+					"-Wall",
 					"-Werror",
-					"-Wno-pedantic",
 					"-Wno-unused-parameter",
 				);
 			};
@@ -507,9 +506,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (
-					"-Weverything",
+					"-Wall",
 					"-Werror",
-					"-Wno-pedantic",
 					"-Wno-unused-parameter",
 				);
 			};
