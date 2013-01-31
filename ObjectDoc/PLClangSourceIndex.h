@@ -5,17 +5,17 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PLTranslationUnit.h"
+#import "PLClangTranslationUnit.h"
 
-@interface PLSourceIndex : NSObject
+@interface PLClangSourceIndex : NSObject
 
-- (PLTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
                                                 fileData: (NSData *) data
                                        compilerArguments: (NSArray *) arguments;
 
-- (PLTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments;
+- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments;
 
-- (PLTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
                                        compilerArguments: (NSArray *) arguments;
 
 @end

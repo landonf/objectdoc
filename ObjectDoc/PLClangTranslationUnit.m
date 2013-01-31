@@ -30,11 +30,11 @@
 
 #import "PLAdditions.h"
 
-#import "PLSourceIndex.h"
+#import "PLClangSourceIndex.h"
 
-#import "PLTranslationUnit.h"
+#import "PLClangTranslationUnit.h"
 
-@implementation PLTranslationUnit {
+@implementation PLClangTranslationUnit {
 @private
     /** Backing clang translation unit. */
     CXTranslationUnit _tu;
@@ -48,7 +48,7 @@
 @end
 
 
-@implementation PLTranslationUnit (PackagePrivate)
+@implementation PLClangTranslationUnit (PackagePrivate)
 
 /**
  * Initialize with the given translation unit.

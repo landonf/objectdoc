@@ -4,18 +4,18 @@
  */
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "PLSourceIndex.h"
+#import "PLClangSourceIndex.h"
 
-@interface PLSourceIndexTests : SenTestCase @end
+@interface PLClangSourceIndexTests : SenTestCase @end
 
-@implementation PLSourceIndexTests {
+@implementation PLClangSourceIndexTests {
 @private
 }
 
 - (void) testAddTranslationUnitWithSourcePath {
     NSData *test = [@"sdfdsf int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
-    PLSourceIndex *idx = [PLSourceIndex new];
-    PLTranslationUnit *tu = [idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[
+    PLClangSourceIndex *idx = [PLClangSourceIndex new];
+    PLClangTranslationUnit *tu = [idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[
         @"-std=c99"
     ]];
     STAssertNotNil(tu, @"Failed to parse", nil);

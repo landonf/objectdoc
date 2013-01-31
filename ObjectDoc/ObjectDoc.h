@@ -28,5 +28,5 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PLSourceIndex.h"
-#import "PLTranslationUnit.h"
+#import "PLClangSourceIndex.h"
+#import "PLClangTranslationUnit.h"

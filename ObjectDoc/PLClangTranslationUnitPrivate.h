@@ -27,6 +27,12 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "PLClangTranslationUnit.h"
 
-@interface PLTranslationUnit : NSObject
+#import <clang-c/Index.h>
+
+@interface PLClangTranslationUnit (PackagePrivate)
+
+- (id) initWithCXTranslationUnit: (CXTranslationUnit) tu;
+
 @end

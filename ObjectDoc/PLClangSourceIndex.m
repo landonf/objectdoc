@@ -3,9 +3,9 @@
  * All rights reserved.
  */
 
-#import "PLSourceIndex.h"
+#import "PLClangSourceIndex.h"
 #import "PLAdditions.h"
-#import "PLTranslationUnitPrivate.h"
+#import "PLClangTranslationUnitPrivate.h"
 
 #import <clang-c/Index.h>
 
@@ -13,7 +13,7 @@
  * Maintains a set of PLTranslationUnits that would typically be linked together into
  * a single executable or library.
  */
-@implementation PLSourceIndex {
+@implementation PLClangSourceIndex {
 @private
     /** Backing clang index. */
     CXIndex _cIndex;
@@ -40,7 +40,7 @@
  *
  * @todo Investigate support for providing multiple in-memory files (pchs?)
  */
-- (PLTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments {
     /* NOTE: This implementation fetches backing data/string pointers from the passed in Objective-C arguments; these values
      * are not guaranteed to survive past the lifetime of the current autorelease pool. */
     CXTranslationUnit tu;
@@ -107,7 +107,7 @@
     clang_disposeDiagnosticSet(diagnosticSet);
 
 
-    PLTranslationUnit *pltu = [[PLTranslationUnit alloc] initWithCXTranslationUnit: tu];
+    PLClangTranslationUnit *pltu = [[PLClangTranslationUnit alloc] initWithCXTranslationUnit: tu];
     [_translationUnits addObject: pltu];
 
     return pltu;
@@ -119,7 +119,7 @@
  * @param arguments Clang compiler arguments to be used when reading the translation unit. The path to
  * the source file must be provided as a compiler argument.
  */
-- (PLTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments {
+- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments {
     return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments];
 }
 
@@ -129,7 +129,7 @@
  * @param The on-disk path to the source file.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
  */
-- (PLTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments {
     return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments];
 }
 

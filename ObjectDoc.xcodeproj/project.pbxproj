@@ -20,15 +20,15 @@
 		05BE068E16B4494200DF46D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05BE064716B43ECE00DF46D5 /* Foundation.framework */; };
 		FCE4508CD72B9C5BAAF6F603 /* PLClangDiagnostic.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4576CFA89A9EA19B558F9 /* PLClangDiagnostic.h */; };
 		FCE4511607B3484B969529F5 /* PLSourceLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4517E1BB8112F853B6650 /* PLSourceLocation.h */; };
-		FCE451D5799804E72BFF018E /* PLSourceIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45E244C142558C5D4C756 /* PLSourceIndex.m */; };
-		FCE4537F110EF2EFC316238D /* PLSourceIndexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexTests.m */; };
+		FCE451D5799804E72BFF018E /* PLClangSourceIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45E244C142558C5D4C756 /* PLClangSourceIndex.m */; };
+		FCE4537F110EF2EFC316238D /* PLClangSourceIndexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45EBF5B5ECF9D0C09F313 /* PLClangSourceIndexTests.m */; };
 		FCE4543E40F4E5713B72D5C9 /* PLAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4502439DC9B6948831382 /* PLAdditions.h */; };
 		FCE456467CC2F46BDC9B91CD /* PLClangDiagnostic.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE455207D161C04C0735E9F /* PLClangDiagnostic.m */; };
 		FCE4572D619041786BE82039 /* PLSourceLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE453694BFE6D746385BDAB /* PLSourceLocation.m */; };
-		FCE4575C39A4106D000DF0D4 /* PLSourceIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4500562CD408DEE335EAC /* PLSourceIndex.h */; };
-		FCE45B63F2F1F5AFFDA3C842 /* PLTranslationUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE45B80F05F0110FB4FDD2B /* PLTranslationUnit.h */; };
-		FCE45D20C14785B61BEA641E /* PLTranslationUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45F1FA9A659F1E1ECF0D4 /* PLTranslationUnit.m */; };
-		FCE45EA2F91E94E0FE73EDCB /* PLTranslationUnitPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4509877E08051C0B7C274 /* PLTranslationUnitPrivate.h */; };
+		FCE4575C39A4106D000DF0D4 /* PLClangSourceIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4500562CD408DEE335EAC /* PLClangSourceIndex.h */; };
+		FCE45B63F2F1F5AFFDA3C842 /* PLClangTranslationUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE45B80F05F0110FB4FDD2B /* PLClangTranslationUnit.h */; };
+		FCE45D20C14785B61BEA641E /* PLClangTranslationUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE45F1FA9A659F1E1ECF0D4 /* PLClangTranslationUnit.m */; };
+		FCE45EA2F91E94E0FE73EDCB /* PLClangTranslationUnitPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4509877E08051C0B7C274 /* PLClangTranslationUnitPrivate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,17 +77,17 @@
 		05BE067716B4422C00DF46D5 /* doctool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doctool; sourceTree = BUILT_PRODUCTS_DIR; };
 		05BE067916B4422C00DF46D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		05BE067C16B4422C00DF46D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FCE4500562CD408DEE335EAC /* PLSourceIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLSourceIndex.h; path = ObjectDoc/PLSourceIndex.h; sourceTree = SOURCE_ROOT; };
+		FCE4500562CD408DEE335EAC /* PLClangSourceIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLClangSourceIndex.h; path = ObjectDoc/PLClangSourceIndex.h; sourceTree = SOURCE_ROOT; };
 		FCE4502439DC9B6948831382 /* PLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLAdditions.h; sourceTree = "<group>"; };
-		FCE4509877E08051C0B7C274 /* PLTranslationUnitPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLTranslationUnitPrivate.h; path = ObjectDoc/PLTranslationUnitPrivate.h; sourceTree = SOURCE_ROOT; };
+		FCE4509877E08051C0B7C274 /* PLClangTranslationUnitPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLClangTranslationUnitPrivate.h; path = ObjectDoc/PLClangTranslationUnitPrivate.h; sourceTree = SOURCE_ROOT; };
 		FCE4517E1BB8112F853B6650 /* PLSourceLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLSourceLocation.h; sourceTree = "<group>"; };
 		FCE453694BFE6D746385BDAB /* PLSourceLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLSourceLocation.m; sourceTree = "<group>"; };
 		FCE455207D161C04C0735E9F /* PLClangDiagnostic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLClangDiagnostic.m; path = ObjectDoc/PLClangDiagnostic.m; sourceTree = SOURCE_ROOT; };
 		FCE4576CFA89A9EA19B558F9 /* PLClangDiagnostic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangDiagnostic.h; sourceTree = "<group>"; };
-		FCE45B80F05F0110FB4FDD2B /* PLTranslationUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLTranslationUnit.h; path = ObjectDoc/PLTranslationUnit.h; sourceTree = SOURCE_ROOT; };
-		FCE45E244C142558C5D4C756 /* PLSourceIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSourceIndex.m; path = ObjectDoc/PLSourceIndex.m; sourceTree = SOURCE_ROOT; };
-		FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLSourceIndexTests.m; path = ObjectDoc/PLSourceIndexTests.m; sourceTree = SOURCE_ROOT; };
-		FCE45F1FA9A659F1E1ECF0D4 /* PLTranslationUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLTranslationUnit.m; path = ObjectDoc/PLTranslationUnit.m; sourceTree = SOURCE_ROOT; };
+		FCE45B80F05F0110FB4FDD2B /* PLClangTranslationUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLClangTranslationUnit.h; path = ObjectDoc/PLClangTranslationUnit.h; sourceTree = SOURCE_ROOT; };
+		FCE45E244C142558C5D4C756 /* PLClangSourceIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLClangSourceIndex.m; path = ObjectDoc/PLClangSourceIndex.m; sourceTree = SOURCE_ROOT; };
+		FCE45EBF5B5ECF9D0C09F313 /* PLClangSourceIndexTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLClangSourceIndexTests.m; path = ObjectDoc/PLClangSourceIndexTests.m; sourceTree = SOURCE_ROOT; };
+		FCE45F1FA9A659F1E1ECF0D4 /* PLClangTranslationUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLClangTranslationUnit.m; path = ObjectDoc/PLClangTranslationUnit.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,12 +223,12 @@
 			children = (
 				FCE4576CFA89A9EA19B558F9 /* PLClangDiagnostic.h */,
 				FCE455207D161C04C0735E9F /* PLClangDiagnostic.m */,
-				FCE4500562CD408DEE335EAC /* PLSourceIndex.h */,
-				FCE45E244C142558C5D4C756 /* PLSourceIndex.m */,
-				FCE45EBF5B5ECF9D0C09F313 /* PLSourceIndexTests.m */,
-				FCE45B80F05F0110FB4FDD2B /* PLTranslationUnit.h */,
-				FCE45F1FA9A659F1E1ECF0D4 /* PLTranslationUnit.m */,
-				FCE4509877E08051C0B7C274 /* PLTranslationUnitPrivate.h */,
+				FCE4500562CD408DEE335EAC /* PLClangSourceIndex.h */,
+				FCE45E244C142558C5D4C756 /* PLClangSourceIndex.m */,
+				FCE45EBF5B5ECF9D0C09F313 /* PLClangSourceIndexTests.m */,
+				FCE45B80F05F0110FB4FDD2B /* PLClangTranslationUnit.h */,
+				FCE45F1FA9A659F1E1ECF0D4 /* PLClangTranslationUnit.m */,
+				FCE4509877E08051C0B7C274 /* PLClangTranslationUnitPrivate.h */,
 			);
 			name = Clang;
 			sourceTree = "<group>";
@@ -251,10 +251,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				05BE068D16B4474100DF46D5 /* ObjectDoc.h in Headers */,
-				FCE4575C39A4106D000DF0D4 /* PLSourceIndex.h in Headers */,
-				FCE45B63F2F1F5AFFDA3C842 /* PLTranslationUnit.h in Headers */,
+				FCE4575C39A4106D000DF0D4 /* PLClangSourceIndex.h in Headers */,
+				FCE45B63F2F1F5AFFDA3C842 /* PLClangTranslationUnit.h in Headers */,
 				FCE4543E40F4E5713B72D5C9 /* PLAdditions.h in Headers */,
-				FCE45EA2F91E94E0FE73EDCB /* PLTranslationUnitPrivate.h in Headers */,
+				FCE45EA2F91E94E0FE73EDCB /* PLClangTranslationUnitPrivate.h in Headers */,
 				FCE4508CD72B9C5BAAF6F603 /* PLClangDiagnostic.h in Headers */,
 				FCE4511607B3484B969529F5 /* PLSourceLocation.h in Headers */,
 			);
@@ -387,8 +387,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				05BE065116B43ECE00DF46D5 /* ObjectDoc.mm in Sources */,
-				FCE451D5799804E72BFF018E /* PLSourceIndex.m in Sources */,
-				FCE45D20C14785B61BEA641E /* PLTranslationUnit.m in Sources */,
+				FCE451D5799804E72BFF018E /* PLClangSourceIndex.m in Sources */,
+				FCE45D20C14785B61BEA641E /* PLClangTranslationUnit.m in Sources */,
 				FCE456467CC2F46BDC9B91CD /* PLClangDiagnostic.m in Sources */,
 				FCE4572D619041786BE82039 /* PLSourceLocation.m in Sources */,
 			);
@@ -398,7 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCE4537F110EF2EFC316238D /* PLSourceIndexTests.m in Sources */,
+				FCE4537F110EF2EFC316238D /* PLClangSourceIndexTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
