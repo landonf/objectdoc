@@ -10,6 +10,7 @@
  */
 
 
+#ifndef PLSuperInit
 
 /**
  * @ingroup macros
@@ -37,3 +38,5 @@
         return nil; \
     } \
 } while (NO)
+
+#endif /* !PLSuperInit */
