@@ -77,36 +77,6 @@
         return nil;
     }
 
-    // XXX hack in error/diagnostic checking
-    CXDiagnosticSet diagnosticSet = clang_getDiagnosticSetFromTU(tu);
-    unsigned int count = clang_getNumDiagnosticsInSet(diagnosticSet);
-    for (unsigned int i = 0; i < count; i++) {
-        CXDiagnostic diagnostic = clang_getDiagnosticInSet(diagnosticSet, i);
-        unsigned int line, column, offset;
-        CXSourceLocation loc;
-        CXString spelling;
-        CXString fileName;
-        CXFile file;
-
-        spelling = clang_getDiagnosticSpelling(diagnostic);
-        loc = clang_getDiagnosticLocation(diagnostic);
-        clang_getExpansionLocation(loc, &file, &line, &column, &offset);
-        fileName = clang_getFileName(file);
-
-        NSLog(@"%s:%d:%d: (severity=%d) %s",
-                clang_getCString(fileName),
-                line,
-                column,
-                clang_getDiagnosticSeverity(diagnostic),
-                clang_getCString(spelling));
-
-        clang_disposeString(fileName);
-
-        // TODO - recursively handle child diagnostics?
-    }
-    clang_disposeDiagnosticSet(diagnosticSet);
-
-
     PLClangTranslationUnit *pltu = [[PLClangTranslationUnit alloc] initWithCXTranslationUnit: tu];
     [_translationUnits addObject: pltu];
 

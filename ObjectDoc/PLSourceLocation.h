@@ -7,13 +7,21 @@
 
 @interface PLSourceLocation : NSObject
 
-- (id) initWithFilePath: (NSString *) filePath lineNumber: (NSUInteger) lineNumber columnNumber: (NSUInteger) columnNumber;
+- (instancetype) initWithFilePath: (NSString *) filePath
+                       fileOffset: (off_t) fileOffset
+                       lineNumber: (NSUInteger) lineNumber
+                     columnNumber: (NSUInteger) columnNumber;
 
 /**
  * The file's reported path. This is simply the path as provided to the compiler, and may
  * be relative to an arbitrary build root.
  */
 @property(nonatomic, readonly) NSString *filePath;
+
+/**
+ * The byte offset into the source file.
+ */
+@property(nonatomic, readonly) off_t fileOffset;
 
 /**
  * The line position (0-indexed).

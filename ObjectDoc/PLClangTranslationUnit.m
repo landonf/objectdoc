@@ -30,14 +30,17 @@
 
 #import "PLAdditions.h"
 
-#import "PLClangSourceIndex.h"
-
 #import "PLClangTranslationUnit.h"
+#import "PLClangDiagnostic.h"
+#import "PLClangDiagnosticPrivate.h"
 
 @implementation PLClangTranslationUnit {
 @private
     /** Backing clang translation unit. */
     CXTranslationUnit _tu;
+
+    /** Set of PLClangDiagnostic instances for this translation unit */
+    NSSet *_diagnostics;
 }
 
 - (void) dealloc {
@@ -47,7 +50,10 @@
 
 @end
 
-
+/**
+ * @internal
+ * Package-private methods.
+ */
 @implementation PLClangTranslationUnit (PackagePrivate)
 
 /**
@@ -55,10 +61,23 @@
  *
  * @param tu Backing clang translation unit. The receiver will assume ownership over the value.
  */
-- (id) initWithCXTranslationUnit: (CXTranslationUnit) tu {
+- (instancetype) initWithCXTranslationUnit: (CXTranslationUnit) tu {
     PLSuperInit();
 
     _tu = tu;
+
+    /* Extract all diagnostics */
+    CXDiagnosticSet diagnosticSet = clang_getDiagnosticSetFromTU(tu);
+    unsigned int count = clang_getNumDiagnosticsInSet(diagnosticSet);
+    NSMutableSet *diagnostics = [NSMutableSet setWithCapacity: count];
+    for (unsigned int i = 0; i < count; i++) {
+        CXDiagnostic diagnostic = clang_getDiagnosticInSet(diagnosticSet, i);
+        [diagnostics addObject: [[PLClangDiagnostic alloc] initWithCXDiagnostic: diagnostic]];
+    }
+    _diagnostics = diagnostics;
+
+    // TODO: Verify that clang does not dispose backing storage required by the CXDiagnostic instances.
+    clang_disposeDiagnosticSet(diagnosticSet);
 
     return self;
 }
