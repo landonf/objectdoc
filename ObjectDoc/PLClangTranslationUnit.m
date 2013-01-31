@@ -38,9 +38,6 @@
 @private
     /** Backing clang translation unit. */
     CXTranslationUnit _tu;
-
-    /** Set of PLClangDiagnostic instances for this translation unit */
-    NSSet *_diagnostics;
 }
 
 - (void) dealloc {
@@ -69,7 +66,7 @@
     /* Extract all diagnostics */
     CXDiagnosticSet diagnosticSet = clang_getDiagnosticSetFromTU(tu);
     unsigned int count = clang_getNumDiagnosticsInSet(diagnosticSet);
-    NSMutableSet *diagnostics = [NSMutableSet setWithCapacity: count];
+    NSMutableArray *diagnostics = [NSMutableSet setWithCapacity: count];
     for (unsigned int i = 0; i < count; i++) {
         CXDiagnostic diagnostic = clang_getDiagnosticInSet(diagnosticSet, i);
         [diagnostics addObject: [[PLClangDiagnostic alloc] initWithCXDiagnostic: diagnostic]];
