@@ -39,28 +39,54 @@
 
     _diagnostic = diagnostic;
 
-    // XXX: Hack in printing for a quick test.
-    unsigned int line, column, offset;
-    CXSourceLocation loc;
-    CXString spelling;
-    CXString fileName;
-    CXFile file;
+    /* Recursively parse child diagnostics */
+    CXDiagnosticSet childSet = clang_getChildDiagnostics(_diagnostic);
+    if (childSet != NULL) {
+        unsigned int childCount = clang_getNumDiagnosticsInSet(childSet);
+        NSMutableArray *childDiagnostics = [NSMutableArray arrayWithCapacity: childCount];
+        _childDiagnostics = childDiagnostics;
 
-    spelling = clang_getDiagnosticSpelling(_diagnostic);
-    loc = clang_getDiagnosticLocation(_diagnostic);
-    clang_getExpansionLocation(loc, &file, &line, &column, &offset);
-    fileName = clang_getFileName(file);
-
-    CXString formatted = clang_formatDiagnostic(_diagnostic, clang_defaultDiagnosticDisplayOptions());
-    NSLog(@"Err: %s", clang_getCString(formatted));
-
-    // TODO - Verify that 'formatted' requires disposal; this is unclear from clang's documentation.
-    clang_disposeString(formatted);
-    clang_disposeString(fileName);
-
-    // TODO - recursively handle child diagnostics?
+        for (unsigned int i = 0; i < childCount; i++) {
+            CXDiagnostic diagnostic = clang_getDiagnosticInSet(childSet, i);
+            [childDiagnostics addObject: [[PLClangDiagnostic alloc] initWithCXDiagnostic: diagnostic]];
+        }
+        clang_disposeDiagnosticSet(childSet);
+    }
 
     return self;
 }
+
+// property getter
+- (NSString *) formattedErrorMessage {
+    CXString formatted = clang_formatDiagnostic(_diagnostic, clang_defaultDiagnosticDisplayOptions());
+    NSString *result = [NSString stringWithUTF8String: clang_getCString(formatted)];
+
+    // TODO - Verify that 'formatted' requires disposal; this is unclear from clang's documentation.
+    clang_disposeString(formatted);
+
+    return result;
+}
+
+// property getter
+- (PLClangDiagnosticSeverity) severity {
+    switch (clang_getDiagnosticSeverity(_diagnostic)) {
+        case CXDiagnostic_Ignored:
+            return PLClangDiagnosticSeverityIgnored;
+
+        case CXDiagnostic_Note:
+            // XXX unsupported
+            abort();
+
+        case CXDiagnostic_Warning:
+            return PLClangDiagnosticSeverityWarning;
+
+        case CXDiagnostic_Error:
+            return PLClangDiagnosticSeverityError;
+
+        case CXDiagnostic_Fatal:
+            return PLClangDiagnosticSeverityFatal;
+    }
+}
+
 
 @end

@@ -69,6 +69,11 @@
     NSMutableArray *diagnostics = [NSMutableSet setWithCapacity: count];
     for (unsigned int i = 0; i < count; i++) {
         CXDiagnostic diagnostic = clang_getDiagnosticInSet(diagnosticSet, i);
+        if (clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Note) {
+            // TODO: Handle note diagnostics.
+            continue;
+        }
+
         [diagnostics addObject: [[PLClangDiagnostic alloc] initWithCXDiagnostic: diagnostic]];
     }
     _diagnostics = diagnostics;
@@ -77,6 +82,16 @@
     clang_disposeDiagnosticSet(diagnosticSet);
 
     return self;
+}
+
+// property getter
+- (BOOL) didFail {
+    for (PLClangDiagnostic *d in _diagnostics) {
+        if (d.severity == PLClangDiagnosticSeverityError || d.severity == PLClangDiagnosticSeverityFatal)
+            return YES;
+    }
+
+    return NO;
 }
 
 @end
