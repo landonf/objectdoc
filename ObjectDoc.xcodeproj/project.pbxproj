@@ -140,7 +140,10 @@
 				05BE064116B43ECE00DF46D5 /* Frameworks */,
 				05BE064016B43ECE00DF46D5 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 0;
 		};
 		05BE064016B43ECE00DF46D5 /* Products */ = {
 			isa = PBXGroup;
