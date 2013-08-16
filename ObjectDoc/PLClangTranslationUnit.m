@@ -45,6 +45,16 @@
         clang_disposeTranslationUnit(_tu);
 }
 
+// property getter
+- (BOOL) didFail {
+    for (PLClangDiagnostic *d in _diagnostics) {
+        if (d.severity == PLClangDiagnosticSeverityError || d.severity == PLClangDiagnosticSeverityFatal)
+            return YES;
+    }
+
+    return NO;
+}
+
 @end
 
 /**
@@ -82,16 +92,6 @@
     clang_disposeDiagnosticSet(diagnosticSet);
 
     return self;
-}
-
-// property getter
-- (BOOL) didFail {
-    for (PLClangDiagnostic *d in _diagnostics) {
-        if (d.severity == PLClangDiagnosticSeverityError || d.severity == PLClangDiagnosticSeverityFatal)
-            return YES;
-    }
-
-    return NO;
 }
 
 @end
