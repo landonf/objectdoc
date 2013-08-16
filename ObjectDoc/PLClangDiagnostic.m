@@ -21,6 +21,38 @@
         clang_disposeDiagnostic(_diagnostic);
 }
 
+// property getter
+- (NSString *) formattedErrorMessage {
+    CXString formatted = clang_formatDiagnostic(_diagnostic, clang_defaultDiagnosticDisplayOptions());
+    NSString *result = [NSString stringWithUTF8String: clang_getCString(formatted)];
+
+    // TODO - Verify that 'formatted' requires disposal; this is unclear from clang's documentation.
+    clang_disposeString(formatted);
+
+    return result;
+}
+
+// property getter
+- (PLClangDiagnosticSeverity) severity {
+    switch (clang_getDiagnosticSeverity(_diagnostic)) {
+        case CXDiagnostic_Ignored:
+            return PLClangDiagnosticSeverityIgnored;
+
+        case CXDiagnostic_Note:
+            // XXX unsupported
+            abort();
+
+        case CXDiagnostic_Warning:
+            return PLClangDiagnosticSeverityWarning;
+
+        case CXDiagnostic_Error:
+            return PLClangDiagnosticSeverityError;
+
+        case CXDiagnostic_Fatal:
+            return PLClangDiagnosticSeverityFatal;
+    }
+}
+
 @end
 
 /**
@@ -55,38 +87,5 @@
 
     return self;
 }
-
-// property getter
-- (NSString *) formattedErrorMessage {
-    CXString formatted = clang_formatDiagnostic(_diagnostic, clang_defaultDiagnosticDisplayOptions());
-    NSString *result = [NSString stringWithUTF8String: clang_getCString(formatted)];
-
-    // TODO - Verify that 'formatted' requires disposal; this is unclear from clang's documentation.
-    clang_disposeString(formatted);
-
-    return result;
-}
-
-// property getter
-- (PLClangDiagnosticSeverity) severity {
-    switch (clang_getDiagnosticSeverity(_diagnostic)) {
-        case CXDiagnostic_Ignored:
-            return PLClangDiagnosticSeverityIgnored;
-
-        case CXDiagnostic_Note:
-            // XXX unsupported
-            abort();
-
-        case CXDiagnostic_Warning:
-            return PLClangDiagnosticSeverityWarning;
-
-        case CXDiagnostic_Error:
-            return PLClangDiagnosticSeverityError;
-
-        case CXDiagnostic_Fatal:
-            return PLClangDiagnosticSeverityFatal;
-    }
-}
-
 
 @end
