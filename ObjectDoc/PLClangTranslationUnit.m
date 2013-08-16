@@ -66,7 +66,7 @@
     /* Extract all diagnostics */
     CXDiagnosticSet diagnosticSet = clang_getDiagnosticSetFromTU(tu);
     unsigned int count = clang_getNumDiagnosticsInSet(diagnosticSet);
-    NSMutableArray *diagnostics = [NSMutableSet setWithCapacity: count];
+    NSMutableArray *diagnostics = [NSMutableArray arrayWithCapacity: count];
     for (unsigned int i = 0; i < count; i++) {
         CXDiagnostic diagnostic = clang_getDiagnosticInSet(diagnosticSet, i);
         if (clang_getDiagnosticSeverity(diagnostic) == CXDiagnostic_Note) {
