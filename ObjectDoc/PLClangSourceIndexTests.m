@@ -22,6 +22,27 @@
     STAssertNil(error, @"Received error for successful parse");
 }
 
+- (void) testAddTranslationUnitWithMultipleUnsavedFiles {
+    NSError *error = nil;
+    NSData *header = [@"int f();" dataUsingEncoding: NSUTF8StringEncoding];
+    NSData *source = [@"#include \"test.h\"\nint f () { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
+
+    // Absolute paths are needed for clang to be able to resolve the include directive
+
+    NSArray *files = @[
+       [PLClangUnsavedFile unsavedFileWithPath: @"/tmp/test.h" data: header],
+       [PLClangUnsavedFile unsavedFileWithPath: @"/tmp/test.c" data: source]
+    ];
+
+    PLClangSourceIndex *idx = [PLClangSourceIndex new];
+    PLClangTranslationUnit *tu = [idx addTranslationUnitWithSourcePath: @"/tmp/test.c" unsavedFiles: files compilerArguments: @[] options: 0 error: &error];
+    STAssertNotNil(tu, @"Failed to parse", nil);
+    STAssertNil(error, @"Received error for successful parse");
+
+    STAssertFalse(tu.didFail, @"Should be marked as non-failed (test.h was resolved)");
+    STAssertTrue([tu.diagnostics count] == 0, @"No diagnostics should be returned");
+}
+
 - (void) testFailedTranslationUnitCreation {
     NSError *error = nil;
     PLClangSourceIndex *idx = [PLClangSourceIndex new];

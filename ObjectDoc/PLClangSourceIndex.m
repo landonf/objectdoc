@@ -35,22 +35,21 @@
 /**
  * Add a new translation unit to the receiver.
  *
- * @param The on-disk path to the source file.
- * @param data The source file's data.
+ * @param The on-disk path to the source file. May be nil if the path to the file is provided via compiler arguments.
+ * @param files An array of PLClangUnsavedFile objects representing unsaved data for files within the translation unit.
+ * This can include the main source file as well as any dependent headers. May be nil.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
  * @param options The options to use when creating the translation unit.
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.
- *              If you are not interested in possible errors, pass in nil.
- *
- * @todo Investigate support for providing multiple in-memory files (pchs?)
+ * If you are not interested in possible errors, pass in nil.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path unsavedFiles: (NSArray *) files compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
     /* NOTE: This implementation fetches backing data/string pointers from the passed in Objective-C arguments; these values
      * are not guaranteed to survive past the lifetime of the current autorelease pool. */
     CXTranslationUnit tu;
     char **argv = calloc(sizeof(char *), [arguments count]);
     const char *cPath = NULL;
-    struct CXUnsavedFile unsavedFile;
+    struct CXUnsavedFile *unsavedFiles = NULL;
     unsigned int unsavedFileCount = 0;
     unsigned int creationOptions = 0;
 
@@ -60,11 +59,19 @@
     if (path != nil)
         cPath = [path fileSystemRepresentation];
 
-    if (data != nil) {
-        unsavedFileCount = 1;
-        unsavedFile.Contents = [data bytes];
-        unsavedFile.Length = [data length];
-        unsavedFile.Filename = [path fileSystemRepresentation];
+    if ([files count] > 0) {
+        unsavedFileCount = [files count];
+        unsavedFiles = (struct CXUnsavedFile *)calloc(unsavedFileCount, sizeof(struct CXUnsavedFile));
+
+        for (unsigned int i = 0; i < unsavedFileCount; i++) {
+            PLClangUnsavedFile *file = files[i];
+            if (![file isKindOfClass:[PLClangUnsavedFile class]])
+                continue;
+
+            unsavedFiles[i].Contents = [file.data bytes];
+            unsavedFiles[i].Length = [file.data length];
+            unsavedFiles[i].Filename = [file.path fileSystemRepresentation];
+        }
     }
 
     for (NSUInteger i = 0; i < [arguments count]; i++)
@@ -95,11 +102,12 @@
             [path fileSystemRepresentation],
             (const char **) argv,
             [arguments count],
-            unsavedFileCount ? &unsavedFile : NULL,
+            unsavedFiles,
             unsavedFileCount,
             creationOptions);
 
     free(argv);
+    free(unsavedFiles);
 
     if (tu == NULL) {
         // libclang does not currently report why creation of a translation unit failed or provide
@@ -121,11 +129,30 @@
 /**
  * Add a new translation unit to the receiver.
  *
+ * @param The on-disk path to the source file.
+ * @param data The source file's data.
+ * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
+ * @param options The options to use when creating the translation unit.
+ * @param error If an error occurs, upon return contains an NSError object that describes the problem.
+ * If you are not interested in possible errors, pass in nil.
+ */
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
+    NSArray *files = nil;
+    if (data != nil) {
+        PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: path data: data];
+        files = @[file];
+    }
+    return [self addTranslationUnitWithSourcePath: path unsavedFiles: files compilerArguments: arguments options: options error: error];
+}
+
+/**
+ * Add a new translation unit to the receiver.
+ *
  * @param arguments Clang compiler arguments to be used when reading the translation unit. The path to
  * the source file must be provided as a compiler argument.
  * @param options The options to use when creating the translation unit.
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.
- *              If you are not interested in possible errors, pass in nil.
+ * If you are not interested in possible errors, pass in nil.
  */
 - (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
     return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments options: options error: error];
@@ -138,7 +165,7 @@
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
  * @param options The options to use when creating the translation unit.
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.
- *              If you are not interested in possible errors, pass in nil.
+ * If you are not interested in possible errors, pass in nil.
  */
 - (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
     return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments options: options error: error];

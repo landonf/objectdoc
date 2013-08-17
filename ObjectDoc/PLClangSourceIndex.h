@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 
 #import "PLClangTranslationUnit.h"
+#import "PLClangUnsavedFile.h"
 
 /**
  * Options used when creating a translation unit.
@@ -85,6 +86,12 @@ typedef NS_OPTIONS(NSUInteger, PLClangTranslationUnitCreationOptions) {
 };
 
 @interface PLClangSourceIndex : NSObject
+
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
+                                            unsavedFiles: (NSArray *) files
+                                       compilerArguments: (NSArray *) arguments
+                                                 options: (PLClangTranslationUnitCreationOptions) options
+                                                   error: (NSError **)error;
 
 - (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
                                                 fileData: (NSData *) data
