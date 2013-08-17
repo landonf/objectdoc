@@ -113,7 +113,7 @@
         // libclang does not currently report why creation of a translation unit failed or provide
         // access to the associated diagnostics, so for now we can only return a generic failure.
         if (error) {
-            *error = [NSError errorWithDomain:PLClangErrorDomain code:PLClangErrorCompiler userInfo:@{
+            *error = [NSError errorWithDomain: PLClangErrorDomain code: PLClangErrorCompiler userInfo: @{
                 NSLocalizedDescriptionKey: NSLocalizedString(@"An unrecoverable compiler error occured.", nil)
             }];
         }
