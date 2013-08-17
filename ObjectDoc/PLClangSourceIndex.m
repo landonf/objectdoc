@@ -5,6 +5,7 @@
 
 #import "PLClangSourceIndex.h"
 #import "PLAdditions.h"
+#import "PLClang.h"
 #import "PLClangTranslationUnitPrivate.h"
 
 #import <clang-c/Index.h>
@@ -38,10 +39,12 @@
  * @param data The source file's data.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
  * @param options The options to use when creating the translation unit.
+ * @param error If an error occurs, upon return contains an NSError object that describes the problem.
+ *              If you are not interested in possible errors, pass in nil.
  *
  * @todo Investigate support for providing multiple in-memory files (pchs?)
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
     /* NOTE: This implementation fetches backing data/string pointers from the passed in Objective-C arguments; these values
      * are not guaranteed to survive past the lifetime of the current autorelease pool. */
     CXTranslationUnit tu;
@@ -50,6 +53,9 @@
     struct CXUnsavedFile unsavedFile;
     unsigned int unsavedFileCount = 0;
     unsigned int creationOptions = 0;
+
+    if (error)
+        *error = nil;
 
     if (path != nil)
         cPath = [path fileSystemRepresentation];
@@ -96,7 +102,13 @@
     free(argv);
 
     if (tu == NULL) {
-        // TODO - report error?
+        // libclang does not currently report why creation of a translation unit failed or provide
+        // access to the associated diagnostics, so for now we can only return a generic failure.
+        if (error) {
+            *error = [NSError errorWithDomain:PLClangErrorDomain code:PLClangErrorCompiler userInfo:@{
+                NSLocalizedDescriptionKey: NSLocalizedString(@"An unrecoverable compiler error occured.", nil)
+            }];
+        }
         return nil;
     }
 
@@ -112,9 +124,11 @@
  * @param arguments Clang compiler arguments to be used when reading the translation unit. The path to
  * the source file must be provided as a compiler argument.
  * @param options The options to use when creating the translation unit.
+ * @param error If an error occurs, upon return contains an NSError object that describes the problem.
+ *              If you are not interested in possible errors, pass in nil.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options {
-    return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments options: options];
+- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
+    return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments options: options error: error];
 }
 
 /**
@@ -123,9 +137,11 @@
  * @param The on-disk path to the source file.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
  * @param options The options to use when creating the translation unit.
+ * @param error If an error occurs, upon return contains an NSError object that describes the problem.
+ *              If you are not interested in possible errors, pass in nil.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options {
-    return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments options: options];
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error; {
+    return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments options: options error: error];
 }
 
 

@@ -22,9 +22,11 @@
  * Test basic parsing
  */
 - (void) testParsing {
+    NSError *error = nil;
     NSData *test = [@"int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
-    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0];
+    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
+    STAssertNil(error, @"Received error for successful parse");
 
     STAssertFalse(tu.didFail, @"Should be marked as non-failed");
     STAssertTrue([tu.diagnostics count] == 0, @"No diagnostics should be returned");
@@ -34,9 +36,11 @@
  * Test extraction of compiler diagnostics.
  */
 - (void) testExtractDiagnostics {
+    NSError *error = nil;
     NSData *test = [@"PARSE ERROR int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
-    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0];
+    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
+    STAssertNil(error, @"Received error for successful parse");
 
     STAssertTrue(tu.didFail, @"Should be marked as failed");
     STAssertTrue([tu.diagnostics count] > 0, @"No diagnostics returned");

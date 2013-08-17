@@ -89,13 +89,16 @@ typedef NS_OPTIONS(NSUInteger, PLClangTranslationUnitCreationOptions) {
 - (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
                                                 fileData: (NSData *) data
                                        compilerArguments: (NSArray *) arguments
-                                                 options: (PLClangTranslationUnitCreationOptions) options;
+                                                 options: (PLClangTranslationUnitCreationOptions) options
+                                                   error: (NSError **)error;
 
 - (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments
-                                                 options: (PLClangTranslationUnitCreationOptions) options;
+                                                 options: (PLClangTranslationUnitCreationOptions) options
+                                                   error: (NSError **)error;
 
 - (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
                                        compilerArguments: (NSArray *) arguments
-                                                 options: (PLClangTranslationUnitCreationOptions) options;
+                                                 options: (PLClangTranslationUnitCreationOptions) options
+                                                   error: (NSError **)error;
 
 @end
