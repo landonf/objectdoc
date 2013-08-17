@@ -50,6 +50,11 @@
     STAssertNil(tu, @"Received a translation unit for a file that should not exist", nil);
     STAssertNotNil(error, @"No error received for failed parse");
     STAssertEquals(error.code, PLClangErrorCompiler, nil);
+
+    tu = [idx addTranslationUnitWithSourcePath: @"notfound.c" compilerArguments: @[] options: 0 error: &error];
+    STAssertNil(tu, @"Received a translation unit for a file that should not exist", nil);
+    STAssertNotNil(error, @"No error received for failed parse");
+    STAssertEquals(error.code, PLClangErrorCompiler, nil);
 }
 
 @end
