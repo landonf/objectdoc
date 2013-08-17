@@ -37,10 +37,11 @@
  * @param The on-disk path to the source file.
  * @param data The source file's data.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
+ * @param options The options to use when creating the translation unit.
  *
  * @todo Investigate support for providing multiple in-memory files (pchs?)
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options {
     /* NOTE: This implementation fetches backing data/string pointers from the passed in Objective-C arguments; these values
      * are not guaranteed to survive past the lifetime of the current autorelease pool. */
     CXTranslationUnit tu;
@@ -48,6 +49,7 @@
     const char *cPath = NULL;
     struct CXUnsavedFile unsavedFile;
     unsigned int unsavedFileCount = 0;
+    unsigned int creationOptions = 0;
 
     if (path != nil)
         cPath = [path fileSystemRepresentation];
@@ -62,13 +64,34 @@
     for (NSUInteger i = 0; i < [arguments count]; i++)
         argv[i] = (char *) [[arguments objectAtIndex: i] UTF8String];
 
+    if (options & PLClangTranslationUnitCreationDetailedPreprocessingRecord)
+        creationOptions |= CXTranslationUnit_DetailedPreprocessingRecord;
+
+    if (options & PLClangTranslationUnitCreationIncomplete)
+        creationOptions |= CXTranslationUnit_Incomplete;
+
+    if (options & PLClangTranslationUnitCreationPrecompilePreamble)
+        creationOptions |= CXTranslationUnit_PrecompiledPreamble;
+
+    if (options & PLClangTranslationUnitCreationCacheCodeCompletionResults)
+        creationOptions |= CXTranslationUnit_CacheCompletionResults;
+
+    if (options & PLClangTranslationUnitCreationForSerialization)
+        creationOptions |= CXTranslationUnit_ForSerialization;
+
+    if (options & PLClangTranslationUnitCreationSkipFunctionBodies)
+        creationOptions |= CXTranslationUnit_SkipFunctionBodies;
+
+    if (options & PLClangTranslationUnitCreationIncludeBriefCommentsInCodeCompletion)
+        creationOptions |= CXTranslationUnit_IncludeBriefCommentsInCodeCompletion;
+
     tu = clang_parseTranslationUnit(_cIndex,
             [path fileSystemRepresentation],
             (const char **) argv,
             [arguments count],
             unsavedFileCount ? &unsavedFile : NULL,
             unsavedFileCount,
-            CXTranslationUnit_DetailedPreprocessingRecord);
+            creationOptions);
 
     free(argv);
 
@@ -88,9 +111,10 @@
  *
  * @param arguments Clang compiler arguments to be used when reading the translation unit. The path to
  * the source file must be provided as a compiler argument.
+ * @param options The options to use when creating the translation unit.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments {
-    return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments];
+- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options {
+    return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments options: options];
 }
 
 /**
@@ -98,9 +122,10 @@
  *
  * @param The on-disk path to the source file.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
+ * @param options The options to use when creating the translation unit.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments {
-    return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments];
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options {
+    return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments options: options];
 }
 
 

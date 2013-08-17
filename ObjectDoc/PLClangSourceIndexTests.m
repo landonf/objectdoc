@@ -15,7 +15,7 @@
 - (void) testAddTranslationUnitWithSourcePath {
     NSData *test = [@"int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
     PLClangSourceIndex *idx = [PLClangSourceIndex new];
-    PLClangTranslationUnit *tu = [idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[]];
+    PLClangTranslationUnit *tu = [idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0];
     STAssertNotNil(tu, @"Failed to parse", nil);
 }
 

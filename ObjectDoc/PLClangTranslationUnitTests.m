@@ -23,7 +23,7 @@
  */
 - (void) testParsing {
     NSData *test = [@"int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
-    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[]];
+    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0];
     STAssertNotNil(tu, @"Failed to parse", nil);
 
     STAssertFalse(tu.didFail, @"Should be marked as non-failed");
@@ -35,7 +35,7 @@
  */
 - (void) testExtractDiagnostics {
     NSData *test = [@"PARSE ERROR int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
-    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[]];
+    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0];
     STAssertNotNil(tu, @"Failed to parse", nil);
 
     STAssertTrue(tu.didFail, @"Should be marked as failed");
