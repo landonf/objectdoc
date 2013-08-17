@@ -5,6 +5,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "PLClangSourceIndex.h"
+#import "PLClang.h"
 
 @interface PLClangSourceIndexTests : SenTestCase @end
 
@@ -19,6 +20,15 @@
     PLClangTranslationUnit *tu = [idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
+}
+
+- (void) testFailedTranslationUnitCreation {
+    NSError *error = nil;
+    PLClangSourceIndex *idx = [PLClangSourceIndex new];
+    PLClangTranslationUnit *tu = [idx addTranslationUnitWithSourcePath: @"notfound.c" fileData: nil compilerArguments: @[] options: 0 error: &error];
+    STAssertNil(tu, @"Received a translation unit for a file that should not exist", nil);
+    STAssertNotNil(error, @"No error received for failed parse");
+    STAssertEquals(error.code, PLClangErrorCompiler, nil);
 }
 
 @end
