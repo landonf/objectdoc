@@ -7,16 +7,16 @@
 
 @interface PLClangUnsavedFile : NSObject
 
-+ (instancetype)unsavedFileWithPath:(NSString *)path data:(NSData *)data;
++ (instancetype) unsavedFileWithPath: (NSString *) path data: (NSData *) data;
 
 /**
  * The path where the file is expected to be stored on disk.
  */
-@property (nonatomic, readonly) NSString *path;
+@property(nonatomic, readonly) NSString *path;
 
 /**
  * The file's data.
  */
-@property (nonatomic, readonly) NSData *data;
+@property(nonatomic, readonly) NSData *data;
 
 @end
