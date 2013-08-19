@@ -11,6 +11,13 @@
  */
 @implementation PLClangUnsavedFile
 
+/**
+ * Initializes an unsaved file with the specified expected path and data.
+ *
+ * @param path The path where the file is expected to be saved. This is used when
+ * evaluating inclusion directives within the translation unit.
+ * @param data The unsaved data for this file.
+ */
 - (instancetype) initWithPath: (NSString *) path data: (NSData *) data {
     PLSuperInit();
 
