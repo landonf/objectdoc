@@ -31,6 +31,7 @@
 #import "PLAdditions.h"
 
 #import "PLClangTranslationUnit.h"
+#import "PLClangCursorPrivate.h"
 #import "PLClangDiagnostic.h"
 #import "PLClangDiagnosticPrivate.h"
 
@@ -40,6 +41,11 @@
     CXTranslationUnit _tu;
 }
 
+/**
+ * @internal
+ * Note that once a translation unit has been disposed all clang objects derived from it become
+ * invalid. This includes comments, cursors, locations, and tokens.
+ */
 - (void) dealloc {
     if (_tu != NULL)
         clang_disposeTranslationUnit(_tu);
@@ -72,6 +78,7 @@
     PLSuperInit();
 
     _tu = tu;
+    _cursor = [[PLClangCursor alloc] initWithCXCursor: clang_getTranslationUnitCursor(_tu)];
 
     /* Extract all diagnostics */
     CXDiagnosticSet diagnosticSet = clang_getDiagnosticSetFromTU(tu);

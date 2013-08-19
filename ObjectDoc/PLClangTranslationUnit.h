@@ -27,6 +27,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "PLClangCursor.h"
 
 @interface PLClangTranslationUnit : NSObject
 
@@ -35,5 +36,8 @@
 
 /** If YES, the code could not be properly parsed and is ill-formed. Review the array of diagnostics for more details. */
 @property(nonatomic, readonly) BOOL didFail;
+
+/** The cursor representing this translation unit. */
+@property(nonatomic, readonly) PLClangCursor *cursor;
 
 @end
