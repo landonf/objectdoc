@@ -20,6 +20,6 @@ NSString *plclang_convert_cxstring(CXString string) {
  */
 NSString *plclang_convert_and_dispose_cxstring(CXString string) {
     NSString *result = plclang_convert_cxstring(string);
-	clang_disposeString(string);
-	return result;
+    clang_disposeString(string);
+    return result;
 }
