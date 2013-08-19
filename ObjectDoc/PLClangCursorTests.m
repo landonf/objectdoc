@@ -78,7 +78,7 @@
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
-    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Declaration have been its canonical cursor");
+    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
     STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
     STAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
     STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
@@ -112,7 +112,7 @@
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
-    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Declaration have been its canonical cursor");
+    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
     STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
     STAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
     STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");

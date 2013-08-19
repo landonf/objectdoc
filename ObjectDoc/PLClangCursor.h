@@ -969,7 +969,7 @@ typedef NS_OPTIONS(NSUInteger, PLClangObjCPropertyAttributes) {
     /** The property is atomic. */
     PLClangObjCPropertyAttributeAtomic           = 1UL << 1,
 
-    /** The property is nonatomic */
+    /** The property is nonatomic. */
     PLClangObjCPropertyAttributeNonAtomic        = 1UL << 2,
 
     /** The property is readonly. */
@@ -1029,7 +1029,7 @@ typedef NS_ENUM(NSUInteger, PLClangCursorVisitResult) {
  * Block used when visiting child cursors.
  *
  * @param cursor The cursor being visited.
- * @return An PLClangCursorVisitResult directing the traversal.
+ * @return A PLClangCursorVisitResult directing the traversal.
  * @sa visitChildrenUsingBlock:
  */
 typedef PLClangCursorVisitResult (^PLClangCursorVisitorBlock)(PLClangCursor *cursor);
