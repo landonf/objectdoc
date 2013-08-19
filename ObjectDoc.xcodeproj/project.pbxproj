@@ -584,6 +584,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
 				INSTALL_PATH = "@rpath";
+				LD_RUNPATH_SEARCH_PATHS = "$(LLVM_INSTALL_DIR)/lib";
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"$(LLVM_CONFIG_CFLAGS)",
@@ -607,6 +608,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "objectdoc/objectdoc-Info.plist";
 				INSTALL_PATH = "@rpath";
+				LD_RUNPATH_SEARCH_PATHS = "$(LLVM_INSTALL_DIR)/lib";
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"$(LLVM_CONFIG_CFLAGS)",
