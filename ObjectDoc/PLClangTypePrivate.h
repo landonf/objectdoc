@@ -4,13 +4,13 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "PLClangCursor.h"
+#import "PLClangType.h"
 
 #import <clang-c/Index.h>
 
-@interface PLClangCursor (PackagePrivate)
+@interface PLClangType (PackagePrivate)
 
-- (instancetype) initWithCXCursor: (CXCursor) cursor;
-- (CXCursor) cxCursor;
+- (instancetype) initWithCXType: (CXType) type;
+- (CXType) cxType;
 
 @end

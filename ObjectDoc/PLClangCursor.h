@@ -5,6 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PLClangSourceLocation.h"
+#import "PLClangType.h"
 @class PLClangCursor;
 
 /**
@@ -1079,6 +1080,15 @@ typedef PLClangCursorVisitResult (^PLClangCursorVisitorBlock)(PLClangCursor *cur
 @property(nonatomic, readonly) PLClangCursor *lexicalParent;
 @property(nonatomic, readonly) PLClangCursor *referencedCursor;
 @property(nonatomic, readonly) PLClangCursor *definition;
+
+@property(nonatomic, readonly) PLClangType *type;
+@property(nonatomic, readonly) PLClangType *underlyingType;
+@property(nonatomic, readonly) PLClangType *resultType;
+@property(nonatomic, readonly) PLClangType *receiverType;
+
+@property(nonatomic, readonly) PLClangType *enumIntegerType;
+@property(nonatomic, readonly) long long enumConstantValue;
+@property(nonatomic, readonly) unsigned long long enumConstantUnsignedValue;
 
 /**
  * The non-variadic arguments for this cursor.

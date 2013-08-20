@@ -5,6 +5,7 @@
 
 #import "PLClangCursor.h"
 #import "PLClangCursorPrivate.h"
+#import "PLClangTypePrivate.h"
 #import "PLAdditions.h"
 #import "PLClangNSString.h"
 
@@ -21,6 +22,13 @@
     PLClangCursor *_lexicalParent;
     PLClangCursor *_referencedCursor;
     PLClangCursor *_definition;
+
+    /* Related types */
+    PLClangType *_type;
+    PLClangType *_underlyingType;
+    PLClangType *_resultType;
+    PLClangType *_receiverType;
+    PLClangType *_enumDeclarationIntegerType;
 }
 
 /**
@@ -704,6 +712,63 @@
 }
 
 /**
+ * The cursor's type, or nil if it has no type.
+ */
+- (PLClangType *) type {
+    return _type ?: (_type = [[PLClangType alloc] initWithCXType: clang_getCursorType(_cursor)]);
+}
+
+/**
+ * The underlying type of a typedef declaration, or nil if the cursor has no underlying type.
+ */
+- (PLClangType *) underlyingType {
+    return _underlyingType ?: (_underlyingType = [[PLClangType alloc] initWithCXType: clang_getTypedefDeclUnderlyingType(_cursor)]);
+}
+
+/**
+ * The cursor's result type, or nil if the cursor does not reference a function or method.
+ */
+- (PLClangType *) resultType {
+    return _resultType ?: (_resultType = [[PLClangType alloc] initWithCXType: clang_getCursorResultType(_cursor)]);
+}
+
+/**
+ * The cursor's receiver type, or nil if the cursor does not reference an Objective-C message.
+ */
+- (PLClangType *) receiverType {
+    return _receiverType ?: (_receiverType = [[PLClangType alloc] initWithCXType: clang_Cursor_getReceiverType(_cursor)]);
+}
+
+/**
+ * The integer type of an enum declaration, or nil if the cursor does not reference an enum declaration.
+ */
+- (PLClangType *) enumIntegerType {
+    return _enumDeclarationIntegerType ?: (_enumDeclarationIntegerType = [[PLClangType alloc] initWithCXType: clang_getEnumDeclIntegerType(_cursor)]);
+}
+
+/**
+ * The integer value of an enum constant declaration as a signed long long.
+ *
+ * If the cursor does not reference an enum constant declaration, LONG_LONG_MIN is returned.
+ * Since this is also potentially a valid constant value, the kind of the cursor
+ * must also be verified.
+ */
+- (long long) enumConstantValue {
+    return clang_getEnumConstantDeclValue(_cursor);
+}
+
+/**
+ * The integer value of an enum constant declaration as an unsigned long long.
+ *
+ * If the cursor does not reference an enum constant declaration, ULONG_LONG_MAX is returned.
+ * Since this is also potentially a valid constant value, the kind of the cursor
+ * must also be verified.
+ */
+- (unsigned long long) enumConstantUnsignedValue {
+    return clang_getEnumConstantDeclUnsignedValue(_cursor);
+}
+
+/**
  * The bit width of a bit field declaration as an integer.
  *
  * The value of this property is -1 if the cursor is not a bit field declaration.
@@ -818,7 +883,7 @@
 }
 
 - (NSString *) debugDescription {
-    return [NSString stringWithFormat:@"<%@: %p> %@", [self class], self, [self description]];
+    return [NSString stringWithFormat: @"<%@: %p> %@", [self class], self, [self description]];
 }
 
 @end
