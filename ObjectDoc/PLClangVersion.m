@@ -13,14 +13,14 @@
 @implementation PLClangVersion
 
 - (NSString *) description {
-    NSMutableString *string = [NSMutableString stringWithFormat:@"%d", self.major];
+    NSMutableString *string = [NSMutableString stringWithFormat: @"%d", self.major];
 
     if (self.minor >= 0) {
-        [string appendFormat:@".%d", self.minor];
+        [string appendFormat: @".%d", self.minor];
     }
 
     if (self.patch >= 0) {
-        [string appendFormat:@".%d", self.patch];
+        [string appendFormat: @".%d", self.patch];
     }
 
     return string;
@@ -43,7 +43,7 @@
 - (instancetype) initWithCXVersion: (CXVersion) version {
     PLSuperInit();
 
-    // A negative major verison indicates that no version information was specified
+    // A negative major version indicates that no version information was provided
     if (version.Major < 0)
         return nil;
 
