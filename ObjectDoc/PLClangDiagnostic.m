@@ -5,6 +5,7 @@
 
 #import "PLClangDiagnostic.h"
 #import "PLClangDiagnosticPrivate.h"
+#import "PLClangNSString.h"
 #import "PLAdditions.h"
 
 /**
@@ -24,12 +25,7 @@
 // property getter
 - (NSString *) formattedErrorMessage {
     CXString formatted = clang_formatDiagnostic(_diagnostic, clang_defaultDiagnosticDisplayOptions());
-    NSString *result = [NSString stringWithUTF8String: clang_getCString(formatted)];
-
-    // TODO - Verify that 'formatted' requires disposal; this is unclear from clang's documentation.
-    clang_disposeString(formatted);
-
-    return result;
+    return plclang_convert_and_dispose_cxstring(formatted);
 }
 
 // property getter
