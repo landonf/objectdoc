@@ -77,8 +77,9 @@
 
 - (void) testMultiLevelTypedef {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"typedef int base; typedef base type; type t;"];
-    PLClangType *type = [[tu cursorWithSpelling: @"type"] type];
+    PLClangType *type = [[tu cursorWithSpelling: @"t"] type];
     STAssertEquals(type.kind, PLClangTypeKindTypedef, nil);
+    STAssertEqualObjects(type.spelling, @"type", nil);
     STAssertEquals(type.canonicalType.kind, PLClangTypeKindInt, @"Multi-level typedef's canonical type should have been int");
 }
 
