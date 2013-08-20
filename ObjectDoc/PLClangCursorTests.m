@@ -119,6 +119,26 @@
     STAssertEqualObjects(cursor, cursor.definition, @"Cursor should have also been its definition");
 }
 
+- (void) testLanguage {
+    PLClangTranslationUnit *tu;
+    PLClangCursor *cursor;
+
+    tu = [self translationUnitWithSource: @"void f();"];
+    cursor = [tu cursorWithSpelling: @"f"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.language, PLClangLanguageC, nil);
+
+    tu = [self translationUnitWithSource: @"@interface T\n@end"];
+    cursor = [tu cursorWithSpelling: @"T"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.language, PLClangLanguageObjC, nil);
+
+    tu = [self translationUnitWithSource: @"class T {};" path: @"test.cpp"];
+    cursor = [tu cursorWithSpelling: @"T"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.language, PLClangLanguageCPlusPlus, nil);
+}
+
 - (void) testLinkage {
     PLClangTranslationUnit *tu;
     PLClangCursor *cursor;
