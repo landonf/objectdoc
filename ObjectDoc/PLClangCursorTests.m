@@ -119,4 +119,35 @@
     STAssertEqualObjects(cursor, cursor.definition, @"Cursor should have also been its definition");
 }
 
+- (void) testObjCPropertyAttributes {
+    [self verifyObjCPropertyWithAttributes: @"" expectedResults: PLClangObjCPropertyAttributeNone];
+    [self verifyObjCPropertyWithAttributes: @"atomic" expectedResults: PLClangObjCPropertyAttributeAtomic];
+    [self verifyObjCPropertyWithAttributes: @"nonatomic" expectedResults: PLClangObjCPropertyAttributeNonAtomic];
+    [self verifyObjCPropertyWithAttributes: @"readonly" expectedResults: PLClangObjCPropertyAttributeReadOnly];
+    [self verifyObjCPropertyWithAttributes: @"readwrite" expectedResults: PLClangObjCPropertyAttributeReadWrite];
+    [self verifyObjCPropertyWithAttributes: @"assign" expectedResults: PLClangObjCPropertyAttributeAssign];
+    [self verifyObjCPropertyWithAttributes: @"copy" expectedResults: PLClangObjCPropertyAttributeCopy];
+    [self verifyObjCPropertyWithAttributes: @"retain" expectedResults: PLClangObjCPropertyAttributeRetain];
+    [self verifyObjCPropertyWithAttributes: @"strong" expectedResults: PLClangObjCPropertyAttributeStrong];
+    [self verifyObjCPropertyWithAttributes: @"unsafe_unretained" expectedResults: PLClangObjCPropertyAttributeUnsafeUnretained];
+    [self verifyObjCPropertyWithAttributes: @"weak" expectedResults: PLClangObjCPropertyAttributeWeak];
+    [self verifyObjCPropertyWithAttributes: @"getter=prop" expectedResults: PLClangObjCPropertyAttributeGetter];
+    [self verifyObjCPropertyWithAttributes: @"setter=setProp:" expectedResults: PLClangObjCPropertyAttributeSetter];
+    [self verifyObjCPropertyWithAttributes: @"nonatomic, copy, getter=prop, setter=setProp:" expectedResults:
+                                            PLClangObjCPropertyAttributeNonAtomic |
+                                            PLClangObjCPropertyAttributeCopy |
+                                            PLClangObjCPropertyAttributeGetter |
+                                            PLClangObjCPropertyAttributeSetter];
+}
+
+- (void) verifyObjCPropertyWithAttributes: (NSString *)attributes expectedResults: (PLClangObjCPropertyAttributes) expected {
+    NSString *source = [NSString stringWithFormat:@"@interface Test\n"
+    "@property (%@) id prop;\n"
+    "@end", attributes];
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: source];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"prop"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.objCPropertyAttributes, expected, @"Property attributes do not match \"%@\"", attributes);
+}
+
 @end
