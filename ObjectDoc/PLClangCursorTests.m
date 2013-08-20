@@ -119,6 +119,35 @@
     STAssertEqualObjects(cursor, cursor.definition, @"Cursor should have also been its definition");
 }
 
+- (void) testLinkage {
+    PLClangTranslationUnit *tu;
+    PLClangCursor *cursor;
+
+    tu = [self translationUnitWithSource: @"void f() { int t; }"];
+    cursor = tu.cursor;
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.linkage, PLClangLinkageInvalid, nil);
+
+    cursor = [tu cursorWithSpelling: @"t"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.linkage, PLClangLinkageNone, nil);
+
+    tu = [self translationUnitWithSource: @"static int t;"];
+    cursor = [tu cursorWithSpelling: @"t"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.linkage, PLClangLinkageInternal, nil);
+
+    tu = [self translationUnitWithSource: @"int t;"];
+    cursor = [tu cursorWithSpelling: @"t"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.linkage, PLClangLinkageExternal, nil);
+
+    tu = [self translationUnitWithSource: @"namespace { int t; }" path: @"test.cpp"];
+    cursor = [tu cursorWithSpelling: @"t"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.linkage, PLClangLinkageUniqueExternal, nil);
+}
+
 - (void) testObjCPropertyAttributes {
     [self verifyObjCPropertyWithAttributes: @"" expectedResults: PLClangObjCPropertyAttributeNone];
     [self verifyObjCPropertyWithAttributes: @"atomic" expectedResults: PLClangObjCPropertyAttributeAtomic];
