@@ -9,6 +9,9 @@
 #import "PLClangNSString.h"
 #import "PLAdditions.h"
 
+/**
+ * The type of an element in the abstract syntax tree.
+ */
 @implementation PLClangType {
     /** The backing clang type */
     CXType _type;
