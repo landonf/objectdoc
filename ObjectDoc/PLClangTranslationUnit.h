@@ -28,6 +28,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PLClangCursor.h"
+#import "PLClangDiagnostic.h"
 
 @interface PLClangTranslationUnit : NSObject
 
