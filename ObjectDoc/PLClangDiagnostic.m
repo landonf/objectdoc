@@ -49,6 +49,10 @@
     }
 }
 
+- (NSString *) description {
+    return self.formattedErrorMessage;
+}
+
 @end
 
 /**
