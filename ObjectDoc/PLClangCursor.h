@@ -4,6 +4,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "PLClangAvailability.h"
 #import "PLClangSourceLocation.h"
 #import "PLClangType.h"
 @class PLClangCursor;
@@ -1105,6 +1106,8 @@ typedef PLClangCursorVisitResult (^PLClangCursorVisitorBlock)(PLClangCursor *cur
 @property(nonatomic, readonly) PLClangObjCPropertyAttributes objCPropertyAttributes;
 @property(nonatomic, readonly) int objCSelectorIndex;
 @property(nonatomic, readonly) NSString *objCTypeEncoding;
+
+@property(nonatomic, readonly) PLClangAvailability *availability;
 
 - (void) visitChildrenUsingBlock: (PLClangCursorVisitorBlock) block;
 

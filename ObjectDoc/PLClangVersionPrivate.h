@@ -4,13 +4,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "PLClangType.h"
+#import "PLClangVersion.h"
 
 #import <clang-c/Index.h>
 
-@interface PLClangType (PackagePrivate)
+@interface PLClangVersion (PackagePrivate)
 
-- (instancetype) initWithCXType: (CXType) type;
-- (CXType) cxType;
+- (instancetype) initWithCXVersion: (CXVersion) version;
 
 @end

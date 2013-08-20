@@ -29,6 +29,16 @@
 		C9A921FD17C313510052CB64 /* PLClangType.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A921FB17C313510052CB64 /* PLClangType.m */; };
 		C9A921FF17C3146A0052CB64 /* PLClangTypePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A921FE17C3146A0052CB64 /* PLClangTypePrivate.h */; };
 		C9A9220217C31E230052CB64 /* PLClangTypeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A9220017C31D960052CB64 /* PLClangTypeTests.m */; };
+		C9A9220617C3A7180052CB64 /* PLClangAvailability.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9220417C3A7180052CB64 /* PLClangAvailability.h */; };
+		C9A9220717C3A7180052CB64 /* PLClangAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A9220517C3A7180052CB64 /* PLClangAvailability.m */; };
+		C9A9220A17C3A7290052CB64 /* PLClangPlatformAvailability.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9220817C3A7290052CB64 /* PLClangPlatformAvailability.h */; };
+		C9A9220B17C3A7290052CB64 /* PLClangPlatformAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A9220917C3A7290052CB64 /* PLClangPlatformAvailability.m */; };
+		C9A9220E17C3A7F40052CB64 /* PLClangAvailabilityPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9220D17C3A7F40052CB64 /* PLClangAvailabilityPrivate.h */; };
+		C9A9221017C3A7FD0052CB64 /* PLClangAvailabilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A9220F17C3A7FD0052CB64 /* PLClangAvailabilityTests.m */; };
+		C9A9221217C3A9350052CB64 /* PLClangPlatformAvailabilityPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9221117C3A9350052CB64 /* PLClangPlatformAvailabilityPrivate.h */; };
+		C9A9221517C3A9DA0052CB64 /* PLClangVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9221317C3A9DA0052CB64 /* PLClangVersion.h */; };
+		C9A9221617C3A9DA0052CB64 /* PLClangVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A9221417C3A9DA0052CB64 /* PLClangVersion.m */; };
+		C9A9221817C3A9F90052CB64 /* PLClangVersionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9221717C3A9F90052CB64 /* PLClangVersionPrivate.h */; };
 		C9F243BE17C08E75005E01BF /* PLClangNSString.h in Headers */ = {isa = PBXBuildFile; fileRef = C9F243BC17C08E75005E01BF /* PLClangNSString.h */; };
 		C9F243BF17C08E75005E01BF /* PLClangNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F243BD17C08E75005E01BF /* PLClangNSString.m */; };
 		C9F243C117C11090005E01BF /* PLClangCursorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F243C017C11090005E01BF /* PLClangCursorTests.m */; };
@@ -108,6 +118,16 @@
 		C9A921FB17C313510052CB64 /* PLClangType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangType.m; sourceTree = "<group>"; };
 		C9A921FE17C3146A0052CB64 /* PLClangTypePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangTypePrivate.h; sourceTree = "<group>"; };
 		C9A9220017C31D960052CB64 /* PLClangTypeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangTypeTests.m; sourceTree = "<group>"; };
+		C9A9220417C3A7180052CB64 /* PLClangAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangAvailability.h; sourceTree = "<group>"; };
+		C9A9220517C3A7180052CB64 /* PLClangAvailability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangAvailability.m; sourceTree = "<group>"; };
+		C9A9220817C3A7290052CB64 /* PLClangPlatformAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangPlatformAvailability.h; sourceTree = "<group>"; };
+		C9A9220917C3A7290052CB64 /* PLClangPlatformAvailability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangPlatformAvailability.m; sourceTree = "<group>"; };
+		C9A9220D17C3A7F40052CB64 /* PLClangAvailabilityPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangAvailabilityPrivate.h; sourceTree = "<group>"; };
+		C9A9220F17C3A7FD0052CB64 /* PLClangAvailabilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangAvailabilityTests.m; sourceTree = "<group>"; };
+		C9A9221117C3A9350052CB64 /* PLClangPlatformAvailabilityPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangPlatformAvailabilityPrivate.h; sourceTree = "<group>"; };
+		C9A9221317C3A9DA0052CB64 /* PLClangVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangVersion.h; sourceTree = "<group>"; };
+		C9A9221417C3A9DA0052CB64 /* PLClangVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangVersion.m; sourceTree = "<group>"; };
+		C9A9221717C3A9F90052CB64 /* PLClangVersionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangVersionPrivate.h; sourceTree = "<group>"; };
 		C9F243BC17C08E75005E01BF /* PLClangNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangNSString.h; sourceTree = "<group>"; };
 		C9F243BD17C08E75005E01BF /* PLClangNSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangNSString.m; sourceTree = "<group>"; };
 		C9F243C017C11090005E01BF /* PLClangCursorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangCursorTests.m; sourceTree = "<group>"; };
@@ -267,6 +287,10 @@
 			children = (
 				C9594E7417BF06F100CD7816 /* PLClang.h */,
 				C9594E7517BF06F100CD7816 /* PLClang.m */,
+				C9A9220417C3A7180052CB64 /* PLClangAvailability.h */,
+				C9A9220517C3A7180052CB64 /* PLClangAvailability.m */,
+				C9A9220D17C3A7F40052CB64 /* PLClangAvailabilityPrivate.h */,
+				C9A9220F17C3A7FD0052CB64 /* PLClangAvailabilityTests.m */,
 				C9594E7C17BFBC9A00CD7816 /* PLClangCursor.h */,
 				C9594E7D17BFBC9A00CD7816 /* PLClangCursor.m */,
 				C9594E8017BFBDA400CD7816 /* PLClangCursorPrivate.h */,
@@ -276,6 +300,9 @@
 				FCE451013882A66295B6A523 /* PLClangDiagnosticPrivate.h */,
 				C9F243BC17C08E75005E01BF /* PLClangNSString.h */,
 				C9F243BD17C08E75005E01BF /* PLClangNSString.m */,
+				C9A9220817C3A7290052CB64 /* PLClangPlatformAvailability.h */,
+				C9A9220917C3A7290052CB64 /* PLClangPlatformAvailability.m */,
+				C9A9221117C3A9350052CB64 /* PLClangPlatformAvailabilityPrivate.h */,
 				FCE4500562CD408DEE335EAC /* PLClangSourceIndex.h */,
 				FCE45E244C142558C5D4C756 /* PLClangSourceIndex.m */,
 				FCE45EBF5B5ECF9D0C09F313 /* PLClangSourceIndexTests.m */,
@@ -294,6 +321,9 @@
 				C9A9220017C31D960052CB64 /* PLClangTypeTests.m */,
 				C9594E7817BF104F00CD7816 /* PLClangUnsavedFile.h */,
 				C9594E7917BF104F00CD7816 /* PLClangUnsavedFile.m */,
+				C9A9221317C3A9DA0052CB64 /* PLClangVersion.h */,
+				C9A9221417C3A9DA0052CB64 /* PLClangVersion.m */,
+				C9A9221717C3A9F90052CB64 /* PLClangVersionPrivate.h */,
 			);
 			name = Clang;
 			sourceTree = "<group>";
@@ -316,13 +346,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				05BE068D16B4474100DF46D5 /* ObjectDoc.h in Headers */,
+				C9A9220617C3A7180052CB64 /* PLClangAvailability.h in Headers */,
 				FCE4575C39A4106D000DF0D4 /* PLClangSourceIndex.h in Headers */,
 				C9594E7617BF06F100CD7816 /* PLClang.h in Headers */,
 				FCE45B63F2F1F5AFFDA3C842 /* PLClangTranslationUnit.h in Headers */,
+				C9A9220E17C3A7F40052CB64 /* PLClangAvailabilityPrivate.h in Headers */,
 				C9A921FF17C3146A0052CB64 /* PLClangTypePrivate.h in Headers */,
 				FCE4543E40F4E5713B72D5C9 /* PLAdditions.h in Headers */,
 				C9594E7A17BF104F00CD7816 /* PLClangUnsavedFile.h in Headers */,
+				C9A9220A17C3A7290052CB64 /* PLClangPlatformAvailability.h in Headers */,
 				C9A921FC17C313510052CB64 /* PLClangType.h in Headers */,
+				C9A9221817C3A9F90052CB64 /* PLClangVersionPrivate.h in Headers */,
 				C9594E8117BFBDA400CD7816 /* PLClangCursorPrivate.h in Headers */,
 				FCE45EA2F91E94E0FE73EDCB /* PLClangTranslationUnitPrivate.h in Headers */,
 				FCE4508CD72B9C5BAAF6F603 /* PLClangDiagnostic.h in Headers */,
@@ -331,7 +365,9 @@
 				FCE4511607B3484B969529F5 /* PLSourceLocation.h in Headers */,
 				FCE45A9FBF8CE57D471E862C /* PLClangDiagnosticPrivate.h in Headers */,
 				FCE45AA53B7B32357124F65E /* PLClangSourceLocation.h in Headers */,
+				C9A9221517C3A9DA0052CB64 /* PLClangVersion.h in Headers */,
 				FCE451617D97D37E53EE138F /* PLClangSourceLocationPrivate.h in Headers */,
+				C9A9221217C3A9350052CB64 /* PLClangPlatformAvailabilityPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,13 +501,16 @@
 				FCE451D5799804E72BFF018E /* PLClangSourceIndex.m in Sources */,
 				C9594E7F17BFBC9A00CD7816 /* PLClangCursor.m in Sources */,
 				FCE45D20C14785B61BEA641E /* PLClangTranslationUnit.m in Sources */,
+				C9A9220717C3A7180052CB64 /* PLClangAvailability.m in Sources */,
 				FCE456467CC2F46BDC9B91CD /* PLClangDiagnostic.m in Sources */,
 				FCE4572D619041786BE82039 /* PLSourceLocation.m in Sources */,
 				FCE45915D137A2651FF67D64 /* PLClangSourceLocation.m in Sources */,
+				C9A9221617C3A9DA0052CB64 /* PLClangVersion.m in Sources */,
 				C9594E7B17BF104F00CD7816 /* PLClangUnsavedFile.m in Sources */,
 				C9594E7717BF06F100CD7816 /* PLClang.m in Sources */,
 				C9F243BF17C08E75005E01BF /* PLClangNSString.m in Sources */,
 				C9A921FD17C313510052CB64 /* PLClangType.m in Sources */,
+				C9A9220B17C3A7290052CB64 /* PLClangPlatformAvailability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +522,7 @@
 				C9F243C617C1119E005E01BF /* PLClangTestCase.m in Sources */,
 				FCE4537F110EF2EFC316238D /* PLClangSourceIndexTests.m in Sources */,
 				FCE4594BDFF1B22B945C8BF8 /* PLClangTranslationUnitTests.m in Sources */,
+				C9A9221017C3A7FD0052CB64 /* PLClangAvailabilityTests.m in Sources */,
 				C9A9220217C31E230052CB64 /* PLClangTypeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

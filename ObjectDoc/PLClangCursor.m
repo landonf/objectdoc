@@ -5,6 +5,7 @@
 
 #import "PLClangCursor.h"
 #import "PLClangCursorPrivate.h"
+#import "PLClangAvailabilityPrivate.h"
 #import "PLClangTypePrivate.h"
 #import "PLAdditions.h"
 #import "PLClangNSString.h"
@@ -29,6 +30,12 @@
     PLClangType *_resultType;
     PLClangType *_receiverType;
     PLClangType *_enumDeclarationIntegerType;
+
+    /**
+     * Platform availability information derived from the availability,
+     * deprecated, and unavailable attributes.
+     */
+    PLClangAvailability *_availability;
 }
 
 /**
@@ -837,6 +844,15 @@
  */
 - (NSString *) objCTypeEncoding {
     return plclang_convert_and_dispose_cxstring(clang_getDeclObjCTypeEncoding(_cursor));
+}
+
+/**
+ * Availability information for the cursor on any platforms for which availability information is known.
+ *
+ * This information is provided by the availability, deprecated, and unavailable attributes.
+ */
+- (PLClangAvailability *) availability {
+    return _availability ?: (_availability = [[PLClangAvailability alloc] initWithCXCursor: _cursor]);
 }
 
 /**
