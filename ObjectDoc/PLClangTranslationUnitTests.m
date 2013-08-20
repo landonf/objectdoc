@@ -3,20 +3,12 @@
  * All rights reserved.
  */
 
-#import <SenTestingKit/SenTestingKit.h>
 #import <ObjectDoc/ObjectDoc.h>
-#import "PLClangDiagnostic.h"
+#import "PLClangTestCase.h"
 
-@interface PLClangTranslationUnitTests : SenTestCase @end
+@interface PLClangTranslationUnitTests : PLClangTestCase @end
 
-@implementation PLClangTranslationUnitTests {
-@private
-    PLClangSourceIndex *_idx;
-}
-
-- (void) setUp {
-    _idx = [[PLClangSourceIndex alloc] init];
-}
+@implementation PLClangTranslationUnitTests
 
 /**
  * Test basic parsing
@@ -24,7 +16,7 @@
 - (void) testParsing {
     NSError *error = nil;
     NSData *test = [@"int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
-    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
+    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
     STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
@@ -40,7 +32,7 @@
 - (void) testExtractDiagnostics {
     NSError *error = nil;
     NSData *test = [@"PARSE ERROR int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
-    PLClangTranslationUnit *tu = [_idx addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
+    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
     STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
@@ -51,6 +43,27 @@
     for (PLClangDiagnostic *diag in tu.diagnostics) {
         STAssertNotNil(diag.formattedErrorMessage, @"No error message returned");
     }
+}
+
+/**
+ * Test that macro definitions are included when the detailed preprocessing record is enabled.
+ */
+- (void) testDetailedPreprocessing {
+    NSError *error = nil;
+    NSData *test = [@"#define MACRO 1" dataUsingEncoding: NSUTF8StringEncoding];
+    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
+    STAssertNotNil(tu, @"Failed to parse", nil);
+    STAssertNil(error, @"Received error for successful parse");
+    STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
+    STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
+    STAssertNil([tu cursorWithSpelling: @"MACRO"], @"Should not have found macro definition without detailed preprocessing record");
+
+    tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: PLClangTranslationUnitCreationDetailedPreprocessingRecord error: &error];
+    STAssertNotNil(tu, @"Failed to parse", nil);
+    STAssertNil(error, @"Received error for successful parse");
+    STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
+    STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
+    STAssertNotNil([tu cursorWithSpelling: @"MACRO"], @"Should have found macro definition with detailed preprocessing record");
 }
 
 @end
