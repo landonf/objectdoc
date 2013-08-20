@@ -30,7 +30,7 @@
     STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
     STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
 
-    STAssertFalse(tu.didFail, @"Should be marked as non-failed");
+    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
     STAssertTrue([tu.diagnostics count] == 0, @"No diagnostics should be returned");
 }
 

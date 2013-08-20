@@ -39,7 +39,7 @@
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
 
-    STAssertFalse(tu.didFail, @"Should be marked as non-failed (test.h was resolved)");
+    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
     STAssertTrue([tu.diagnostics count] == 0, @"No diagnostics should be returned");
 }
 

@@ -26,7 +26,7 @@
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path unsavedFiles: @[file] compilerArguments: @[] options:0 error:&error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
-    STAssertFalse(tu.didFail, @"Should be marked as non-failed");
+    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
 
     return tu;
 }
