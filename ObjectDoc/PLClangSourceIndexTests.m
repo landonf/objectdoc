@@ -13,6 +13,10 @@
 @private
 }
 
+- (void) testClangVersion {
+    STAssertTrue([PLClangGetVersionString() length] > 0, @"A non-empty string should be returned for the clang version");
+}
+
 - (void) testAddTranslationUnitWithSourcePath {
     NSError *error = nil;
     NSData *test = [@"int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
