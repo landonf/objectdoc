@@ -119,6 +119,52 @@
     STAssertEqualObjects(cursor, cursor.definition, @"Cursor should have also been its definition");
 }
 
+- (void) testFunctionDeclaration {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f(int param);"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
+    STAssertNotNil(cursor, nil);
+
+    STAssertEquals(cursor.kind, PLClangCursorKindFunctionDeclaration, nil);
+    STAssertEquals(cursor.language, PLClangLanguageC, nil);
+    STAssertEquals(cursor.linkage, PLClangLinkageExternal, nil);
+    STAssertEqualObjects(cursor.USR, @"c:@F@f", nil);
+    STAssertEqualObjects(cursor.spelling, @"f", nil);
+    STAssertEqualObjects(cursor.displayName, @"f(int)", nil);
+    STAssertFalse(cursor.isAttribute, nil);
+    STAssertTrue(cursor.isDeclaration, nil);
+    STAssertFalse(cursor.isExpression, nil);
+    STAssertFalse(cursor.isPreprocessing, nil);
+    STAssertFalse(cursor.isReference, nil);
+    STAssertFalse(cursor.isStatement, nil);
+    STAssertFalse(cursor.isUnexposed, nil);
+    STAssertFalse(cursor.isObjCOptional, nil);
+    STAssertFalse(cursor.isVariadic, nil);
+    STAssertNotNil(cursor.canonicalCursor, nil);
+    STAssertNotNil(cursor.semanticParent, nil);
+    STAssertNotNil(cursor.lexicalParent, nil);
+    STAssertNotNil(cursor.referencedCursor, nil);
+    STAssertNil(cursor.definition, nil);
+    STAssertNotNil(cursor.arguments, nil);
+    STAssertNil(cursor.overloadedDeclarations, nil);
+
+    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
+    STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
+    STAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
+    STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
+
+    STAssertTrue([cursor.arguments count] == 1, @"Should have had an argument");
+
+    PLClangCursor *param = cursor.arguments[0];
+    STAssertEquals(param.kind, PLClangCursorKindParameterDeclaration, nil);
+    STAssertEqualObjects(param.spelling, @"param", nil);
+    STAssertEqualObjects(param.displayName, @"param", nil);
+
+    STAssertEqualObjects(param, param.canonicalCursor, @"Cursor should have been its canonical cursor");
+    STAssertEqualObjects(param.semanticParent, cursor, @"Semantic parent should have been the function declaration");
+    STAssertEqualObjects(param.lexicalParent, cursor, @"Lexical parent should have been the function declaration");
+    STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
+}
+
 - (void) testLanguage {
     PLClangTranslationUnit *tu;
     PLClangCursor *cursor;
