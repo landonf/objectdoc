@@ -245,4 +245,17 @@
     STAssertEquals(cursor.objCPropertyAttributes, expected, @"Property attributes do not match \"%@\"", attributes);
 }
 
+/**
+ * Test that extended identifiers are properly converted to NSStrings.
+ */
+- (void) testExtendedIdentifiers {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int à;"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"à"];
+    STAssertNotNil(cursor, nil);
+
+    tu = [self translationUnitWithSource: @"int \u00e0;"];
+    cursor = [tu cursorWithSpelling: @"à"];
+    STAssertNotNil(cursor, nil);
+}
+
 @end
