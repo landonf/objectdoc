@@ -33,6 +33,6 @@
 
 @interface PLClangTranslationUnit (PackagePrivate)
 
-- (instancetype) initWithCXTranslationUnit: (CXTranslationUnit) tu;
+- (instancetype) initWithOwner: (id) owner cxTranslationUnit: (CXTranslationUnit) tu;
 
 @end

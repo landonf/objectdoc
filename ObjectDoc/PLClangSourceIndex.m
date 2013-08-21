@@ -18,16 +18,12 @@
 @private
     /** Backing clang index. */
     CXIndex _cIndex;
-
-    /** Parsed translation units */
-    NSMutableArray *_translationUnits;
 }
 
 - (id) init {
     PLSuperInit();
 
     _cIndex = clang_createIndex(0, 0);
-    _translationUnits = [NSMutableArray array];
 
     return self;
 }
@@ -120,10 +116,7 @@
         return nil;
     }
 
-    PLClangTranslationUnit *pltu = [[PLClangTranslationUnit alloc] initWithCXTranslationUnit: tu];
-    [_translationUnits addObject: pltu];
-
-    return pltu;
+    return [[PLClangTranslationUnit alloc] initWithOwner: self cxTranslationUnit: tu];
 }
 
 /**

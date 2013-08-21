@@ -37,6 +37,12 @@
 
 @implementation PLClangTranslationUnit {
 @private
+    /**
+     * A reference to the owning object (the index), held so that the CXIndex
+     * remains valid for the lifetime of the translation unit.
+     */
+    id _owner;
+
     /** Backing clang translation unit. */
     CXTranslationUnit _tu;
 }
@@ -74,9 +80,10 @@
  *
  * @param tu Backing clang translation unit. The receiver will assume ownership over the value.
  */
-- (instancetype) initWithCXTranslationUnit: (CXTranslationUnit) tu {
+- (instancetype) initWithOwner: (id) owner cxTranslationUnit: (CXTranslationUnit) tu {
     PLSuperInit();
 
+    _owner = owner;
     _tu = tu;
     _cursor = [[PLClangCursor alloc] initWithCXCursor: clang_getTranslationUnitCursor(_tu)];
 
