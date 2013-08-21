@@ -13,6 +13,12 @@
  * The type of an element in the abstract syntax tree.
  */
 @implementation PLClangType {
+    /**
+     * A reference to the owning object (the translation unit), held so that the
+     * CXTranslationUnit remains valid for the lifetime of the type.
+     */
+    id _owner;
+
     /** The backing clang type */
     CXType _type;
 
@@ -38,7 +44,7 @@
 - (PLClangTypeKind) kind {
     switch (_type.kind) {
         case CXType_Invalid:
-            // Unreachable, returns nil from initWithCXType:
+            // Unreachable, returns nil from initWithOwner:cxType:
             break;
 
         case CXType_Unexposed:
@@ -229,7 +235,7 @@
  * The cursor for the type's declaration.
  */
 - (PLClangCursor *) declaration {
-    return _declaration ?: (_declaration = [[PLClangCursor alloc] initWithCXCursor: clang_getTypeDeclaration(_type)]);
+    return _declaration ?: (_declaration = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getTypeDeclaration(_type)]);
 }
 
 /**
@@ -241,28 +247,28 @@
  * for 'int', the canonical type for 'T' would be 'int'.
  */
 - (PLClangType *) canonicalType {
-    return _canonicalType ?: (_canonicalType = [[PLClangType alloc] initWithCXType: clang_getCanonicalType(_type)]);
+    return _canonicalType ?: (_canonicalType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getCanonicalType(_type)]);
 }
 
 /**
  * The result type associated with a function type, or nil if this is not a function type.
  */
 - (PLClangType *) resultType {
-    return _resultType ?: (_resultType = [[PLClangType alloc] initWithCXType: clang_getResultType(_type)]);
+    return _resultType ?: (_resultType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getResultType(_type)]);
 }
 
 /**
  * The type of the pointee, or nil if this is not a pointer type.
  */
 - (PLClangType *) pointeeType {
-    return _pointeeType ?: (_pointeeType = [[PLClangType alloc] initWithCXType: clang_getPointeeType(_type)]);
+    return _pointeeType ?: (_pointeeType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getPointeeType(_type)]);
 }
 
 /**
  * The element type of an array, complex, or vector type, or nil if this type has no element type.
  */
 - (PLClangType *) elementType {
-    return _elementType ?: (_elementType = [[PLClangType alloc] initWithCXType: clang_getElementType(_type)]);
+    return _elementType ?: (_elementType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getElementType(_type)]);
 }
 
 /**
@@ -313,12 +319,13 @@
  * @param type The clang type that will back this object.
  * @return An initialized type or nil if the specified clang type was invalid.
  */
-- (instancetype) initWithCXType: (CXType) type {
+- (instancetype) initWithOwner: (id) owner cxType: (CXType) type {
     PLSuperInit();
 
     if (type.kind == CXType_Invalid)
         return nil;
 
+    _owner = owner;
     _type = type;
     _spelling = plclang_convert_and_dispose_cxstring(clang_getTypeSpelling(_type));
 
@@ -327,7 +334,7 @@
         NSMutableArray *argumentTypes = [NSMutableArray arrayWithCapacity: (unsigned int)argCount];
 
         for (unsigned int i = 0; i < (unsigned int)argCount; i++) {
-            [argumentTypes addObject: [[PLClangType alloc] initWithCXType: clang_getArgType(_type, i)]];
+            [argumentTypes addObject: [[PLClangType alloc] initWithOwner: _owner cxType: clang_getArgType(_type, i)]];
         }
 
         _argumentTypes = argumentTypes;

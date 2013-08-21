@@ -258,4 +258,38 @@
     STAssertNotNil(cursor, nil);
 }
 
+/**
+ * Test that a cursor can still function without the client holding a strong reference to the index or translation unit.
+ */
+- (void) testCursorWithoutTranslationUnitReference {
+    PLClangCursor *tuCursor = nil;
+    __block PLClangCursor *cursor = nil;
+
+    @autoreleasepool {
+        NSError *error = nil;
+        NSData *source = [@"int t = 1;" dataUsingEncoding: NSUTF8StringEncoding];
+        PLClangSourceIndex *index = [[PLClangSourceIndex alloc] init];
+        PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: @"test.c" data: source];
+        PLClangTranslationUnit *tu = [index addTranslationUnitWithSourcePath: @"test.c" unsavedFiles: @[file] compilerArguments: nil options: 0 error: &error];
+        tuCursor = tu.cursor;
+        STAssertNotNil(tuCursor, @"Failed to create translation unit");
+    }
+
+    [tuCursor visitChildrenUsingBlock: ^PLClangCursorVisitResult(PLClangCursor *child) {
+        if ([child.spelling isEqualToString: @"t"]) {
+            cursor = child;
+            return PLClangCursorVisitBreak;
+        }
+        return PLClangCursorVisitContinue;
+    }];
+
+    STAssertNotNil(cursor, @"Could not find cursor for variable");
+    STAssertEqualObjects(cursor.spelling, @"t", nil);
+    STAssertEqualObjects(cursor.canonicalCursor, cursor, @"Should be able to access the canonical cursor");
+
+    PLClangType *type = cursor.type;
+    STAssertNotNil(type, nil);
+    STAssertEqualObjects(type.canonicalType, type, @"Should be able to access the canonical type");
+}
+
 @end

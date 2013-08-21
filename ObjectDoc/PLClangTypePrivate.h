@@ -10,7 +10,7 @@
 
 @interface PLClangType (PackagePrivate)
 
-- (instancetype) initWithCXType: (CXType) type;
+- (instancetype) initWithOwner: (id) owner cxType: (CXType) type;
 - (CXType) cxType;
 
 @end

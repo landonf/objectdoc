@@ -10,7 +10,7 @@
 
 @interface PLClangCursor (PackagePrivate)
 
-- (instancetype) initWithCXCursor: (CXCursor) cursor;
+- (instancetype) initWithOwner: (id) owner cxCursor: (CXCursor) cursor;
 - (CXCursor) cxCursor;
 
 @end

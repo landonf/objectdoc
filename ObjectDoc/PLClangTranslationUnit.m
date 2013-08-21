@@ -67,6 +67,15 @@
     return NO;
 }
 
+/*
+ * The cursor holds a strong reference to the translation unit so that the backing CXTranslationUnit
+ * remains valid for the lifetime of the cursor. To avoid a retain cycle the translation unit does
+ * not retain its cursor.
+ */
+- (PLClangCursor *) cursor {
+    return [[PLClangCursor alloc] initWithOwner: self cxCursor: clang_getTranslationUnitCursor(_tu)];
+}
+
 @end
 
 /**
@@ -85,7 +94,6 @@
 
     _owner = owner;
     _tu = tu;
-    _cursor = [[PLClangCursor alloc] initWithCXCursor: clang_getTranslationUnitCursor(_tu)];
 
     /* Extract all diagnostics */
     CXDiagnosticSet diagnosticSet = clang_getDiagnosticSetFromTU(tu);

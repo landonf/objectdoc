@@ -14,6 +14,12 @@
  * A cursor representing an element in the abstract syntax tree.
  */
 @implementation PLClangCursor {
+    /**
+     * A reference to the owning object (the translation unit), held so that the
+     * CXTranslationUnit remains valid for the lifetime of the cursor.
+     */
+    id _owner;
+
     /** The backing clang cursor. */
     CXCursor _cursor;
 
@@ -479,7 +485,7 @@
         case CXCursor_NoDeclFound:
         case CXCursor_NotImplemented:
         case CXCursor_InvalidCode:
-            // Unreachable, invalid cursors return nil from initWithCXCursor:
+            // Unreachable, invalid cursors return nil from initWithOwner:cxCursor:
             break;
     }
 
@@ -622,7 +628,7 @@
  * comparing their canonical cursors.
  */
 - (PLClangCursor *) canonicalCursor {
-    return _canonicalCursor ?: (_canonicalCursor = [[PLClangCursor alloc] initWithCXCursor: clang_getCanonicalCursor(_cursor)]);
+    return _canonicalCursor ?: (_canonicalCursor = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getCanonicalCursor(_cursor)]);
 }
 
 /**
@@ -658,7 +664,7 @@
  * For global declarations the semantic parent is the translation unit.
  */
 - (PLClangCursor *) semanticParent {
-    return _semanticParent ?: (_semanticParent = [[PLClangCursor alloc] initWithCXCursor: clang_getCursorSemanticParent(_cursor)]);
+    return _semanticParent ?: (_semanticParent = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getCursorSemanticParent(_cursor)]);
 }
 
 /**
@@ -670,7 +676,7 @@
  * @sa semanticParent
  */
 - (PLClangCursor *) lexicalParent {
-    return _lexicalParent ?: (_lexicalParent = [[PLClangCursor alloc] initWithCXCursor: clang_getCursorLexicalParent(_cursor)]);
+    return _lexicalParent ?: (_lexicalParent = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getCursorLexicalParent(_cursor)]);
 }
 
 /**
@@ -684,7 +690,7 @@
  * For other cursor types the value of this property is nil.
  */
 - (PLClangCursor *) referencedCursor {
-    return _referencedCursor ?: (_referencedCursor = [[PLClangCursor alloc] initWithCXCursor: clang_getCursorReferenced(_cursor)]);
+    return _referencedCursor ?: (_referencedCursor = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getCursorReferenced(_cursor)]);
 }
 
 /**
@@ -715,42 +721,42 @@
  * property is nil.
  */
 - (PLClangCursor *) definition {
-    return _definition ?: (_definition = [[PLClangCursor alloc] initWithCXCursor: clang_getCursorDefinition(_cursor)]);
+    return _definition ?: (_definition = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getCursorDefinition(_cursor)]);
 }
 
 /**
  * The cursor's type, or nil if it has no type.
  */
 - (PLClangType *) type {
-    return _type ?: (_type = [[PLClangType alloc] initWithCXType: clang_getCursorType(_cursor)]);
+    return _type ?: (_type = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getCursorType(_cursor)]);
 }
 
 /**
  * The underlying type of a typedef declaration, or nil if the cursor has no underlying type.
  */
 - (PLClangType *) underlyingType {
-    return _underlyingType ?: (_underlyingType = [[PLClangType alloc] initWithCXType: clang_getTypedefDeclUnderlyingType(_cursor)]);
+    return _underlyingType ?: (_underlyingType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getTypedefDeclUnderlyingType(_cursor)]);
 }
 
 /**
  * The cursor's result type, or nil if the cursor does not reference a function or method.
  */
 - (PLClangType *) resultType {
-    return _resultType ?: (_resultType = [[PLClangType alloc] initWithCXType: clang_getCursorResultType(_cursor)]);
+    return _resultType ?: (_resultType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getCursorResultType(_cursor)]);
 }
 
 /**
  * The cursor's receiver type, or nil if the cursor does not reference an Objective-C message.
  */
 - (PLClangType *) receiverType {
-    return _receiverType ?: (_receiverType = [[PLClangType alloc] initWithCXType: clang_Cursor_getReceiverType(_cursor)]);
+    return _receiverType ?: (_receiverType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_Cursor_getReceiverType(_cursor)]);
 }
 
 /**
  * The integer type of an enum declaration, or nil if the cursor does not reference an enum declaration.
  */
 - (PLClangType *) enumIntegerType {
-    return _enumDeclarationIntegerType ?: (_enumDeclarationIntegerType = [[PLClangType alloc] initWithCXType: clang_getEnumDeclIntegerType(_cursor)]);
+    return _enumDeclarationIntegerType ?: (_enumDeclarationIntegerType = [[PLClangType alloc] initWithOwner: _owner cxType: clang_getEnumDeclIntegerType(_cursor)]);
 }
 
 /**
@@ -865,7 +871,7 @@
  */
 - (void) visitChildrenUsingBlock: (PLClangCursorVisitorBlock) block {
     clang_visitChildrenWithBlock(_cursor, ^enum CXChildVisitResult(CXCursor cursor, CXCursor parent) {
-        PLClangCursor *child = [[PLClangCursor alloc] initWithCXCursor: cursor];
+        PLClangCursor *child = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: cursor];
 
         switch (block(child)) {
             case PLClangCursorVisitBreak:
@@ -921,12 +927,13 @@
  * functions may return the same CXCursor. For example, the canonical cursor for the canonical
  * cursor is itself.
  */
-- (instancetype) initWithCXCursor: (CXCursor) cursor {
+- (instancetype) initWithOwner: (id) owner cxCursor: (CXCursor) cursor {
     PLSuperInit();
 
     if (clang_Cursor_isNull(cursor) || clang_isInvalid(cursor.kind))
         return nil;
 
+    _owner = owner;
     _cursor = cursor;
 
     _USR = plclang_convert_and_dispose_cxstring(clang_getCursorUSR(_cursor));
@@ -938,7 +945,7 @@
         NSMutableArray *arguments = [NSMutableArray arrayWithCapacity: (unsigned int)argCount];
 
         for (unsigned int i = 0; i < (unsigned int)argCount; i++) {
-            [arguments addObject: [[PLClangCursor alloc] initWithCXCursor: clang_Cursor_getArgument(_cursor, i)]];
+            [arguments addObject: [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_Cursor_getArgument(_cursor, i)]];
         }
 
         _arguments = arguments;
@@ -949,7 +956,7 @@
         NSMutableArray *declarations = [NSMutableArray arrayWithCapacity: count];
 
         for (unsigned int i = 0; i < count; i++) {
-            [declarations addObject: [[PLClangCursor alloc] initWithCXCursor: clang_getOverloadedDecl(_cursor, i)]];
+            [declarations addObject: [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getOverloadedDecl(_cursor, i)]];
         }
 
         _overloadedDeclarations = declarations;
