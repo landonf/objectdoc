@@ -47,6 +47,7 @@
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
+    STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -81,6 +82,7 @@
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
+    STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -118,6 +120,7 @@
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
+    STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -156,6 +159,7 @@
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
+    STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNotNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -282,6 +286,21 @@
     STAssertNotNil(cursor, nil);
     STAssertEquals(cursor.enumConstantValue, -2LL, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, (unsigned long long)(unsigned int)-2, @"Unsigned value should have been a conversion to unsigned int");
+}
+
+- (void) testBitFieldWidth {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"struct t { int f1 : 1; int f2 : 2; int f3; };"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"f1"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.bitFieldWidth, 1, nil);
+
+    cursor = [tu cursorWithSpelling: @"f2"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.bitFieldWidth, 2, nil);
+
+    cursor = [tu cursorWithSpelling: @"f3"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.bitFieldWidth, -1, nil);
 }
 
 /**
