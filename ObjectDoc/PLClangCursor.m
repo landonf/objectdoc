@@ -786,7 +786,7 @@
  *
  * The value of this property is -1 if the cursor is not a bit field declaration.
  */
-- (int) fieldDeclarationBitWidth {
+- (int) bitFieldWidth {
     return clang_getFieldDeclBitWidth(_cursor);
 }
 

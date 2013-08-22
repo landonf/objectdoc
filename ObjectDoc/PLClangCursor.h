@@ -1101,7 +1101,7 @@ typedef PLClangCursorVisitResult (^PLClangCursorVisitorBlock)(PLClangCursor *cur
  */
 @property(nonatomic, readonly) NSArray *overloadedDeclarations;
 
-@property(nonatomic, readonly) int fieldDeclarationBitWidth;
+@property(nonatomic, readonly) int bitFieldWidth;
 
 @property(nonatomic, readonly) PLClangObjCPropertyAttributes objCPropertyAttributes;
 @property(nonatomic, readonly) int objCSelectorIndex;
