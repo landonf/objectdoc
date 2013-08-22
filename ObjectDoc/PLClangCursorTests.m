@@ -44,6 +44,8 @@
     STAssertNil(cursor.lexicalParent, nil);
     STAssertNil(cursor.referencedCursor, nil);
     STAssertNil(cursor.definition, nil);
+    STAssertNil(cursor.type, nil);
+    STAssertNil(cursor.resultType, nil);
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
@@ -79,6 +81,8 @@
     STAssertNotNil(cursor.lexicalParent, nil);
     STAssertNotNil(cursor.referencedCursor, nil);
     STAssertNil(cursor.definition, nil);
+    STAssertNotNil(cursor.type, nil);
+    STAssertNil(cursor.resultType, nil);
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
@@ -117,6 +121,8 @@
     STAssertNotNil(cursor.lexicalParent, nil);
     STAssertNotNil(cursor.referencedCursor, nil);
     STAssertNotNil(cursor.definition, nil);
+    STAssertNotNil(cursor.type, nil);
+    STAssertNil(cursor.resultType, nil);
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
@@ -156,6 +162,8 @@
     STAssertNotNil(cursor.lexicalParent, nil);
     STAssertNotNil(cursor.referencedCursor, nil);
     STAssertNil(cursor.definition, nil);
+    STAssertNotNil(cursor.type, nil);
+    STAssertNotNil(cursor.resultType, nil);
     STAssertNil(cursor.enumIntegerType, nil);
     STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
     STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
@@ -190,7 +198,7 @@
     STAssertNotNil(cursor, nil);
     STAssertEquals(cursor.language, PLClangLanguageC, nil);
 
-    tu = [self translationUnitWithSource: @"@interface T\n@end"];
+    tu = [self translationUnitWithSource: @"@interface T @end"];
     cursor = [tu cursorWithSpelling: @"T"];
     STAssertNotNil(cursor, nil);
     STAssertEquals(cursor.language, PLClangLanguageObjC, nil);
@@ -228,6 +236,23 @@
     cursor = [tu cursorWithSpelling: @"t"];
     STAssertNotNil(cursor, nil);
     STAssertEquals(cursor.linkage, PLClangLinkageUniqueExternal, nil);
+}
+
+- (void) testResultType {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"@interface T - (int)t; @end"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
+    STAssertNotNil(cursor, nil);
+    STAssertNil(cursor.type, @"The method should not have a type");
+    STAssertNotNil(cursor.resultType, @"The method should have a result type");
+    STAssertEquals(cursor.resultType.kind, PLClangTypeKindInt, @"The method's result type should have been int");
+
+    tu = [self translationUnitWithSource: @"int f();"];
+    cursor = [tu cursorWithSpelling: @"f"];
+    STAssertNotNil(cursor, nil);
+    STAssertNotNil(cursor.type, @"The function should have a type");
+    STAssertEquals(cursor.type.kind, PLClangTypeKindFunctionNoPrototype, nil);
+    STAssertNotNil(cursor.resultType, @"The function should have a result type");
+    STAssertEquals(cursor.resultType.kind, PLClangTypeKindInt, @"The function's result type should have been int");
 }
 
 - (void) testObjCPropertyAttributes {
