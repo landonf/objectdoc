@@ -44,6 +44,9 @@
     STAssertNil(cursor.lexicalParent, nil);
     STAssertNil(cursor.referencedCursor, nil);
     STAssertNil(cursor.definition, nil);
+    STAssertNil(cursor.enumIntegerType, nil);
+    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
+    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -75,6 +78,9 @@
     STAssertNotNil(cursor.lexicalParent, nil);
     STAssertNotNil(cursor.referencedCursor, nil);
     STAssertNil(cursor.definition, nil);
+    STAssertNil(cursor.enumIntegerType, nil);
+    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
+    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -109,6 +115,9 @@
     STAssertNotNil(cursor.lexicalParent, nil);
     STAssertNotNil(cursor.referencedCursor, nil);
     STAssertNotNil(cursor.definition, nil);
+    STAssertNil(cursor.enumIntegerType, nil);
+    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
+    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -144,6 +153,9 @@
     STAssertNotNil(cursor.lexicalParent, nil);
     STAssertNotNil(cursor.referencedCursor, nil);
     STAssertNil(cursor.definition, nil);
+    STAssertNil(cursor.enumIntegerType, nil);
+    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
+    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
     STAssertNotNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
 
@@ -243,6 +255,33 @@
     PLClangCursor *cursor = [tu cursorWithSpelling: @"prop"];
     STAssertNotNil(cursor, nil);
     STAssertEquals(cursor.objCPropertyAttributes, expected, @"Property attributes do not match \"%@\"", attributes);
+}
+
+- (void) testEnumIntegerType {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"enum t { TEST = 0 };"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
+    STAssertNotNil(cursor, nil);
+    STAssertNotNil(cursor.enumIntegerType, @"Should have had an integer type");
+    STAssertEquals(cursor.enumIntegerType.kind, PLClangTypeKindUnsignedInt, nil);
+
+    tu = [self translationUnitWithSource: @"enum t : long { TEST = 0 };"];
+    cursor = [tu cursorWithSpelling: @"t"];
+    STAssertNotNil(cursor, nil);
+    STAssertNotNil(cursor.enumIntegerType, @"Should have had an integer type");
+    STAssertEquals(cursor.enumIntegerType.kind, PLClangTypeKindLong, nil);
+}
+
+- (void) testEnumConstantValue {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"enum t : int { TEST = 1, TEST_NEG = -2 };"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"TEST"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.enumConstantValue, 1LL, nil);
+    STAssertEquals(cursor.enumConstantUnsignedValue, 1ULL, nil);
+
+    cursor = [tu cursorWithSpelling: @"TEST_NEG"];
+    STAssertNotNil(cursor, nil);
+    STAssertEquals(cursor.enumConstantValue, -2LL, nil);
+    STAssertEquals(cursor.enumConstantUnsignedValue, (unsigned long long)(unsigned int)-2, @"Unsigned value should have been a conversion to unsigned int");
 }
 
 /**
