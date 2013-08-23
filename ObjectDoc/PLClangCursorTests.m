@@ -52,6 +52,8 @@
     STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
+    STAssertNil(cursor.comment, nil);
+    STAssertNil(cursor.briefComment, nil);
 
     STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Translation unit cursor should have been its canonical cursor");
 }
@@ -89,6 +91,8 @@
     STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
+    STAssertNil(cursor.comment, nil);
+    STAssertNil(cursor.briefComment, nil);
 
     STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
     STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
@@ -129,6 +133,8 @@
     STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
+    STAssertNil(cursor.comment, nil);
+    STAssertNil(cursor.briefComment, nil);
 
     STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
     STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
@@ -170,6 +176,8 @@
     STAssertEquals(cursor.bitFieldWidth, -1, nil);
     STAssertNotNil(cursor.arguments, nil);
     STAssertNil(cursor.overloadedDeclarations, nil);
+    STAssertNil(cursor.comment, nil);
+    STAssertNil(cursor.briefComment, nil);
 
     STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
     STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");

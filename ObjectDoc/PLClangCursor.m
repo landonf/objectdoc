@@ -6,6 +6,7 @@
 #import "PLClangCursor.h"
 #import "PLClangCursorPrivate.h"
 #import "PLClangAvailabilityPrivate.h"
+#import "PLClangCommentPrivate.h"
 #import "PLClangTypePrivate.h"
 #import "PLAdditions.h"
 #import "PLClangNSString.h"
@@ -42,6 +43,12 @@
      * deprecated, and unavailable attributes.
      */
     PLClangAvailability *_availability;
+
+    /** The parsed comment associated with the cursor, if any. */
+    PLClangComment *_comment;
+
+    /** The brief comment text as interpreted by clang. */
+    NSString *_briefComment;
 }
 
 /**
@@ -859,6 +866,23 @@
  */
 - (PLClangAvailability *) availability {
     return _availability ?: (_availability = [[PLClangAvailability alloc] initWithCXCursor: _cursor]);
+}
+
+/**
+ * The parsed comment associated with this cursor, or nil if there is no associated comment.
+ */
+- (PLClangComment *) comment {
+    return _comment ?: (_comment = [[PLClangComment alloc] initWithOwner: _owner cxComment: clang_Cursor_getParsedComment(_cursor)]);
+}
+
+/**
+ * The brief comment for the cursor, or nil if no brief comment is available.
+ *
+ * For a cursor that represents a documentable entity this is the associated \@brief paragraph,
+ * or the first paragraph if no \@brief paragrah is defined.
+ */
+- (NSString *) briefComment {
+    return _briefComment ?: (_briefComment = plclang_convert_and_dispose_cxstring(clang_Cursor_getBriefCommentText(_cursor)));
 }
 
 /**
