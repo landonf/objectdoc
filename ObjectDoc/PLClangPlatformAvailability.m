@@ -47,7 +47,7 @@
 /**
  * Initialize a newly-created platform availability instance with the specified clang platform availability information.
  *
- * @param cursor The clang cursor that will provide availability information.
+ * @param availability The clang availability structure that will provide platform availability information.
  * @return An initialized availability instance.
  */
 - (instancetype) initWithCXPlatformAvailability: (CXPlatformAvailability) availability {

@@ -79,8 +79,8 @@
         _childDiagnostics = childDiagnostics;
 
         for (unsigned int i = 0; i < childCount; i++) {
-            CXDiagnostic diagnostic = clang_getDiagnosticInSet(childSet, i);
-            [childDiagnostics addObject: [[PLClangDiagnostic alloc] initWithCXDiagnostic: diagnostic]];
+            CXDiagnostic childDiagnostic = clang_getDiagnosticInSet(childSet, i);
+            [childDiagnostics addObject: [[PLClangDiagnostic alloc] initWithCXDiagnostic: childDiagnostic]];
         }
         clang_disposeDiagnosticSet(childSet);
     }

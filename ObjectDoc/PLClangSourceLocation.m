@@ -45,7 +45,7 @@
     if (!file)
         return nil;
 
-    CXSourceLocation sourceLocation = clang_getLocationForOffset([translationUnit cxTranslationUnit], file, offset);
+    CXSourceLocation sourceLocation = clang_getLocationForOffset([translationUnit cxTranslationUnit], file, (unsigned int)offset);
     PLClangSourceLocation *location = [self initWithOwner: translationUnit cxSourceLocation: sourceLocation];
     if (location != nil && location.fileOffset != offset)
         return nil;
@@ -77,7 +77,7 @@
     if (!file)
         return nil;
 
-    CXSourceLocation sourceLocation = clang_getLocation([translationUnit cxTranslationUnit], file, lineNumber, columnNumber);
+    CXSourceLocation sourceLocation = clang_getLocation([translationUnit cxTranslationUnit], file, (unsigned int)lineNumber, (unsigned int)columnNumber);
     PLClangSourceLocation *location = [self initWithOwner: translationUnit cxSourceLocation: sourceLocation];
     if (location != nil && (location.lineNumber != lineNumber || location.columnNumber != columnNumber))
         return nil;

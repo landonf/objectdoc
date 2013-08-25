@@ -15,8 +15,6 @@
 /**
  * Initialize a newly-created source range with the specified start and end locations.
  *
- * @param owner A reference to the owner of the clang source range. This reference will be retained
- * to ensure that the clang source range survives for the lifetime of this source range instance.
  * @param startLocation The source location to mark the start of the range.
  * @param endLocation The source location to mark the end of the range.
  * @return An initialized source range or nil if the start or end locations were invalid.
