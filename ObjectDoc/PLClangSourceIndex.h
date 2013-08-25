@@ -87,6 +87,9 @@ typedef NS_OPTIONS(NSUInteger, PLClangTranslationUnitCreationOptions) {
 
 @interface PLClangSourceIndex : NSObject
 
+- (PLClangTranslationUnit *) addTranslationUnitWithASTPath: (NSString *) path
+                                                   error: (NSError **) error;
+
 - (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path
                                             unsavedFiles: (NSArray *) files
                                        compilerArguments: (NSArray *) arguments

@@ -20,10 +20,17 @@
  * options suitable for typical unit testing.
  */
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source path: (NSString *) path {
+    return [self translationUnitWithSource: source path: path options: 0];
+}
+
+/**
+ * Convenience method to create a translation from the given source and path and options
+ */
+- (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source path: (NSString *) path options: (PLClangTranslationUnitCreationOptions) options {
     NSError *error = nil;
     NSData *data = [source dataUsingEncoding: NSUTF8StringEncoding];
     PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: path data: data];
-    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path unsavedFiles: @[file] compilerArguments: @[] options:0 error:&error];
+    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path unsavedFiles: @[file] compilerArguments: @[] options: options error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
     STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);

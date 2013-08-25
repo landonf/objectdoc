@@ -29,9 +29,38 @@
 }
 
 /**
+ * Add a new translation unit from an existing AST file.
+ *
+ * An AST file can be created with the compiler's -emit-ast option or by using a translation unit's
+ * writeToFile:error: method.
+ *
+ * @param param The path to the AST file.
+ * @param error If an error occurs, upon return contains an NSError object that describes the problem.
+ * If you are not interested in possible errors, pass in nil.
+ */
+- (PLClangTranslationUnit *) addTranslationUnitWithASTPath: (NSString *) path error: (NSError **) error {
+    if (error)
+        *error = nil;
+
+    CXTranslationUnit tu = clang_createTranslationUnit(_cIndex, [path fileSystemRepresentation]);
+    if (tu == NULL) {
+        // libclang does not currently report why creation of a translation unit failed or provide
+        // access to the associated diagnostics, so for now we can only return a generic failure.
+        if (error) {
+            *error = [NSError errorWithDomain: PLClangErrorDomain code: PLClangErrorCompiler userInfo: @{
+                NSLocalizedDescriptionKey: NSLocalizedString(@"An unrecoverable compiler error occurred.", nil)
+            }];
+        }
+        return nil;
+    }
+
+    return [[PLClangTranslationUnit alloc] initWithOwner: self cxTranslationUnit: tu];
+}
+
+/**
  * Add a new translation unit to the receiver.
  *
- * @param The on-disk path to the source file. May be nil if the path to the file is provided via compiler arguments.
+ * @param path The on-disk path to the source file. May be nil if the path to the file is provided via compiler arguments.
  * @param files An array of PLClangUnsavedFile objects representing unsaved data for files within the translation unit.
  * This can include the main source file as well as any dependent headers. May be nil.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
@@ -122,7 +151,7 @@
 /**
  * Add a new translation unit to the receiver.
  *
- * @param The on-disk path to the source file.
+ * @param path The on-disk path to the source file.
  * @param data The source file's data.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
  * @param options The options to use when creating the translation unit.
@@ -154,7 +183,7 @@
 /**
  * Add a new translation unit to the receiver.
  *
- * @param The on-disk path to the source file.
+ * @param path The on-disk path to the source file.
  * @param arguments Any additional clang compiler arguments to be used when parsing the translation unit.
  * @param options The options to use when creating the translation unit.
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.

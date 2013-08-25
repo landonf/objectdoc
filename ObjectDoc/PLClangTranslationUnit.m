@@ -39,6 +39,7 @@
 #import "PLClangTokenPrivate.h"
 #import "PLClangTokenSet.h"
 #import "PLClangNSString.h"
+#import "PLClang.h"
 
 @implementation PLClangTranslationUnit {
 @private
@@ -130,6 +131,53 @@
 
     free(cxCursors);
     return tokens;
+}
+
+/**
+ * Writes the translation unit to the specified location as an AST file.
+ *
+ * Typically this is used to create a precompiled header. The translation unit should be created with
+ * the PLClangTranslationUnitCreationForSerialization option.
+ *
+ * @param path The path where the translation unit should be written.
+ * @param error If an error occurs, upon return contains an NSError object that describes the problem.
+ * If you are not interested in possible errors, pass in nil.
+ * @return YES if the translation unit was successfully saved, or NO if an error occurred.
+ */
+- (BOOL) writeToFile: (NSString *) path error: (NSError **) error {
+    if (error)
+        *error = nil;
+
+    enum CXSaveError result = (enum CXSaveError)clang_saveTranslationUnit(_tu, [path fileSystemRepresentation], clang_defaultSaveOptions(_tu));
+
+    PLClangErrorCode errorCode = PLClangErrorUnknown;
+    NSString *description = NSLocalizedString(@"An unknown error occurred while saving the translation unit.", nil);
+
+    switch (result) {
+        case CXSaveError_None:
+            return YES;
+        case CXSaveError_Unknown:
+            errorCode = PLClangErrorSaveFailed;
+            description = NSLocalizedString(@"The translation unit could not be written to disk.", nil);
+            break;
+        case CXSaveError_TranslationErrors:
+            // As of libclang 0.20 it defines but does not actually use this error condition
+            errorCode = PLClangErrorCompiler;
+            description = NSLocalizedString(@"Translation errors prevented the operation from completing.", nil);
+            break;
+        case CXSaveError_InvalidTU:
+            errorCode = PLClangErrorInvalidTranslationUnit;
+            description = NSLocalizedString(@"The translation unit is invalid.", nil);
+            break;
+    }
+
+    if (error) {
+        *error = [NSError errorWithDomain: PLClangErrorDomain code: errorCode userInfo: @{
+            NSLocalizedDescriptionKey: description
+        }];
+    }
+
+    return NO;
 }
 
 - (NSString *) description {

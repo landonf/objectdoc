@@ -8,7 +8,24 @@
 
 @interface PLClangTranslationUnitTests : PLClangTestCase @end
 
-@implementation PLClangTranslationUnitTests
+@implementation PLClangTranslationUnitTests {
+    NSString *_tempDirectory;
+}
+
+- (void) setUp {
+    [super setUp];
+    NSString *bundleId = [[NSBundle bundleForClass: [self class]] bundleIdentifier];
+    _tempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent: bundleId];
+    [[NSFileManager defaultManager] removeItemAtPath: _tempDirectory error: nil];
+    BOOL result = [[NSFileManager defaultManager] createDirectoryAtPath: _tempDirectory withIntermediateDirectories: YES attributes: nil error: nil];
+    STAssertTrue(result, @"Failed to create temporary directory");
+}
+
+- (void) tearDown {
+    BOOL result = [[NSFileManager defaultManager] removeItemAtPath: _tempDirectory error: nil];
+    STAssertTrue(result, @"Failed to remove temporary directory");
+    [super tearDown];
+}
 
 /**
  * Test basic parsing
@@ -82,6 +99,45 @@
     PLClangCursor *cursor = [tu cursorForSourceLocation: location];
     STAssertNotNil(cursor, @"Could not map cursor");
     STAssertEquals(cursor.kind, PLClangCursorKindVariableDeclaration, @"Cursor should be a variable declaration");
+}
+
+/**
+ * Tests that a translation unit can be saved to an AST file and a new translation unit created from it.
+ */
+- (void) testASTFileSaveAndLoad {
+    NSError *error = nil;
+    NSString *path = [_tempDirectory stringByAppendingPathComponent: @"test.pch"];
+
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f();"
+                                                            path: @"test.h"
+                                                         options: PLClangTranslationUnitCreationIncomplete |
+                                                                  PLClangTranslationUnitCreationForSerialization];
+    BOOL result = [tu writeToFile: path error: &error];
+    STAssertTrue(result, @"Failed to save translation unit");
+    STAssertNil(error, @"Received error for translation unit save");
+
+    PLClangSourceIndex *index = [PLClangSourceIndex new];
+    tu = [index addTranslationUnitWithASTPath: path error: &error];
+    STAssertNotNil(tu, @"Failed to parse", nil);
+    STAssertNil(error, @"Received error for successful parse");
+    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
+    STAssertNotNil(cursor, @"Failed to locate cursor in translation unit loaded from AST file");
+}
+
+- (void) testASTFileWriteToInvalidPath {
+    NSError *error = nil;
+    NSString *path = [_tempDirectory stringByAppendingPathComponent: @"notfound/test.pch"];
+
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f();"
+                                                            path: @"test.h"
+                                                         options: PLClangTranslationUnitCreationIncomplete |
+                                                                  PLClangTranslationUnitCreationForSerialization];
+    BOOL result = [tu writeToFile: path error: &error];
+    STAssertFalse(result, @"Translation unit save should have failed");
+    STAssertNotNil(error, @"Should have received error for translation unit save");
+    STAssertEqualObjects(error.domain, PLClangErrorDomain, nil);
+    STAssertEquals(error.code, PLClangErrorSaveFailed, nil);
 }
 
 @end

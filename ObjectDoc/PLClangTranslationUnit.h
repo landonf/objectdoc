@@ -47,5 +47,6 @@
 
 - (PLClangCursor *) cursorForSourceLocation: (PLClangSourceLocation *) sourceLocation;
 - (NSArray *) tokensForSourceRange: (PLClangSourceRange *) range;
+- (BOOL) writeToFile: (NSString *) path error: (NSError **) error;
 
 @end

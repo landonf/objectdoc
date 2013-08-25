@@ -1,5 +1,5 @@
 #import <SenTestingKit/SenTestingKit.h>
-#import "PLClangSourceIndex.h"
+#import "PLClang.h"
 
 @interface PLClangTestCase : SenTestCase {
     PLClangSourceIndex *_index;
@@ -9,6 +9,10 @@
 
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source
                                                   path: (NSString *) path;
+
+- (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source
+                                                  path: (NSString *) path
+                                               options: (PLClangTranslationUnitCreationOptions) options;
 
 @end
 

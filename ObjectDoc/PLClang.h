@@ -21,7 +21,17 @@ typedef NS_ENUM(NSInteger, PLClangErrorCode) {
     /**
      * An unrecoverable compiler error occurred.
      */
-    PLClangErrorCompiler = 1
+    PLClangErrorCompiler = 1,
+
+    /**
+     * Indicates that an error occurred while writing a translation unit to disk.
+     */
+    PLClangErrorSaveFailed = 2,
+
+    /**
+     * Indicates that the specified translation unit was invalid.
+     */
+    PLClangErrorInvalidTranslationUnit = 3
 };
 
 #import "PLClangSourceIndex.h"
