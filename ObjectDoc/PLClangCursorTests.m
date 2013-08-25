@@ -34,6 +34,7 @@
     STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertFalse(cursor.isDeclaration, nil);
+    STAssertFalse(cursor.isDefinition, nil);
     STAssertFalse(cursor.isExpression, nil);
     STAssertFalse(cursor.isPreprocessing, nil);
     STAssertFalse(cursor.isReference, nil);
@@ -75,6 +76,7 @@
     STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertTrue(cursor.isDeclaration, nil);
+    STAssertFalse(cursor.isDefinition, nil);
     STAssertFalse(cursor.isExpression, nil);
     STAssertFalse(cursor.isPreprocessing, nil);
     STAssertFalse(cursor.isReference, nil);
@@ -119,6 +121,7 @@
     STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertTrue(cursor.isDeclaration, nil);
+    STAssertTrue(cursor.isDefinition, nil);
     STAssertFalse(cursor.isExpression, nil);
     STAssertFalse(cursor.isPreprocessing, nil);
     STAssertFalse(cursor.isReference, nil);
@@ -164,6 +167,7 @@
     STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertTrue(cursor.isDeclaration, nil);
+    STAssertFalse(cursor.isDefinition, nil);
     STAssertFalse(cursor.isExpression, nil);
     STAssertFalse(cursor.isPreprocessing, nil);
     STAssertFalse(cursor.isReference, nil);

@@ -597,6 +597,14 @@
 }
 
 /**
+ * A Boolean value indicating whether the the declaration pointed to by this cursor
+ * is also a definition of that entity.
+ */
+- (BOOL) isDefinition {
+    return clang_isCursorDefinition(_cursor);
+}
+
+/**
  * A Boolean value indicating whether the cursor represents an expression.
  */
 - (BOOL) isExpression {

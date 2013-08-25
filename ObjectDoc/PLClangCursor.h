@@ -1072,6 +1072,7 @@ typedef PLClangCursorVisitResult (^PLClangCursorVisitorBlock)(PLClangCursor *cur
 
 @property(nonatomic, readonly) BOOL isAttribute;
 @property(nonatomic, readonly) BOOL isDeclaration;
+@property(nonatomic, readonly) BOOL isDefinition;
 @property(nonatomic, readonly) BOOL isExpression;
 @property(nonatomic, readonly) BOOL isPreprocessing;
 @property(nonatomic, readonly) BOOL isReference;
