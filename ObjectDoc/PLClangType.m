@@ -316,6 +316,8 @@
 /**
  * Initialize a newly-created type with the specified clang type.
  *
+ * @param owner A reference to the owner of the clang type. This reference will be retained
+ * to ensure that the clang type survives for the lifetime of this instance.
  * @param type The clang type that will back this object.
  * @return An initialized type or nil if the specified clang type was invalid.
  */

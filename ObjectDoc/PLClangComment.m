@@ -154,6 +154,8 @@ typedef CXString (*PLClangCommentGetArgTextFunction)(CXComment, unsigned);
 /**
  * Initialize a newly-created comment with the specified clang comment.
  *
+ * @param owner A reference to the owner of the clang comment. This reference will be retained
+ * to ensure that the clang comment survives for the lifetime of this instance.
  * @param comment The clang comment that will back this object.
  * @return An initialized comment or nil if the specified clang comment was null.
  */

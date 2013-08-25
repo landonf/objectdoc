@@ -86,8 +86,12 @@
 /**
  * Initialize a newly-created type with the specified clang type.
  *
- * @param type The clang type that will back this object.
- * @return An initialized type or nil if the specified clang type was invalid.
+ * @param owner A reference to the owner of the clang token. This reference will be retained
+ * to ensure that the clang token survives for the lifetime of this instance.
+ * @param translationUnit The translation in which this token resides.
+ * @param cursor The cursor associated with this token, or nil if there is not associated cursor.
+ * @param token The clang token that will back this object.
+ * @return An initialized token.
  */
 - (instancetype) initWithOwner: (id) owner translationUnit: (PLClangTranslationUnit *) translationUnit cursor: (PLClangCursor *) cursor cxToken: (CXToken) token {
     PLSuperInit();

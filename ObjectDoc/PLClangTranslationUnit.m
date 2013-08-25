@@ -125,6 +125,8 @@
 /**
  * Initialize with the given translation unit.
  *
+ * @param owner A reference to the owner of the clang translation unit. This reference will be
+ * retained to ensure that the clang translation unit survives for the lifetime of this instance.
  * @param tu Backing clang translation unit. The receiver will assume ownership over the value.
  */
 - (instancetype) initWithOwner: (id) owner cxTranslationUnit: (CXTranslationUnit) tu {

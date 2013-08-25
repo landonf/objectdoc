@@ -986,6 +986,8 @@
 /**
  * Initialize a newly-created cursor with the specified clang cursor.
  *
+ * @param owner A reference to the owner of the clang cursor. This reference will be retained
+ * to ensure that the clang cursor survives for the lifetime of this instance.
  * @param cursor The clang cursor that will back this cursor.
  * @return An initialized cursor or nil if the specified clang cursor was null or invalid.
  *
