@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import "PLClangAvailability.h"
 #import "PLClangComment.h"
-#import "PLClangSourceLocation.h"
+#import "PLClangSourceRange.h"
 #import "PLClangType.h"
 @class PLClangCursor;
 
@@ -1066,6 +1066,9 @@ typedef PLClangCursorVisitResult (^PLClangCursorVisitorBlock)(PLClangCursor *cur
  * class template specialization.
  */
 @property(nonatomic, readonly) NSString *displayName;
+
+@property(nonatomic, readonly) PLClangSourceLocation *location;
+@property(nonatomic, readonly) PLClangSourceRange *extent;
 
 @property(nonatomic, readonly) BOOL isAttribute;
 @property(nonatomic, readonly) BOOL isDeclaration;

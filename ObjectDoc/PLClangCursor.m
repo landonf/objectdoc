@@ -7,6 +7,8 @@
 #import "PLClangCursorPrivate.h"
 #import "PLClangAvailabilityPrivate.h"
 #import "PLClangCommentPrivate.h"
+#import "PLClangSourceLocationPrivate.h"
+#import "PLClangSourceRangePrivate.h"
 #import "PLClangTypePrivate.h"
 #import "PLAdditions.h"
 #import "PLClangNSString.h"
@@ -23,6 +25,12 @@
 
     /** The backing clang cursor. */
     CXCursor _cursor;
+
+    /** The source location for this cursor. */
+    PLClangSourceLocation *_location;
+
+    /** The source range for the extent of this cursor. */
+    PLClangSourceRange *_extent;
 
     /* Related cursors */
     PLClangCursor *_canonicalCursor;
@@ -545,6 +553,33 @@
 
     // Cursor has unknown linkage
     abort();
+}
+
+/**
+ * The physical location of the source constructor referenced by this cursor.
+ *
+ * The location of a declaration is typically the location of the name of that
+ * declaration, where the name of that declaration would occur if it is
+ * unnamed, or some keyword that introduces that particular declaration.
+ * The location of a reference is where that reference occurs within the
+ * source code.
+ */
+- (PLClangSourceLocation *) location {
+    return _location ?: (_location = [[PLClangSourceLocation alloc] initWithOwner: _owner cxSourceLocation: clang_getCursorLocation(_cursor)]);
+}
+
+/**
+ * The physical extent of the source construct referenced by this cursor.
+ *
+ * The extent of a cursor starts with the file/line/column pointing at the
+ * first character within the source construct that the cursor refers to and
+ * ends with the last character withinin that source construct. For a
+ * declaration, the extent covers the declaration itself. For a reference,
+ * the extent covers the location of the reference (e.g., where the referenced
+ * entity was actually used).
+ */
+- (PLClangSourceRange *) extent {
+    return _extent ?: (_extent = [[PLClangSourceRange alloc] initWithOwner: _owner cxSourceRange: clang_getCursorExtent(_cursor)]);
 }
 
 /**

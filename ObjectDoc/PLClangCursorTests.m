@@ -30,6 +30,8 @@
     STAssertEqualObjects(cursor.USR, @"", nil);
     STAssertEqualObjects(cursor.spelling, @"test.m", nil);
     STAssertEqualObjects(cursor.displayName, @"test.m", nil);
+    STAssertNil(cursor.location, nil);
+    STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertFalse(cursor.isDeclaration, nil);
     STAssertFalse(cursor.isExpression, nil);
@@ -69,6 +71,8 @@
     STAssertEqualObjects(cursor.USR, @"c:@t", nil);
     STAssertEqualObjects(cursor.spelling, @"t", nil);
     STAssertEqualObjects(cursor.displayName, @"t", nil);
+    STAssertNotNil(cursor.location, nil);
+    STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertTrue(cursor.isDeclaration, nil);
     STAssertFalse(cursor.isExpression, nil);
@@ -111,6 +115,8 @@
     STAssertEqualObjects(cursor.USR, @"c:@t", nil);
     STAssertEqualObjects(cursor.spelling, @"t", nil);
     STAssertEqualObjects(cursor.displayName, @"t", nil);
+    STAssertNotNil(cursor.location, nil);
+    STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertTrue(cursor.isDeclaration, nil);
     STAssertFalse(cursor.isExpression, nil);
@@ -154,6 +160,8 @@
     STAssertEqualObjects(cursor.USR, @"c:@F@f", nil);
     STAssertEqualObjects(cursor.spelling, @"f", nil);
     STAssertEqualObjects(cursor.displayName, @"f(int)", nil);
+    STAssertNotNil(cursor.location, nil);
+    STAssertNotNil(cursor.extent, nil);
     STAssertFalse(cursor.isAttribute, nil);
     STAssertTrue(cursor.isDeclaration, nil);
     STAssertFalse(cursor.isExpression, nil);
