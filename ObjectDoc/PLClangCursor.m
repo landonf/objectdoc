@@ -957,7 +957,7 @@
 }
 
 - (BOOL)isEqual: (id) object {
-    if (![object isKindOfClass:[PLClangCursor class]])
+    if (![object isKindOfClass: [PLClangCursor class]])
         return NO;
 
     return clang_equalCursors(_cursor, [object cxCursor]);

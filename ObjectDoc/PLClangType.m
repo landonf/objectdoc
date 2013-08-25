@@ -281,7 +281,7 @@
 }
 
 - (BOOL) isEqual: (id) object {
-    if (![object isKindOfClass:[PLClangType class]])
+    if (![object isKindOfClass: [PLClangType class]])
         return NO;
 
     return clang_equalTypes(_type, [object cxType]);

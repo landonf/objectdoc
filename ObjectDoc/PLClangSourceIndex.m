@@ -61,7 +61,7 @@
 
         for (unsigned int i = 0; i < unsavedFileCount; i++) {
             PLClangUnsavedFile *file = files[i];
-            if (![file isKindOfClass:[PLClangUnsavedFile class]])
+            if (![file isKindOfClass: [PLClangUnsavedFile class]])
                 continue;
 
             unsavedFiles[i].Contents = [file.data bytes];
