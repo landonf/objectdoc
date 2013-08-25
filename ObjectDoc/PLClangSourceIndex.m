@@ -21,11 +21,32 @@
 }
 
 - (id) init {
+    return [self initWithOptions: 0];
+}
+
+/**
+ * Initialize a newly-created index with the specified options.
+ *
+ * @param options A set of PLClangIndexCreationOptions defining options for the index.
+ * @return An initialized index.
+ */
+- (instancetype) initWithOptions: (PLClangIndexCreationOptions) options {
     PLSuperInit();
 
-    _cIndex = clang_createIndex(0, 0);
+    _cIndex = clang_createIndex(!!(options & PLClangIndexCreationExcludePCHDeclarations),
+                                !!(options & PLClangIndexCreationDisplayDiagnostics));
 
     return self;
+}
+
+/**
+ * Create and return an index with the specified options.
+ *
+ * @param options A set of PLClangIndexCreationOptions defining options for the index.
+ * @return An initialized index.
+ */
++ (instancetype) indexWithOptions: (PLClangIndexCreationOptions) options {
+    return [[self alloc] initWithOptions: options];
 }
 
 /**

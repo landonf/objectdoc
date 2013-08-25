@@ -9,6 +9,25 @@
 #import "PLClangUnsavedFile.h"
 
 /**
+ * Options used when creating an index.
+ */
+typedef NS_OPTIONS(NSUInteger, PLClangIndexCreationOptions) {
+    /**
+     * Specifies that the index should only allow enumeration of "local"
+     * declarations when loading new translation units. A "local" declaration
+     * is one that belongs in the translation unit itself and not in a precompiled
+     * header.
+     */
+    PLClangIndexCreationExcludePCHDeclarations = 1UL << 0,
+
+    /**
+     * Specifies that diagnostics should be output to the console when parsing
+     * translation units.
+     */
+    PLClangIndexCreationDisplayDiagnostics     = 1UL << 1
+};
+
+/**
  * Options used when creating a translation unit.
  */
 typedef NS_OPTIONS(NSUInteger, PLClangTranslationUnitCreationOptions) {
@@ -86,6 +105,8 @@ typedef NS_OPTIONS(NSUInteger, PLClangTranslationUnitCreationOptions) {
 };
 
 @interface PLClangSourceIndex : NSObject
+
++ (instancetype) indexWithOptions: (PLClangIndexCreationOptions) options;
 
 - (PLClangTranslationUnit *) addTranslationUnitWithASTPath: (NSString *) path
                                                    error: (NSError **) error;
