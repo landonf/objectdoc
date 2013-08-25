@@ -70,4 +70,18 @@
     STAssertNotNil([tu cursorWithSpelling: @"MACRO"], @"Should have found macro definition with detailed preprocessing record");
 }
 
+/**
+ * Test that a cursor can be obtained from a source location.
+ */
+- (void) testCursorForLocation {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int t;" path: @"test.c"];
+    PLClangSourceLocation *location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
+                                                                                        file: @"test.c"
+                                                                                      offset: 4];
+    STAssertNotNil(location, @"Could not create source location");
+    PLClangCursor *cursor = [tu cursorForSourceLocation: location];
+    STAssertNotNil(cursor, @"Could not map cursor");
+    STAssertEquals(cursor.kind, PLClangCursorKindVariableDeclaration, @"Cursor should be a variable declaration");
+}
+
 @end

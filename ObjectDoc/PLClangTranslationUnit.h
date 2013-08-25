@@ -45,6 +45,7 @@
 /** The cursor representing this translation unit. */
 @property(nonatomic, readonly) PLClangCursor *cursor;
 
+- (PLClangCursor *) cursorForSourceLocation: (PLClangSourceLocation *) sourceLocation;
 - (NSArray *) tokensForSourceRange: (PLClangSourceRange *) range;
 
 @end

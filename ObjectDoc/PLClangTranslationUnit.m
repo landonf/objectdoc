@@ -34,6 +34,7 @@
 #import "PLClangCursorPrivate.h"
 #import "PLClangDiagnostic.h"
 #import "PLClangDiagnosticPrivate.h"
+#import "PLClangSourceLocationPrivate.h"
 #import "PLClangSourceRangePrivate.h"
 #import "PLClangTokenPrivate.h"
 #import "PLClangTokenSet.h"
@@ -78,6 +79,22 @@
  */
 - (PLClangCursor *) cursor {
     return [[PLClangCursor alloc] initWithOwner: self cxCursor: clang_getTranslationUnitCursor(_tu)];
+}
+
+/**
+ * Maps a source location within the translation unit to to the most specific
+ * cursor that describes the entity at that location.
+ *
+ * For example, given an expression "x + y", invoking this method
+ * with a source location pointing to "x" will return the cursor for "x".
+ * If the cursor points anywhere between "x" or "y" (e.g., on the + or the whitespace
+ * around it), this method will return a cursor referring to the "+" expression.
+ *
+ * @return A cursor representing the entity at the given source location, or
+ * nil if no such entity can be mapped.
+ */
+- (PLClangCursor *) cursorForSourceLocation: (PLClangSourceLocation *) sourceLocation {
+    return [[PLClangCursor alloc] initWithOwner: self cxCursor: clang_getCursor(_tu, [sourceLocation cxSourceLocation])];
 }
 
 /**
