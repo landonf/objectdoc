@@ -37,6 +37,7 @@
 #import "PLClangSourceRangePrivate.h"
 #import "PLClangTokenPrivate.h"
 #import "PLClangTokenSet.h"
+#import "PLClangNSString.h"
 
 @implementation PLClangTranslationUnit {
 @private
@@ -114,6 +115,14 @@
     return tokens;
 }
 
+- (NSString *) description {
+    return self.spelling;
+}
+
+- (NSString *) debugDescription {
+    return [NSString stringWithFormat: @"<%@: %p> %@", [self class], self, [self description]];
+}
+
 @end
 
 /**
@@ -134,6 +143,7 @@
 
     _owner = owner;
     _tu = tu;
+    _spelling = plclang_convert_and_dispose_cxstring(clang_getTranslationUnitSpelling(_tu));
 
     /* Extract all diagnostics */
     CXDiagnosticSet diagnosticSet = clang_getDiagnosticSetFromTU(tu);

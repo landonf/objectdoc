@@ -19,6 +19,7 @@
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
+    STAssertEqualObjects(tu.spelling, @"test.c", nil);
     STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
     STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
 
@@ -35,6 +36,7 @@
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
+    STAssertEqualObjects(tu.spelling, @"test.c", nil);
     STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
     STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
 
@@ -54,6 +56,7 @@
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
+    STAssertEqualObjects(tu.spelling, @"test.c", nil);
     STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
     STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
     STAssertNil([tu cursorWithSpelling: @"MACRO"], @"Should not have found macro definition without detailed preprocessing record");
@@ -61,6 +64,7 @@
     tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: PLClangTranslationUnitCreationDetailedPreprocessingRecord error: &error];
     STAssertNotNil(tu, @"Failed to parse", nil);
     STAssertNil(error, @"Received error for successful parse");
+    STAssertEqualObjects(tu.spelling, @"test.c", nil);
     STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
     STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
     STAssertNotNil([tu cursorWithSpelling: @"MACRO"], @"Should have found macro definition with detailed preprocessing record");
