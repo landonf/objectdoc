@@ -68,15 +68,17 @@
  * @return An initialized source range or nil if a null clang source range was provided.
  */
 - (instancetype) initWithOwner: (id) owner cxSourceRange: (CXSourceRange) sourceRange {
-    PLSuperInit();
-
     if (clang_Range_isNull(sourceRange))
         return nil;
 
-    _startLocation = [[PLClangSourceLocation alloc] initWithOwner: owner cxSourceLocation: clang_getRangeStart(sourceRange)];
-    _endLocation = [[PLClangSourceLocation alloc] initWithOwner: owner cxSourceLocation: clang_getRangeEnd(sourceRange)];
+    PLClangSourceLocation* startLocation = [[PLClangSourceLocation alloc] initWithOwner: owner cxSourceLocation: clang_getRangeStart(sourceRange)];
+    PLClangSourceLocation* endLocation = [[PLClangSourceLocation alloc] initWithOwner: owner cxSourceLocation: clang_getRangeEnd(sourceRange)];
 
-    return self;
+    return [self initWithStartLocation: startLocation endLocation: endLocation];
+}
+
+- (CXSourceRange) cxSourceRange {
+    return clang_getRange([self.startLocation cxSourceLocation], [self.endLocation cxSourceLocation]);
 }
 
 @end

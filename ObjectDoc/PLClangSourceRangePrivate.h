@@ -11,5 +11,6 @@
 @interface PLClangSourceRange (PackagePrivate)
 
 - (instancetype) initWithOwner: (id) owner cxSourceRange: (CXSourceRange) sourceRange;
+- (CXSourceRange) cxSourceRange;
 
 @end
