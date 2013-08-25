@@ -29,6 +29,7 @@
 #import <Foundation/Foundation.h>
 #import "PLClangCursor.h"
 #import "PLClangDiagnostic.h"
+#import "PLClangToken.h"
 
 @interface PLClangTranslationUnit : NSObject
 
@@ -40,5 +41,7 @@
 
 /** The cursor representing this translation unit. */
 @property(nonatomic, readonly) PLClangCursor *cursor;
+
+- (NSArray *) tokensForSourceRange: (PLClangSourceRange *) range;
 
 @end

@@ -34,6 +34,9 @@
 #import "PLClangCursorPrivate.h"
 #import "PLClangDiagnostic.h"
 #import "PLClangDiagnosticPrivate.h"
+#import "PLClangSourceRangePrivate.h"
+#import "PLClangTokenPrivate.h"
+#import "PLClangTokenSet.h"
 
 @implementation PLClangTranslationUnit {
 @private
@@ -74,6 +77,41 @@
  */
 - (PLClangCursor *) cursor {
     return [[PLClangCursor alloc] initWithOwner: self cxCursor: clang_getTranslationUnitCursor(_tu)];
+}
+
+/**
+ * Tokenize the source code described by the given range into raw lexical tokens.
+ *
+ * @param range The source range in which text should be tokenized.
+ *
+ * @return An array of PLClangToken objects that occur within the given source range.
+ */
+- (NSArray *) tokensForSourceRange: (PLClangSourceRange *) range {
+    CXToken *cxTokens = NULL;
+    unsigned int tokenCount = 0;
+    clang_tokenize(_tu, [range cxSourceRange], &cxTokens, &tokenCount);
+
+    NSMutableArray *tokens = [NSMutableArray arrayWithCapacity: tokenCount];
+    if (tokenCount < 1)
+        return tokens;
+
+    CXCursor* cxCursors = (CXCursor *)calloc(tokenCount, sizeof(CXCursor));
+    clang_annotateTokens(_tu, cxTokens, tokenCount, cxCursors);
+
+    // The token set is retained by each token so that clang_disposeTokens() is only called
+    // when the last PLClangToken is deallocated.
+    PLClangTokenSet *tokenSet = [[PLClangTokenSet alloc] initWithTranslationUnit: self cxTokens: cxTokens count: tokenCount];
+
+    for (unsigned int i = 0; i < tokenCount; i++) {
+        PLClangCursor *cursor = [[PLClangCursor alloc] initWithOwner: self cxCursor: cxCursors[i]];
+        [tokens addObject: [[PLClangToken alloc] initWithOwner: tokenSet
+                                               translationUnit: self
+                                                        cursor: cursor
+                                                       cxToken: cxTokens[i]]];
+    }
+
+    free(cxCursors);
+    return tokens;
 }
 
 @end
