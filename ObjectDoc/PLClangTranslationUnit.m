@@ -116,4 +116,8 @@
     return self;
 }
 
+- (CXTranslationUnit) cxTranslationUnit {
+    return _tu;
+}
+
 @end

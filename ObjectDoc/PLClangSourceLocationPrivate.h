@@ -10,5 +10,6 @@
 @interface PLClangSourceLocation (PackagePrivate)
 
 - (instancetype) initWithOwner: (id) owner cxSourceLocation: (CXSourceLocation) sourceLocation;
+- (CXSourceLocation) cxSourceLocation;
 
 @end
