@@ -17,7 +17,7 @@
 @implementation PLClangToken {
     /**
      * A reference to the owning object (the token set), held so that the
-     * CXToken remains valid for the lifetime of the type.
+     * CXToken remains valid for the lifetime of the token.
      */
     id _owner;
 
@@ -84,12 +84,12 @@
 @implementation PLClangToken (PackagePrivate)
 
 /**
- * Initialize a newly-created type with the specified clang type.
+ * Initialize a newly-created token with the specified clang token.
  *
  * @param owner A reference to the owner of the clang token. This reference will be retained
  * to ensure that the clang token survives for the lifetime of this instance.
  * @param translationUnit The translation in which this token resides.
- * @param cursor The cursor associated with this token, or nil if there is not associated cursor.
+ * @param cursor The cursor associated with this token, or nil if there is no associated cursor.
  * @param token The clang token that will back this object.
  * @return An initialized token.
  */

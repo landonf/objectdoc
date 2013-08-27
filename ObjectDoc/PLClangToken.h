@@ -7,7 +7,7 @@
 #import "PLClangCursor.h"
 
 /**
- * The kind of an PLClangToken.
+ * The kind of a PLClangToken.
  */
 typedef NS_ENUM(NSUInteger, PLClangTokenKind) {
     /** A token that contains some kind of punctuation. */
