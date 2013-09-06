@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, DTErrorCode) {
      *
      * If this error code is received it is a bug and should be reported.
      */
-    DTClangErrorUnknown = 0,
+    DTErrorUnknown = 0,
 
     /**
      * A configuration error occurred.

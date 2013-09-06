@@ -10,4 +10,5 @@
 			<HeaderPath>{{path.lastPathComponent}}</HeaderPath>
 			<FrameworkName>{{frameworkName}}</FrameworkName>
 		</DeclaredIn>
+		{{#referenceNumber}}<NodeRef refid="{{referenceNumber}}" />{{/referenceNumber}}
 	</Token>

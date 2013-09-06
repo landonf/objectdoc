@@ -48,8 +48,8 @@
 /** A UUID string that uniquely identifies the document containing this node. */
 @property(nonatomic, readonly) NSString *UUID;
 
-/** A node reference number, used for cross-referencing within a docset. */
-@property (nonatomic, readonly) NSUInteger referenceNumber;
+/** A node reference number, used for cross-referencing between tokens and nodes within a docset. */
+@property (nonatomic, copy) NSNumber *referenceNumber;
 
 /** The relative path to the HTML file containing this node. */
 @property(nonatomic, copy) NSString *HTMLPath;

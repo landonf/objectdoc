@@ -174,16 +174,21 @@ static NSString * const DTIncludeOtherReferencesKey = @"includeOtherReferences";
 }
 
 - (void) assignHTMLPaths {
+    NSUInteger referenceNumber = 1;
+
     for (DTNode *node in _library.classes) {
         node.HTMLPath = [NSString stringWithFormat: @"Classes/%@.html", node.name];
+        node.referenceNumber = @(referenceNumber++);
     }
 
     for (DTNode *node in _library.protocols) {
         node.HTMLPath = [NSString stringWithFormat: @"Protocols/%@.html", node.name];
+        node.referenceNumber = @(referenceNumber++);
     }
 
     for (DTNode *node in _library.categories) {
         node.HTMLPath = [NSString stringWithFormat: @"Categories/%@.html", node.name];
+        node.referenceNumber = @(referenceNumber++);
     }
 
     for (DTNode *node in _library.functions) {

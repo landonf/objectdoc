@@ -14,9 +14,6 @@
 - (id) init {
     PLSuperInit();
 
-    static NSUInteger nextReferenceNumber = 1;
-    _referenceNumber = nextReferenceNumber++;
-
     _UUID = [[NSUUID UUID] UUIDString];
 
     _briefComment = @"";
