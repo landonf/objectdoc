@@ -41,6 +41,9 @@
 #import "PLClangNSString.h"
 #import "PLClang.h"
 
+/**
+ * A translation unit.
+ */
 @implementation PLClangTranslationUnit {
 @private
     /**
