@@ -8,6 +8,6 @@
 
 @protocol DTGenerator <NSObject>
 
-- (void) generateDocumentationForLibrary: (DTLibrary *) library error: (NSError **)error;
+- (void) generateDocumentationForLibrary: (DTLibrary *) library error: (NSError **) error;
 
 @end

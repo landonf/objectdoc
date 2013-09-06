@@ -536,8 +536,8 @@ BOOL PLClangSourceRangeContainsRange(PLClangSourceRange *range1, PLClangSourceRa
                                            unsavedFiles: @[file]
                                       compilerArguments: @[@"-x", @"objective-c-header"]
                                                 options: PLClangTranslationUnitCreationDetailedPreprocessingRecord |
-                PLClangTranslationUnitCreationIncomplete |
-                PLClangTranslationUnitCreationForSerialization
+                                                         PLClangTranslationUnitCreationIncomplete |
+                                                         PLClangTranslationUnitCreationForSerialization
                                                   error: &error];
 
         if (_pch) {
