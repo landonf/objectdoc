@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+{{#classes}}
+{{> token}}
+
+{{#properties}}{{> token}}
+{{/properties}}
+
+{{#classMethods}}
+{{> token}}
+{{/classMethods}}
+
+{{#instanceMethods}}
+{{> token}}
+{{/instanceMethods}}
+
+{{#.constants}}
+{{> token}}
+{{#.constants}}
+{{> token}}
+{{/.constants}}
+{{/.constants}}
+
+{{/classes}}
+
+{{#constants}}
+{{> token}}
+{{#.constants}}
+{{> token}}
+{{/.constants}}
+{{/constants}}
+</Tokens>

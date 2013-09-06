@@ -27,11 +27,14 @@
  */
 
 #import <ObjectDoc/ObjectDoc.h>
+#import "DTApplication.h"
 
 int main (int argc, const char *argv[]) {
     /* Run via dispatch */
     dispatch_async(dispatch_get_main_queue(), ^{
-        // TODO
+        DTApplication *app = [DTApplication new];
+        BOOL result = [app run];
+        exit(result ? 0 : 1);
     });
 
     /* Park in event loop */

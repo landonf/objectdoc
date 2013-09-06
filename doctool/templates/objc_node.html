@@ -1,0 +1,77 @@
+	<a name="{{appleRef}}" title="{{name}}"></a>
+	<h3>{{name}}</h3>
+	{{#briefComment}}
+	<p class="abstract">{{{.}}}{{#readOnly}} (read-only){{/readOnly}}{{#deprecated}} (<span class="deprecated">Deprecated.</span>{{#deprecationComment}} {{.}}{{/deprecationComment}}){{/deprecated}}</p>
+	{{/briefComment}}
+	<div class="declaration">{{{declarationHTML}}}{{^declarationHTML}}<pre><code>{{declaration}}</code></pre>{{/declarationHTML}}</div>
+	{{#hasCommentedConstants}}
+	<div class="api_parameters">
+		<h5>Constants</h5>
+		<dl>
+		{{#constants}}
+			{{#fullComment}}
+			<dt>
+				<a name="{{appleRef}}" title="{{name}}"></a>
+				<code>{{name}}</code>
+			</dt>
+			<dd>
+				{{{.}}}
+				{{#deprecated}}<p>Deprecated.{{#deprecationComment}} {{.}}{{/deprecationComment}}</p>{{/deprecated}}
+				{{#path}}<p>Declared in <code>{{.lastPathComponent}}</code>.</p>{{/path}}
+			</dd>
+			{{/fullComment}}
+		{{/constants}}
+		</dl>
+	</div>
+	{{/hasCommentedConstants}}
+	{{#hasCommentedFields}}
+	<div class="api_parameters">
+		<h5>Fields</h5>
+		<dl>
+		{{#fields}}
+			{{#fullComment}}
+			<dt>
+				<code>{{name}}</code>
+			</dt>
+			<dd>
+				{{{.}}}
+				{{#deprecated}}<p>Deprecated.{{#deprecationComment}} {{.}}{{/deprecationComment}}</p>{{/deprecated}}
+			</dd>
+			{{/fullComment}}
+		{{/fields}}
+		</dl>
+	</div>
+	{{/hasCommentedFields}}
+	{{#hasCommentedParameters}}
+	<div class="api_parameters">
+		<h5>Parameters</h5>
+		<dl>
+		{{#parameters}}
+			{{#fullComment}}
+			<dt>
+				<em>{{name}}</em>
+			</dt>
+			<dd>
+				{{{.}}}
+			</dd>
+			{{/fullComment}}
+		{{/parameters}}
+		</dl>
+	</div>
+	{{/hasCommentedParameters}}
+	{{#returnValueComment}}
+	<div class="returnValue">
+		<h5>Return Value</h5>
+		<p>{{{.}}}</p>
+	</div>
+	{{/returnValueComment}}
+	{{#expandedComment}}
+	<div class="discussion">
+		<h5>Discussion</h5>
+		{{{.}}}
+	</div>
+	{{/expandedComment}}
+	<div class="declared_in">
+		<h5>Declared In</h5>
+		<code>{{path.lastPathComponent}}</code>
+	</div>
