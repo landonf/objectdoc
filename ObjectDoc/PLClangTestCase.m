@@ -8,7 +8,7 @@
 }
 
 /**
- * Convenience method to create a translation from the given source with options
+ * Convenience method to create a translation unit from the given source with options
  * suitable for typical unit testing.
  */
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source {
@@ -16,7 +16,7 @@
 }
 
 /**
- * Convenience method to create a translation from the given source and path with
+ * Convenience method to create a translation unit from the given source and path with
  * options suitable for typical unit testing.
  */
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source path: (NSString *) path {
@@ -24,7 +24,7 @@
 }
 
 /**
- * Convenience method to create a translation from the given source and path and options
+ * Convenience method to create a translation unit from the given source and path and options
  */
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source path: (NSString *) path options: (PLClangTranslationUnitCreationOptions) options {
     NSError *error = nil;

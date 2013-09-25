@@ -15,7 +15,7 @@
 @implementation PLClangTokenSet {
     /**
      * A reference to the owning translation unit, held so that the
-     * CXTokens remains valid for the lifetime of the token set, and
+     * CXTokens remain valid for the lifetime of the token set, and
      * because the translation unit is needed to dispose the tokens.
      */
     PLClangTranslationUnit *_tu;
