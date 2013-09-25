@@ -47,7 +47,7 @@
  */
 - (PLClangCursor *) cursorWithSpelling: (NSString *) spelling {
     __block PLClangCursor *cursor = nil;
-    [self.cursor visitChildrenUsingBlock:^PLClangCursorVisitResult(PLClangCursor *child) {
+    [self.cursor visitChildrenUsingBlock: ^PLClangCursorVisitResult(PLClangCursor *child) {
         if ([child.spelling isEqualToString: spelling]) {
             cursor = child;
             return PLClangCursorVisitBreak;

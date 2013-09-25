@@ -44,7 +44,7 @@
 }
 
 - (NSString *) description {
-    return [NSString stringWithFormat:@"{ %@, %@ }",
+    return [NSString stringWithFormat: @"{ %@, %@ }",
             self.startLocation,
             self.endLocation];
 }

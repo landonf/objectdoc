@@ -10,7 +10,7 @@
  */
 - (void) testFoundationRecursion {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"#import <Foundation/Foundation.h>"];
-    [tu.cursor visitChildrenUsingBlock:^PLClangCursorVisitResult(PLClangCursor *cursor) {
+    [tu.cursor visitChildrenUsingBlock: ^PLClangCursorVisitResult(PLClangCursor *cursor) {
         if (!cursor) {
             STFail(@"Could not create cursor for %@", cursor.spelling);
             return PLClangCursorVisitBreak;
@@ -297,7 +297,7 @@
 }
 
 - (void) verifyObjCPropertyWithAttributes: (NSString *)attributes expectedResults: (PLClangObjCPropertyAttributes) expected {
-    NSString *source = [NSString stringWithFormat:@"@interface Test\n"
+    NSString *source = [NSString stringWithFormat: @"@interface Test\n"
     "@property (%@) id prop;\n"
     "@end", attributes];
     PLClangTranslationUnit *tu = [self translationUnitWithSource: source];

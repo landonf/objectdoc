@@ -956,7 +956,7 @@
     });
 }
 
-- (BOOL)isEqual: (id) object {
+- (BOOL) isEqual: (id) object {
     if (![object isKindOfClass: [PLClangCursor class]])
         return NO;
 
