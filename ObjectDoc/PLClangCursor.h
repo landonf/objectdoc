@@ -876,6 +876,11 @@ typedef NS_ENUM(NSUInteger, PLClangCursorKind) {
      */
     PLClangCursorKindAsmLabelAttribute                        = 407,
 
+    /**
+     * A packed attribute.
+     */
+    PLClangCursorKindPackedAttribute                          = 408,
+
     /* Preprocessing */
 
     /**

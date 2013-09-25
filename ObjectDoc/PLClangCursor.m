@@ -481,6 +481,9 @@
         case CXCursor_AsmLabelAttr:
             return PLClangCursorKindAsmLabelAttribute;
 
+        case CXCursor_PackedAttr:
+            return PLClangCursorKindPackedAttribute;
+
         case CXCursor_PreprocessingDirective:
             return PLClangCursorKindPreprocessingDirective;
 
