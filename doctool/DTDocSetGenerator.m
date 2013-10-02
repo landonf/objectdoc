@@ -60,6 +60,9 @@
     }
 
     [self indexDocSetAtPath: docSetOutputDirectory];
+
+    // Set the modification date to indicate changes to an existing doc set package directory
+    [[NSFileManager defaultManager] setAttributes: @{ NSFileModificationDate: [NSDate date] } ofItemAtPath: docSetOutputDirectory error: nil];
 }
 
 - (void) indexDocSetAtPath: (NSString *) path {
