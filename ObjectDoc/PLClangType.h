@@ -115,7 +115,7 @@ typedef NS_ENUM(NSUInteger, PLClangTypeKind) {
     /** An lvalue reference. */
     PLClangTypeKindLValueReference = 103,
 
-    /** And rvalue reference. */
+    /** An rvalue reference. */
     PLClangTypeKindRValueReference = 104,
 
     /** A record. */
@@ -163,7 +163,10 @@ typedef NS_ENUM(NSUInteger, PLClangTypeKind) {
      * }
      * @endcode
      */
-    PLClangTypeKindDependentSizedArray = 116
+    PLClangTypeKindDependentSizedArray = 116,
+
+    /** A C++ member pointer. */
+    PLClangTypeKindMemberPointer = 117
 };
 
 @interface PLClangType : NSObject
