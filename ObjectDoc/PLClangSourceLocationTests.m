@@ -8,27 +8,27 @@
 - (void) testLocation {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int t;" path: @"test.c"];
     PLClangSourceLocation *location = [[tu cursorWithSpelling: @"t"] location];
-    STAssertNotNil(location, @"Cursor should have a source location");
+    XCTAssertNotNil(location, @"Cursor should have a source location");
 
-    STAssertEqualObjects(location.path, @"test.c", nil);
-    STAssertEquals(location.fileOffset, (off_t)4, nil);
-    STAssertEquals(location.lineNumber, (NSUInteger)1, nil);
-    STAssertEquals(location.columnNumber, (NSUInteger)5, nil);
+    XCTAssertEqualObjects(location.path, @"test.c");
+    XCTAssertEqual(location.fileOffset, (off_t)4);
+    XCTAssertEqual(location.lineNumber, (NSUInteger)1);
+    XCTAssertEqual(location.columnNumber, (NSUInteger)5);
 }
 
 - (void) testLocationContainment {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"#include <stdio.h>\nint t;"];
     PLClangSourceLocation *location = [[tu cursorWithSpelling: @"printf"] location];
-    STAssertNotNil(location, @"Cursor should have a source location");
+    XCTAssertNotNil(location, @"Cursor should have a source location");
 
-    STAssertTrue(location.isInSystemHeader, nil);
-    STAssertFalse(location.isInMainFile, nil);
+    XCTAssertTrue(location.isInSystemHeader);
+    XCTAssertFalse(location.isInMainFile);
 
     location = [[tu cursorWithSpelling: @"t"] location];
-    STAssertNotNil(location, @"Cursor should have a source location");
+    XCTAssertNotNil(location, @"Cursor should have a source location");
 
-    STAssertFalse(location.isInSystemHeader, nil);
-    STAssertTrue(location.isInMainFile, nil);
+    XCTAssertFalse(location.isInSystemHeader);
+    XCTAssertTrue(location.isInMainFile);
 }
 
 - (void) testEquality {
@@ -40,9 +40,9 @@
     location2 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
                                                                 offset: 0];
-    STAssertNotNil(location1, @"Failed to create location");
-    STAssertNotNil(location2, @"Failed to create location");
-    STAssertEqualObjects(location1, location2, @"Locations should be equal");
+    XCTAssertNotNil(location1, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
+    XCTAssertEqualObjects(location1, location2, @"Locations should be equal");
 
     location1 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
@@ -52,9 +52,9 @@
                                                                   file: @"test.c"
                                                             lineNumber: 1
                                                           columnNumber: 1];
-    STAssertNotNil(location1, @"Failed to create location");
-    STAssertNotNil(location2, @"Failed to create location");
-    STAssertEqualObjects(location1, location2, @"Locations should be equal");
+    XCTAssertNotNil(location1, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
+    XCTAssertEqualObjects(location1, location2, @"Locations should be equal");
 
     location1 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
@@ -63,16 +63,16 @@
                                                                   file: @"test.c"
                                                             lineNumber: 1
                                                           columnNumber: 1];
-    STAssertNotNil(location1, @"Failed to create location");
-    STAssertNotNil(location2, @"Failed to create location");
-    STAssertEqualObjects(location1, location2, @"Locations should be equal");
+    XCTAssertNotNil(location1, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
+    XCTAssertEqualObjects(location1, location2, @"Locations should be equal");
 
     location2 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
                                                             lineNumber: 1
                                                           columnNumber: 2];
-    STAssertNotNil(location2, @"Failed to create location");
-    STAssertFalse([location1 isEqual: location2], @"Locations should not be equal");
+    XCTAssertNotNil(location2, @"Failed to create location");
+    XCTAssertFalse([location1 isEqual: location2], @"Locations should not be equal");
 
     location1 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
@@ -82,9 +82,9 @@
                                                                   file: @"test.c"
                                                             lineNumber: 2
                                                           columnNumber: 1];
-    STAssertNotNil(location1, @"Failed to create location");
-    STAssertNotNil(location2, @"Failed to create location");
-    STAssertFalse([location1 isEqual: location2], @"Locations should not be equal");
+    XCTAssertNotNil(location1, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
+    XCTAssertFalse([location1 isEqual: location2], @"Locations should not be equal");
 
     location1 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
@@ -94,9 +94,9 @@
                                                                   file: @"test.c"
                                                             lineNumber: 1
                                                           columnNumber: 2];
-    STAssertNotNil(location1, @"Failed to create location");
-    STAssertNotNil(location2, @"Failed to create location");
-    STAssertFalse([location1 isEqual: location2], @"Locations should not be equal");
+    XCTAssertNotNil(location1, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
+    XCTAssertFalse([location1 isEqual: location2], @"Locations should not be equal");
 }
 
 - (void) testLocationCreation {
@@ -105,21 +105,21 @@
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: @"test.c"
                                                                offset: 1];
-    STAssertNotNil(location, @"Failed to create location");
-    STAssertEqualObjects(location.path, @"test.c", nil);
-    STAssertEquals(location.fileOffset, (off_t)1, nil);
-    STAssertEquals(location.lineNumber, (NSUInteger)1, nil);
-    STAssertEquals(location.columnNumber, (NSUInteger)2, nil);
+    XCTAssertNotNil(location, @"Failed to create location");
+    XCTAssertEqualObjects(location.path, @"test.c");
+    XCTAssertEqual(location.fileOffset, (off_t)1);
+    XCTAssertEqual(location.lineNumber, (NSUInteger)1);
+    XCTAssertEqual(location.columnNumber, (NSUInteger)2);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: @"test.c"
                                                            lineNumber: 1
                                                          columnNumber: 3];
-    STAssertNotNil(location, @"Failed to create location");
-    STAssertEqualObjects(location.path, @"test.c", nil);
-    STAssertEquals(location.fileOffset, (off_t)2, nil);
-    STAssertEquals(location.lineNumber, (NSUInteger)1, nil);
-    STAssertEquals(location.columnNumber, (NSUInteger)3, nil);
+    XCTAssertNotNil(location, @"Failed to create location");
+    XCTAssertEqualObjects(location.path, @"test.c");
+    XCTAssertEqual(location.fileOffset, (off_t)2);
+    XCTAssertEqual(location.lineNumber, (NSUInteger)1);
+    XCTAssertEqual(location.columnNumber, (NSUInteger)3);
 }
 
 - (void) testInvalidLocations {
@@ -129,47 +129,47 @@
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: nil
                                                                  file: @"test.c"
                                                                offset: 0];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: nil
                                                                  file: @"test.c"
                                                            lineNumber: 1
                                                          columnNumber: 1];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: nil
                                                                offset: 0];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: nil
                                                            lineNumber: 1
                                                          columnNumber: 1];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: @"test.c"
                                                                offset: 1000];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: @"test.c"
                                                            lineNumber: 1
                                                          columnNumber: 1000];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: @"test.c"
                                                            lineNumber: 1000
                                                          columnNumber: 1];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 
     location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                  file: @"test.c"
                                                            lineNumber: 1000
                                                          columnNumber: 1000];
-    STAssertNil(location, nil);
+    XCTAssertNil(location);
 }
 
 @end

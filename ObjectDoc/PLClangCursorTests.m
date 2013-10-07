@@ -12,7 +12,7 @@
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"#import <Foundation/Foundation.h>"];
     [tu.cursor visitChildrenUsingBlock: ^PLClangCursorVisitResult(PLClangCursor *cursor) {
         if (!cursor) {
-            STFail(@"Could not create cursor for %@", cursor.spelling);
+            XCTFail(@"Could not create cursor for %@", cursor.spelling);
             return PLClangCursorVisitBreak;
         }
         return PLClangCursorVisitRecurse;
@@ -22,191 +22,191 @@
 - (void) testTranslationUnitCursor {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int t;"];
     PLClangCursor *cursor = tu.cursor;
-    STAssertNotNil(cursor, nil);
+    XCTAssertNotNil(cursor);
 
-    STAssertEquals(cursor.kind, PLClangCursorKindTranslationUnit, nil);
-    STAssertEquals(cursor.language, PLClangLanguageInvalid, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageInvalid, nil);
-    STAssertEqualObjects(cursor.USR, @"", nil);
-    STAssertEqualObjects(cursor.spelling, @"test.m", nil);
-    STAssertEqualObjects(cursor.displayName, @"test.m", nil);
-    STAssertNil(cursor.location, nil);
-    STAssertNotNil(cursor.extent, nil);
-    STAssertFalse(cursor.isAttribute, nil);
-    STAssertFalse(cursor.isDeclaration, nil);
-    STAssertFalse(cursor.isDefinition, nil);
-    STAssertFalse(cursor.isExpression, nil);
-    STAssertFalse(cursor.isPreprocessing, nil);
-    STAssertFalse(cursor.isReference, nil);
-    STAssertFalse(cursor.isStatement, nil);
-    STAssertFalse(cursor.isUnexposed, nil);
-    STAssertFalse(cursor.isObjCOptional, nil);
-    STAssertFalse(cursor.isVariadic, nil);
-    STAssertNotNil(cursor.canonicalCursor, nil);
-    STAssertNil(cursor.semanticParent, nil);
-    STAssertNil(cursor.lexicalParent, nil);
-    STAssertNil(cursor.referencedCursor, nil);
-    STAssertNil(cursor.definition, nil);
-    STAssertNil(cursor.type, nil);
-    STAssertNil(cursor.resultType, nil);
-    STAssertNil(cursor.enumIntegerType, nil);
-    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
-    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
-    STAssertEquals(cursor.bitFieldWidth, -1, nil);
-    STAssertNil(cursor.arguments, nil);
-    STAssertNil(cursor.overloadedDeclarations, nil);
-    STAssertNil(cursor.comment, nil);
-    STAssertNil(cursor.briefComment, nil);
+    XCTAssertEqual(cursor.kind, PLClangCursorKindTranslationUnit);
+    XCTAssertEqual(cursor.language, PLClangLanguageInvalid);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageInvalid);
+    XCTAssertEqualObjects(cursor.USR, @"");
+    XCTAssertEqualObjects(cursor.spelling, @"test.m");
+    XCTAssertEqualObjects(cursor.displayName, @"test.m");
+    XCTAssertNil(cursor.location);
+    XCTAssertNotNil(cursor.extent);
+    XCTAssertFalse(cursor.isAttribute);
+    XCTAssertFalse(cursor.isDeclaration);
+    XCTAssertFalse(cursor.isDefinition);
+    XCTAssertFalse(cursor.isExpression);
+    XCTAssertFalse(cursor.isPreprocessing);
+    XCTAssertFalse(cursor.isReference);
+    XCTAssertFalse(cursor.isStatement);
+    XCTAssertFalse(cursor.isUnexposed);
+    XCTAssertFalse(cursor.isObjCOptional);
+    XCTAssertFalse(cursor.isVariadic);
+    XCTAssertNotNil(cursor.canonicalCursor);
+    XCTAssertNil(cursor.semanticParent);
+    XCTAssertNil(cursor.lexicalParent);
+    XCTAssertNil(cursor.referencedCursor);
+    XCTAssertNil(cursor.definition);
+    XCTAssertNil(cursor.type);
+    XCTAssertNil(cursor.resultType);
+    XCTAssertNil(cursor.enumIntegerType);
+    XCTAssertEqual(cursor.enumConstantValue, LONG_LONG_MIN);
+    XCTAssertEqual(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX);
+    XCTAssertEqual(cursor.bitFieldWidth, -1);
+    XCTAssertNil(cursor.arguments);
+    XCTAssertNil(cursor.overloadedDeclarations);
+    XCTAssertNil(cursor.comment);
+    XCTAssertNil(cursor.briefComment);
 
-    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Translation unit cursor should have been its canonical cursor");
+    XCTAssertEqualObjects(cursor, cursor.canonicalCursor, @"Translation unit cursor should have been its canonical cursor");
 }
 
 - (void) testVariableDeclaration {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int t;"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
+    XCTAssertNotNil(cursor);
 
-    STAssertEquals(cursor.kind, PLClangCursorKindVariableDeclaration, nil);
-    STAssertEquals(cursor.language, PLClangLanguageC, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageExternal, nil);
-    STAssertEqualObjects(cursor.USR, @"c:@t", nil);
-    STAssertEqualObjects(cursor.spelling, @"t", nil);
-    STAssertEqualObjects(cursor.displayName, @"t", nil);
-    STAssertNotNil(cursor.location, nil);
-    STAssertNotNil(cursor.extent, nil);
-    STAssertFalse(cursor.isAttribute, nil);
-    STAssertTrue(cursor.isDeclaration, nil);
-    STAssertFalse(cursor.isDefinition, nil);
-    STAssertFalse(cursor.isExpression, nil);
-    STAssertFalse(cursor.isPreprocessing, nil);
-    STAssertFalse(cursor.isReference, nil);
-    STAssertFalse(cursor.isStatement, nil);
-    STAssertFalse(cursor.isUnexposed, nil);
-    STAssertFalse(cursor.isObjCOptional, nil);
-    STAssertFalse(cursor.isVariadic, nil);
-    STAssertNotNil(cursor.canonicalCursor, nil);
-    STAssertNotNil(cursor.semanticParent, nil);
-    STAssertNotNil(cursor.lexicalParent, nil);
-    STAssertNotNil(cursor.referencedCursor, nil);
-    STAssertNil(cursor.definition, nil);
-    STAssertNotNil(cursor.type, nil);
-    STAssertNil(cursor.resultType, nil);
-    STAssertNil(cursor.enumIntegerType, nil);
-    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
-    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
-    STAssertEquals(cursor.bitFieldWidth, -1, nil);
-    STAssertNil(cursor.arguments, nil);
-    STAssertNil(cursor.overloadedDeclarations, nil);
-    STAssertNil(cursor.comment, nil);
-    STAssertNil(cursor.briefComment, nil);
+    XCTAssertEqual(cursor.kind, PLClangCursorKindVariableDeclaration);
+    XCTAssertEqual(cursor.language, PLClangLanguageC);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageExternal);
+    XCTAssertEqualObjects(cursor.USR, @"c:@t");
+    XCTAssertEqualObjects(cursor.spelling, @"t");
+    XCTAssertEqualObjects(cursor.displayName, @"t");
+    XCTAssertNotNil(cursor.location);
+    XCTAssertNotNil(cursor.extent);
+    XCTAssertFalse(cursor.isAttribute);
+    XCTAssertTrue(cursor.isDeclaration);
+    XCTAssertFalse(cursor.isDefinition);
+    XCTAssertFalse(cursor.isExpression);
+    XCTAssertFalse(cursor.isPreprocessing);
+    XCTAssertFalse(cursor.isReference);
+    XCTAssertFalse(cursor.isStatement);
+    XCTAssertFalse(cursor.isUnexposed);
+    XCTAssertFalse(cursor.isObjCOptional);
+    XCTAssertFalse(cursor.isVariadic);
+    XCTAssertNotNil(cursor.canonicalCursor);
+    XCTAssertNotNil(cursor.semanticParent);
+    XCTAssertNotNil(cursor.lexicalParent);
+    XCTAssertNotNil(cursor.referencedCursor);
+    XCTAssertNil(cursor.definition);
+    XCTAssertNotNil(cursor.type);
+    XCTAssertNil(cursor.resultType);
+    XCTAssertNil(cursor.enumIntegerType);
+    XCTAssertEqual(cursor.enumConstantValue, LONG_LONG_MIN);
+    XCTAssertEqual(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX);
+    XCTAssertEqual(cursor.bitFieldWidth, -1);
+    XCTAssertNil(cursor.arguments);
+    XCTAssertNil(cursor.overloadedDeclarations);
+    XCTAssertNil(cursor.comment);
+    XCTAssertNil(cursor.briefComment);
 
-    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
-    STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
-    STAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
-    STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
+    XCTAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
+    XCTAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
+    XCTAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
+    XCTAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
 }
 
 - (void) testVariableDefinition {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int t = 7;"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
+    XCTAssertNotNil(cursor);
 
-    STAssertEquals(cursor.kind, PLClangCursorKindVariableDeclaration, nil);
-    STAssertEquals(cursor.language, PLClangLanguageC, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageExternal, nil);
-    STAssertEqualObjects(cursor.USR, @"c:@t", nil);
-    STAssertEqualObjects(cursor.spelling, @"t", nil);
-    STAssertEqualObjects(cursor.displayName, @"t", nil);
-    STAssertNotNil(cursor.location, nil);
-    STAssertNotNil(cursor.extent, nil);
-    STAssertFalse(cursor.isAttribute, nil);
-    STAssertTrue(cursor.isDeclaration, nil);
-    STAssertTrue(cursor.isDefinition, nil);
-    STAssertFalse(cursor.isExpression, nil);
-    STAssertFalse(cursor.isPreprocessing, nil);
-    STAssertFalse(cursor.isReference, nil);
-    STAssertFalse(cursor.isStatement, nil);
-    STAssertFalse(cursor.isUnexposed, nil);
-    STAssertFalse(cursor.isObjCOptional, nil);
-    STAssertFalse(cursor.isVariadic, nil);
-    STAssertNotNil(cursor.canonicalCursor, nil);
-    STAssertNotNil(cursor.semanticParent, nil);
-    STAssertNotNil(cursor.lexicalParent, nil);
-    STAssertNotNil(cursor.referencedCursor, nil);
-    STAssertNotNil(cursor.definition, nil);
-    STAssertNotNil(cursor.type, nil);
-    STAssertNil(cursor.resultType, nil);
-    STAssertNil(cursor.enumIntegerType, nil);
-    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
-    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
-    STAssertEquals(cursor.bitFieldWidth, -1, nil);
-    STAssertNil(cursor.arguments, nil);
-    STAssertNil(cursor.overloadedDeclarations, nil);
-    STAssertNil(cursor.comment, nil);
-    STAssertNil(cursor.briefComment, nil);
+    XCTAssertEqual(cursor.kind, PLClangCursorKindVariableDeclaration);
+    XCTAssertEqual(cursor.language, PLClangLanguageC);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageExternal);
+    XCTAssertEqualObjects(cursor.USR, @"c:@t");
+    XCTAssertEqualObjects(cursor.spelling, @"t");
+    XCTAssertEqualObjects(cursor.displayName, @"t");
+    XCTAssertNotNil(cursor.location);
+    XCTAssertNotNil(cursor.extent);
+    XCTAssertFalse(cursor.isAttribute);
+    XCTAssertTrue(cursor.isDeclaration);
+    XCTAssertTrue(cursor.isDefinition);
+    XCTAssertFalse(cursor.isExpression);
+    XCTAssertFalse(cursor.isPreprocessing);
+    XCTAssertFalse(cursor.isReference);
+    XCTAssertFalse(cursor.isStatement);
+    XCTAssertFalse(cursor.isUnexposed);
+    XCTAssertFalse(cursor.isObjCOptional);
+    XCTAssertFalse(cursor.isVariadic);
+    XCTAssertNotNil(cursor.canonicalCursor);
+    XCTAssertNotNil(cursor.semanticParent);
+    XCTAssertNotNil(cursor.lexicalParent);
+    XCTAssertNotNil(cursor.referencedCursor);
+    XCTAssertNotNil(cursor.definition);
+    XCTAssertNotNil(cursor.type);
+    XCTAssertNil(cursor.resultType);
+    XCTAssertNil(cursor.enumIntegerType);
+    XCTAssertEqual(cursor.enumConstantValue, LONG_LONG_MIN);
+    XCTAssertEqual(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX);
+    XCTAssertEqual(cursor.bitFieldWidth, -1);
+    XCTAssertNil(cursor.arguments);
+    XCTAssertNil(cursor.overloadedDeclarations);
+    XCTAssertNil(cursor.comment);
+    XCTAssertNil(cursor.briefComment);
 
-    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
-    STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
-    STAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
-    STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
-    STAssertEqualObjects(cursor, cursor.definition, @"Cursor should have also been its definition");
+    XCTAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
+    XCTAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
+    XCTAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
+    XCTAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
+    XCTAssertEqualObjects(cursor, cursor.definition, @"Cursor should have also been its definition");
 }
 
 - (void) testFunctionDeclaration {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f(int param);"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
-    STAssertNotNil(cursor, nil);
+    XCTAssertNotNil(cursor);
 
-    STAssertEquals(cursor.kind, PLClangCursorKindFunctionDeclaration, nil);
-    STAssertEquals(cursor.language, PLClangLanguageC, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageExternal, nil);
-    STAssertEqualObjects(cursor.USR, @"c:@F@f", nil);
-    STAssertEqualObjects(cursor.spelling, @"f", nil);
-    STAssertEqualObjects(cursor.displayName, @"f(int)", nil);
-    STAssertNotNil(cursor.location, nil);
-    STAssertNotNil(cursor.extent, nil);
-    STAssertFalse(cursor.isAttribute, nil);
-    STAssertTrue(cursor.isDeclaration, nil);
-    STAssertFalse(cursor.isDefinition, nil);
-    STAssertFalse(cursor.isExpression, nil);
-    STAssertFalse(cursor.isPreprocessing, nil);
-    STAssertFalse(cursor.isReference, nil);
-    STAssertFalse(cursor.isStatement, nil);
-    STAssertFalse(cursor.isUnexposed, nil);
-    STAssertFalse(cursor.isObjCOptional, nil);
-    STAssertFalse(cursor.isVariadic, nil);
-    STAssertNotNil(cursor.canonicalCursor, nil);
-    STAssertNotNil(cursor.semanticParent, nil);
-    STAssertNotNil(cursor.lexicalParent, nil);
-    STAssertNotNil(cursor.referencedCursor, nil);
-    STAssertNil(cursor.definition, nil);
-    STAssertNotNil(cursor.type, nil);
-    STAssertNotNil(cursor.resultType, nil);
-    STAssertNil(cursor.enumIntegerType, nil);
-    STAssertEquals(cursor.enumConstantValue, LONG_LONG_MIN, nil);
-    STAssertEquals(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX, nil);
-    STAssertEquals(cursor.bitFieldWidth, -1, nil);
-    STAssertNotNil(cursor.arguments, nil);
-    STAssertNil(cursor.overloadedDeclarations, nil);
-    STAssertNil(cursor.comment, nil);
-    STAssertNil(cursor.briefComment, nil);
+    XCTAssertEqual(cursor.kind, PLClangCursorKindFunctionDeclaration);
+    XCTAssertEqual(cursor.language, PLClangLanguageC);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageExternal);
+    XCTAssertEqualObjects(cursor.USR, @"c:@F@f");
+    XCTAssertEqualObjects(cursor.spelling, @"f");
+    XCTAssertEqualObjects(cursor.displayName, @"f(int)");
+    XCTAssertNotNil(cursor.location);
+    XCTAssertNotNil(cursor.extent);
+    XCTAssertFalse(cursor.isAttribute);
+    XCTAssertTrue(cursor.isDeclaration);
+    XCTAssertFalse(cursor.isDefinition);
+    XCTAssertFalse(cursor.isExpression);
+    XCTAssertFalse(cursor.isPreprocessing);
+    XCTAssertFalse(cursor.isReference);
+    XCTAssertFalse(cursor.isStatement);
+    XCTAssertFalse(cursor.isUnexposed);
+    XCTAssertFalse(cursor.isObjCOptional);
+    XCTAssertFalse(cursor.isVariadic);
+    XCTAssertNotNil(cursor.canonicalCursor);
+    XCTAssertNotNil(cursor.semanticParent);
+    XCTAssertNotNil(cursor.lexicalParent);
+    XCTAssertNotNil(cursor.referencedCursor);
+    XCTAssertNil(cursor.definition);
+    XCTAssertNotNil(cursor.type);
+    XCTAssertNotNil(cursor.resultType);
+    XCTAssertNil(cursor.enumIntegerType);
+    XCTAssertEqual(cursor.enumConstantValue, LONG_LONG_MIN);
+    XCTAssertEqual(cursor.enumConstantUnsignedValue, ULONG_LONG_MAX);
+    XCTAssertEqual(cursor.bitFieldWidth, -1);
+    XCTAssertNotNil(cursor.arguments);
+    XCTAssertNil(cursor.overloadedDeclarations);
+    XCTAssertNil(cursor.comment);
+    XCTAssertNil(cursor.briefComment);
 
-    STAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
-    STAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
-    STAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
-    STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
+    XCTAssertEqualObjects(cursor, cursor.canonicalCursor, @"Cursor should have been its canonical cursor");
+    XCTAssertEqualObjects(cursor.semanticParent, tu.cursor, @"Semantic parent should have been the translation unit");
+    XCTAssertEqualObjects(cursor.lexicalParent, tu.cursor, @"Lexical parent should have been the translation unit");
+    XCTAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
 
-    STAssertTrue([cursor.arguments count] == 1, @"Should have had an argument");
+    XCTAssertTrue([cursor.arguments count] == 1, @"Should have had an argument");
 
     PLClangCursor *param = cursor.arguments[0];
-    STAssertEquals(param.kind, PLClangCursorKindParameterDeclaration, nil);
-    STAssertEqualObjects(param.spelling, @"param", nil);
-    STAssertEqualObjects(param.displayName, @"param", nil);
+    XCTAssertEqual(param.kind, PLClangCursorKindParameterDeclaration);
+    XCTAssertEqualObjects(param.spelling, @"param");
+    XCTAssertEqualObjects(param.displayName, @"param");
 
-    STAssertEqualObjects(param, param.canonicalCursor, @"Cursor should have been its canonical cursor");
-    STAssertEqualObjects(param.semanticParent, cursor, @"Semantic parent should have been the function declaration");
-    STAssertEqualObjects(param.lexicalParent, cursor, @"Lexical parent should have been the function declaration");
-    STAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
+    XCTAssertEqualObjects(param, param.canonicalCursor, @"Cursor should have been its canonical cursor");
+    XCTAssertEqualObjects(param.semanticParent, cursor, @"Semantic parent should have been the function declaration");
+    XCTAssertEqualObjects(param.lexicalParent, cursor, @"Lexical parent should have been the function declaration");
+    XCTAssertEqualObjects(cursor.referencedCursor, cursor, @"Cursor should have been a self reference");
 }
 
 - (void) testLanguage {
@@ -215,18 +215,18 @@
 
     tu = [self translationUnitWithSource: @"void f();"];
     cursor = [tu cursorWithSpelling: @"f"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.language, PLClangLanguageC, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.language, PLClangLanguageC);
 
     tu = [self translationUnitWithSource: @"@interface T @end"];
     cursor = [tu cursorWithSpelling: @"T"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.language, PLClangLanguageObjC, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.language, PLClangLanguageObjC);
 
     tu = [self translationUnitWithSource: @"class T {};" path: @"test.cpp"];
     cursor = [tu cursorWithSpelling: @"T"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.language, PLClangLanguageCPlusPlus, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.language, PLClangLanguageCPlusPlus);
 }
 
 - (void) testLinkage {
@@ -235,44 +235,44 @@
 
     tu = [self translationUnitWithSource: @"void f() { int t; }"];
     cursor = tu.cursor;
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageInvalid, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageInvalid);
 
     cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageNone, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageNone);
 
     tu = [self translationUnitWithSource: @"static int t;"];
     cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageInternal, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageInternal);
 
     tu = [self translationUnitWithSource: @"int t;"];
     cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageExternal, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageExternal);
 
     tu = [self translationUnitWithSource: @"namespace { int t; }" path: @"test.cpp"];
     cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.linkage, PLClangLinkageUniqueExternal, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.linkage, PLClangLinkageUniqueExternal);
 }
 
 - (void) testResultType {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"@interface T - (int)t; @end"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
-    STAssertNil(cursor.type, @"The method should not have a type");
-    STAssertNotNil(cursor.resultType, @"The method should have a result type");
-    STAssertEquals(cursor.resultType.kind, PLClangTypeKindInt, @"The method's result type should have been int");
+    XCTAssertNotNil(cursor);
+    XCTAssertNil(cursor.type, @"The method should not have a type");
+    XCTAssertNotNil(cursor.resultType, @"The method should have a result type");
+    XCTAssertEqual(cursor.resultType.kind, PLClangTypeKindInt, @"The method's result type should have been int");
 
     tu = [self translationUnitWithSource: @"int f();"];
     cursor = [tu cursorWithSpelling: @"f"];
-    STAssertNotNil(cursor, nil);
-    STAssertNotNil(cursor.type, @"The function should have a type");
-    STAssertEquals(cursor.type.kind, PLClangTypeKindFunctionNoPrototype, nil);
-    STAssertNotNil(cursor.resultType, @"The function should have a result type");
-    STAssertEquals(cursor.resultType.kind, PLClangTypeKindInt, @"The function's result type should have been int");
+    XCTAssertNotNil(cursor);
+    XCTAssertNotNil(cursor.type, @"The function should have a type");
+    XCTAssertEqual(cursor.type.kind, PLClangTypeKindFunctionNoPrototype);
+    XCTAssertNotNil(cursor.resultType, @"The function should have a result type");
+    XCTAssertEqual(cursor.resultType.kind, PLClangTypeKindInt, @"The function's result type should have been int");
 }
 
 - (void) testObjCPropertyAttributes {
@@ -302,50 +302,50 @@
     "@end", attributes];
     PLClangTranslationUnit *tu = [self translationUnitWithSource: source];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"prop"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.objCPropertyAttributes, expected, @"Property attributes do not match \"%@\"", attributes);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.objCPropertyAttributes, expected, @"Property attributes do not match \"%@\"", attributes);
 }
 
 - (void) testEnumIntegerType {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"enum t { TEST = 0 };"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
-    STAssertNotNil(cursor.enumIntegerType, @"Should have had an integer type");
-    STAssertEquals(cursor.enumIntegerType.kind, PLClangTypeKindUnsignedInt, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertNotNil(cursor.enumIntegerType, @"Should have had an integer type");
+    XCTAssertEqual(cursor.enumIntegerType.kind, PLClangTypeKindUnsignedInt);
 
     tu = [self translationUnitWithSource: @"enum t : long { TEST = 0 };"];
     cursor = [tu cursorWithSpelling: @"t"];
-    STAssertNotNil(cursor, nil);
-    STAssertNotNil(cursor.enumIntegerType, @"Should have had an integer type");
-    STAssertEquals(cursor.enumIntegerType.kind, PLClangTypeKindLong, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertNotNil(cursor.enumIntegerType, @"Should have had an integer type");
+    XCTAssertEqual(cursor.enumIntegerType.kind, PLClangTypeKindLong);
 }
 
 - (void) testEnumConstantValue {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"enum t : int { TEST = 1, TEST_NEG = -2 };"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"TEST"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.enumConstantValue, 1LL, nil);
-    STAssertEquals(cursor.enumConstantUnsignedValue, 1ULL, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.enumConstantValue, 1LL);
+    XCTAssertEqual(cursor.enumConstantUnsignedValue, 1ULL);
 
     cursor = [tu cursorWithSpelling: @"TEST_NEG"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.enumConstantValue, -2LL, nil);
-    STAssertEquals(cursor.enumConstantUnsignedValue, (unsigned long long)(unsigned int)-2, @"Unsigned value should have been a conversion to unsigned int");
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.enumConstantValue, -2LL);
+    XCTAssertEqual(cursor.enumConstantUnsignedValue, (unsigned long long)(unsigned int)-2, @"Unsigned value should have been a conversion to unsigned int");
 }
 
 - (void) testBitFieldWidth {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"struct t { int f1 : 1; int f2 : 2; int f3; };"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f1"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.bitFieldWidth, 1, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.bitFieldWidth, 1);
 
     cursor = [tu cursorWithSpelling: @"f2"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.bitFieldWidth, 2, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.bitFieldWidth, 2);
 
     cursor = [tu cursorWithSpelling: @"f3"];
-    STAssertNotNil(cursor, nil);
-    STAssertEquals(cursor.bitFieldWidth, -1, nil);
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.bitFieldWidth, -1);
 }
 
 /**
@@ -354,11 +354,11 @@
 - (void) testExtendedIdentifiers {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int à;"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"à"];
-    STAssertNotNil(cursor, nil);
+    XCTAssertNotNil(cursor);
 
     tu = [self translationUnitWithSource: @"int \u00e0;"];
     cursor = [tu cursorWithSpelling: @"à"];
-    STAssertNotNil(cursor, nil);
+    XCTAssertNotNil(cursor);
 }
 
 /**
@@ -375,7 +375,7 @@
         PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: @"test.c" data: source];
         PLClangTranslationUnit *tu = [index addTranslationUnitWithSourcePath: @"test.c" unsavedFiles: @[file] compilerArguments: nil options: 0 error: &error];
         tuCursor = tu.cursor;
-        STAssertNotNil(tuCursor, @"Failed to create translation unit");
+        XCTAssertNotNil(tuCursor, @"Failed to create translation unit");
     }
 
     [tuCursor visitChildrenUsingBlock: ^PLClangCursorVisitResult(PLClangCursor *child) {
@@ -386,13 +386,13 @@
         return PLClangCursorVisitContinue;
     }];
 
-    STAssertNotNil(cursor, @"Could not find cursor for variable");
-    STAssertEqualObjects(cursor.spelling, @"t", nil);
-    STAssertEqualObjects(cursor.canonicalCursor, cursor, @"Should be able to access the canonical cursor");
+    XCTAssertNotNil(cursor, @"Could not find cursor for variable");
+    XCTAssertEqualObjects(cursor.spelling, @"t");
+    XCTAssertEqualObjects(cursor.canonicalCursor, cursor, @"Should be able to access the canonical cursor");
 
     PLClangType *type = cursor.type;
-    STAssertNotNil(type, nil);
-    STAssertEqualObjects(type.canonicalType, type, @"Should be able to access the canonical type");
+    XCTAssertNotNil(type);
+    XCTAssertEqualObjects(type.canonicalType, type, @"Should be able to access the canonical type");
 }
 
 @end

@@ -8,19 +8,19 @@
 - (void) testRange {
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"int t;" path: @"test.c"];
     PLClangSourceRange *range = [[tu cursorWithSpelling: @"t"] extent];
-    STAssertNotNil(range, @"Cursor should have an extent");
-    STAssertNotNil(range.startLocation, nil);
-    STAssertNotNil(range.endLocation, nil);
+    XCTAssertNotNil(range, @"Cursor should have an extent");
+    XCTAssertNotNil(range.startLocation);
+    XCTAssertNotNil(range.endLocation);
 
-    STAssertEqualObjects(range.startLocation.path, @"test.c", nil);
-    STAssertEquals(range.startLocation.fileOffset, (off_t)0, nil);
-    STAssertEquals(range.startLocation.lineNumber, (NSUInteger)1, nil);
-    STAssertEquals(range.startLocation.columnNumber, (NSUInteger)1, nil);
+    XCTAssertEqualObjects(range.startLocation.path, @"test.c");
+    XCTAssertEqual(range.startLocation.fileOffset, (off_t)0);
+    XCTAssertEqual(range.startLocation.lineNumber, (NSUInteger)1);
+    XCTAssertEqual(range.startLocation.columnNumber, (NSUInteger)1);
 
-    STAssertEqualObjects(range.endLocation.path, @"test.c", nil);
-    STAssertEquals(range.endLocation.fileOffset, (off_t)5, nil);
-    STAssertEquals(range.endLocation.lineNumber, (NSUInteger)1, nil);
-    STAssertEquals(range.endLocation.columnNumber, (NSUInteger)6, nil);
+    XCTAssertEqualObjects(range.endLocation.path, @"test.c");
+    XCTAssertEqual(range.endLocation.fileOffset, (off_t)5);
+    XCTAssertEqual(range.endLocation.lineNumber, (NSUInteger)1);
+    XCTAssertEqual(range.endLocation.columnNumber, (NSUInteger)6);
 }
 
 - (void) testEquality {
@@ -33,8 +33,8 @@
     location2 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
                                                                 offset: 1];
-    STAssertNotNil(location1, @"Failed to create location");
-    STAssertNotNil(location2, @"Failed to create location");
+    XCTAssertNotNil(location1, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
 
     range1 = [[PLClangSourceRange alloc] initWithStartLocation: location1 endLocation: location2];
 
@@ -44,19 +44,19 @@
     location2 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
                                                                 offset: 1];
-    STAssertNotNil(location1, @"Failed to create location");
-    STAssertNotNil(location2, @"Failed to create location");
+    XCTAssertNotNil(location1, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
 
     range2 = [[PLClangSourceRange alloc] initWithStartLocation: location1 endLocation: location2];
-    STAssertEqualObjects(range1, range2, @"Ranges should be equal");
+    XCTAssertEqualObjects(range1, range2, @"Ranges should be equal");
 
     location2 = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                   file: @"test.c"
                                                                 offset: 0];
-    STAssertNotNil(location2, @"Failed to create location");
+    XCTAssertNotNil(location2, @"Failed to create location");
 
     range2 = [[PLClangSourceRange alloc] initWithStartLocation: location1 endLocation: location2];
-    STAssertFalse([range1 isEqual: range2], @"Ranges should not be equal");
+    XCTAssertFalse([range1 isEqual: range2], @"Ranges should not be equal");
 }
 
 - (void) testInvalidRange {
@@ -67,13 +67,13 @@
                                                                                       offset: 0];
 
     range = [[PLClangSourceRange alloc] initWithStartLocation: nil endLocation: nil];
-    STAssertNil(range, nil);
+    XCTAssertNil(range);
 
     range = [[PLClangSourceRange alloc] initWithStartLocation: location endLocation: nil];
-    STAssertNil(range, nil);
+    XCTAssertNil(range);
 
     range = [[PLClangSourceRange alloc] initWithStartLocation: nil endLocation: location];
-    STAssertNil(range, nil);
+    XCTAssertNil(range);
 }
 
 @end

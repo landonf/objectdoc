@@ -31,9 +31,9 @@
     NSData *data = [source dataUsingEncoding: NSUTF8StringEncoding];
     PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: path data: data];
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path unsavedFiles: @[file] compilerArguments: @[] options: options error: &error];
-    STAssertNotNil(tu, @"Failed to parse", nil);
-    STAssertNil(error, @"Received error for successful parse");
-    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
+    XCTAssertNotNil(tu, @"Failed to parse", nil);
+    XCTAssertNil(error, @"Received error for successful parse");
+    XCTAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
 
     return tu;
 }
