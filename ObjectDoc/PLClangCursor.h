@@ -975,40 +975,40 @@ typedef NS_OPTIONS(NSUInteger, PLClangObjCPropertyAttributes) {
     PLClangObjCPropertyAttributeNone             = 0,
 
     /** The property is atomic. */
-    PLClangObjCPropertyAttributeAtomic           = 1UL << 1,
+    PLClangObjCPropertyAttributeAtomic           = 1UL << 0,
 
     /** The property is nonatomic. */
-    PLClangObjCPropertyAttributeNonAtomic        = 1UL << 2,
+    PLClangObjCPropertyAttributeNonAtomic        = 1UL << 1,
 
     /** The property is readonly. */
-    PLClangObjCPropertyAttributeReadOnly         = 1UL << 3,
+    PLClangObjCPropertyAttributeReadOnly         = 1UL << 2,
 
     /** The property is readwrite. */
-    PLClangObjCPropertyAttributeReadWrite        = 1UL << 4,
+    PLClangObjCPropertyAttributeReadWrite        = 1UL << 3,
 
     /** The property has assign semantics. */
-    PLClangObjCPropertyAttributeAssign           = 1UL << 5,
+    PLClangObjCPropertyAttributeAssign           = 1UL << 4,
 
     /** The property has copy semantics. */
-    PLClangObjCPropertyAttributeCopy             = 1UL << 6,
+    PLClangObjCPropertyAttributeCopy             = 1UL << 5,
 
     /** The property has retain semantics. */
-    PLClangObjCPropertyAttributeRetain           = 1UL << 7,
+    PLClangObjCPropertyAttributeRetain           = 1UL << 6,
 
     /** The property has __strong semantics. */
-    PLClangObjCPropertyAttributeStrong           = 1UL << 8,
+    PLClangObjCPropertyAttributeStrong           = 1UL << 7,
 
     /** The property has __unsafe_unretained semantics. */
-    PLClangObjCPropertyAttributeUnsafeUnretained = 1UL << 9,
+    PLClangObjCPropertyAttributeUnsafeUnretained = 1UL << 8,
 
     /** The property has __weak semantics. */
-    PLClangObjCPropertyAttributeWeak             = 1UL << 10,
+    PLClangObjCPropertyAttributeWeak             = 1UL << 9,
 
     /** The property has an explicit getter method. */
-    PLClangObjCPropertyAttributeGetter           = 1UL << 11,
+    PLClangObjCPropertyAttributeGetter           = 1UL << 10,
 
     /** The property has an explicit setter method. */
-    PLClangObjCPropertyAttributeSetter           = 1UL << 12
+    PLClangObjCPropertyAttributeSetter           = 1UL << 11
 };
 
 /**
