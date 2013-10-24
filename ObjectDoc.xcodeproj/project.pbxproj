@@ -779,6 +779,7 @@
 				INFOPLIST_FILE = "objectdocTests/objectdocTests-Info.plist";
 				OTHER_CFLAGS = (
 					"$(inherited)",
+					"-DSDKROOT=\"$(SDKROOT)\"",
 					"$(LLVM_CONFIG_CFLAGS)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -793,6 +794,7 @@
 				INFOPLIST_FILE = "objectdocTests/objectdocTests-Info.plist";
 				OTHER_CFLAGS = (
 					"$(inherited)",
+					"-DSDKROOT=\"$(SDKROOT)\"",
 					"$(LLVM_CONFIG_CFLAGS)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -1,5 +1,8 @@
 #import "PLClangTestCase.h"
 
+#define STRINGIFY(x) STRINGIFY_(x)
+#define STRINGIFY_(x) @#x
+
 @implementation PLClangTestCase
 
 - (void) setUp {
@@ -30,7 +33,11 @@
     NSError *error = nil;
     NSData *data = [source dataUsingEncoding: NSUTF8StringEncoding];
     PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: path data: data];
-    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path unsavedFiles: @[file] compilerArguments: @[] options: options error: &error];
+    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path
+                                                             unsavedFiles: @[file]
+                                                        compilerArguments: @[@"-isysroot", STRINGIFY(SDKROOT)]
+                                                                  options: options
+                                                                    error: &error];
     XCTAssertNotNil(tu, @"Failed to parse", nil);
     XCTAssertNil(error, @"Received error for successful parse");
     XCTAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
