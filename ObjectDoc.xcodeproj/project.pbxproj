@@ -1039,7 +1039,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Matt/Projects/ObjectDoc/Dependencies/GRMustache/lib,
+					"$(SRCROOT)/Dependencies/GRMustache/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-sectcreate",
@@ -1058,7 +1058,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Matt/Projects/ObjectDoc/Dependencies/GRMustache/lib,
+					"$(SRCROOT)/Dependencies/GRMustache/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-sectcreate",
