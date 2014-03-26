@@ -89,7 +89,7 @@
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.
  * If you are not interested in possible errors, pass in nil.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path unsavedFiles: (NSArray *) files compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path unsavedFiles: (NSArray *) files compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **) error {
     /* NOTE: This implementation fetches backing data/string pointers from the passed in Objective-C arguments; these values
      * are not guaranteed to survive past the lifetime of the current autorelease pool. */
     CXTranslationUnit tu;
@@ -179,7 +179,7 @@
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.
  * If you are not interested in possible errors, pass in nil.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path fileData: (NSData *) data compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **) error {
     NSArray *files = nil;
     if (data != nil) {
         PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: path data: data];
@@ -197,7 +197,7 @@
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.
  * If you are not interested in possible errors, pass in nil.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error {
+- (PLClangTranslationUnit *) addTranslationUnitWithCompilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **) error {
     return [self addTranslationUnitWithSourcePath: nil fileData: nil compilerArguments: arguments options: options error: error];
 }
 
@@ -210,7 +210,7 @@
  * @param error If an error occurs, upon return contains an NSError object that describes the problem.
  * If you are not interested in possible errors, pass in nil.
  */
-- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **)error {
+- (PLClangTranslationUnit *) addTranslationUnitWithSourcePath: (NSString *) path compilerArguments: (NSArray *) arguments options: (PLClangTranslationUnitCreationOptions) options error: (NSError **) error {
     return [self addTranslationUnitWithSourcePath: path fileData: nil compilerArguments: arguments options: options error: error];
 }
 

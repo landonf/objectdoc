@@ -6,7 +6,7 @@
  */
 NSString *plclang_convert_cxstring(CXString string) {
     const char *cstring = clang_getCString(string);
-    return cstring ? [NSString stringWithUTF8String:cstring] : nil;
+    return cstring ? [NSString stringWithUTF8String: cstring] : nil;
 }
 
 /**

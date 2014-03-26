@@ -1,7 +1,7 @@
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "PLClang.h"
 
-@interface PLClangTestCase : SenTestCase {
+@interface PLClangTestCase : XCTestCase {
     PLClangSourceIndex *_index;
 }
 

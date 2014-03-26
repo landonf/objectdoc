@@ -1,5 +1,8 @@
 #import "PLClangTestCase.h"
 
+#define STRINGIFY(x) STRINGIFY_(x)
+#define STRINGIFY_(x) @#x
+
 @implementation PLClangTestCase
 
 - (void) setUp {
@@ -8,7 +11,7 @@
 }
 
 /**
- * Convenience method to create a translation from the given source with options
+ * Convenience method to create a translation unit from the given source with options
  * suitable for typical unit testing.
  */
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source {
@@ -16,7 +19,7 @@
 }
 
 /**
- * Convenience method to create a translation from the given source and path with
+ * Convenience method to create a translation unit from the given source and path with
  * options suitable for typical unit testing.
  */
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source path: (NSString *) path {
@@ -24,16 +27,20 @@
 }
 
 /**
- * Convenience method to create a translation from the given source and path and options
+ * Convenience method to create a translation unit from the given source and path and options
  */
 - (PLClangTranslationUnit *) translationUnitWithSource: (NSString *) source path: (NSString *) path options: (PLClangTranslationUnitCreationOptions) options {
     NSError *error = nil;
     NSData *data = [source dataUsingEncoding: NSUTF8StringEncoding];
     PLClangUnsavedFile *file = [PLClangUnsavedFile unsavedFileWithPath: path data: data];
-    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path unsavedFiles: @[file] compilerArguments: @[] options: options error: &error];
-    STAssertNotNil(tu, @"Failed to parse", nil);
-    STAssertNil(error, @"Received error for successful parse");
-    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
+    PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: path
+                                                             unsavedFiles: @[file]
+                                                        compilerArguments: @[@"-isysroot", STRINGIFY(SDKROOT)]
+                                                                  options: options
+                                                                    error: &error];
+    XCTAssertNotNil(tu, @"Failed to parse", nil);
+    XCTAssertNil(error, @"Received error for successful parse");
+    XCTAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
 
     return tu;
 }
@@ -47,7 +54,7 @@
  */
 - (PLClangCursor *) cursorWithSpelling: (NSString *) spelling {
     __block PLClangCursor *cursor = nil;
-    [self.cursor visitChildrenUsingBlock:^PLClangCursorVisitResult(PLClangCursor *child) {
+    [self.cursor visitChildrenUsingBlock: ^PLClangCursorVisitResult(PLClangCursor *child) {
         if ([child.spelling isEqualToString: spelling]) {
             cursor = child;
             return PLClangCursorVisitBreak;

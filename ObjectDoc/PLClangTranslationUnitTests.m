@@ -18,12 +18,12 @@
     _tempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent: bundleId];
     [[NSFileManager defaultManager] removeItemAtPath: _tempDirectory error: nil];
     BOOL result = [[NSFileManager defaultManager] createDirectoryAtPath: _tempDirectory withIntermediateDirectories: YES attributes: nil error: nil];
-    STAssertTrue(result, @"Failed to create temporary directory");
+    XCTAssertTrue(result, @"Failed to create temporary directory");
 }
 
 - (void) tearDown {
     BOOL result = [[NSFileManager defaultManager] removeItemAtPath: _tempDirectory error: nil];
-    STAssertTrue(result, @"Failed to remove temporary directory");
+    XCTAssertTrue(result, @"Failed to remove temporary directory");
     [super tearDown];
 }
 
@@ -34,14 +34,14 @@
     NSError *error = nil;
     NSData *test = [@"int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
-    STAssertNotNil(tu, @"Failed to parse", nil);
-    STAssertNil(error, @"Received error for successful parse");
-    STAssertEqualObjects(tu.spelling, @"test.c", nil);
-    STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
-    STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
+    XCTAssertNotNil(tu, @"Failed to parse", nil);
+    XCTAssertNil(error, @"Received error for successful parse");
+    XCTAssertEqualObjects(tu.spelling, @"test.c");
+    XCTAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
+    XCTAssertEqual(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
 
-    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
-    STAssertTrue([tu.diagnostics count] == 0, @"No diagnostics should be returned");
+    XCTAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
+    XCTAssertTrue([tu.diagnostics count] == 0, @"No diagnostics should be returned");
 }
 
 /**
@@ -51,16 +51,16 @@
     NSError *error = nil;
     NSData *test = [@"PARSE ERROR int main (int argc, char *argv[]) { return 0; }" dataUsingEncoding: NSUTF8StringEncoding];
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
-    STAssertNotNil(tu, @"Failed to parse", nil);
-    STAssertNil(error, @"Received error for successful parse");
-    STAssertEqualObjects(tu.spelling, @"test.c", nil);
-    STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
-    STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
+    XCTAssertNotNil(tu, @"Failed to parse", nil);
+    XCTAssertNil(error, @"Received error for successful parse");
+    XCTAssertEqualObjects(tu.spelling, @"test.c");
+    XCTAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
+    XCTAssertEqual(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
 
-    STAssertTrue(tu.didFail, @"Should be marked as failed");
-    STAssertTrue([tu.diagnostics count] > 0, @"No diagnostics returned");
+    XCTAssertTrue(tu.didFail, @"Should be marked as failed");
+    XCTAssertTrue([tu.diagnostics count] > 0, @"No diagnostics returned");
     for (PLClangDiagnostic *diag in tu.diagnostics) {
-        STAssertNotNil(diag.formattedErrorMessage, @"No error message returned");
+        XCTAssertNotNil(diag.formattedErrorMessage, @"No error message returned");
     }
 }
 
@@ -71,20 +71,20 @@
     NSError *error = nil;
     NSData *test = [@"#define MACRO 1" dataUsingEncoding: NSUTF8StringEncoding];
     PLClangTranslationUnit *tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: 0 error: &error];
-    STAssertNotNil(tu, @"Failed to parse", nil);
-    STAssertNil(error, @"Received error for successful parse");
-    STAssertEqualObjects(tu.spelling, @"test.c", nil);
-    STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
-    STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
-    STAssertNil([tu cursorWithSpelling: @"MACRO"], @"Should not have found macro definition without detailed preprocessing record");
+    XCTAssertNotNil(tu, @"Failed to parse", nil);
+    XCTAssertNil(error, @"Received error for successful parse");
+    XCTAssertEqualObjects(tu.spelling, @"test.c");
+    XCTAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
+    XCTAssertEqual(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
+    XCTAssertNil([tu cursorWithSpelling: @"MACRO"], @"Should not have found macro definition without detailed preprocessing record");
 
     tu = [_index addTranslationUnitWithSourcePath: @"test.c" fileData: test compilerArguments: @[] options: PLClangTranslationUnitCreationDetailedPreprocessingRecord error: &error];
-    STAssertNotNil(tu, @"Failed to parse", nil);
-    STAssertNil(error, @"Received error for successful parse");
-    STAssertEqualObjects(tu.spelling, @"test.c", nil);
-    STAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
-    STAssertEquals(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
-    STAssertNotNil([tu cursorWithSpelling: @"MACRO"], @"Should have found macro definition with detailed preprocessing record");
+    XCTAssertNotNil(tu, @"Failed to parse", nil);
+    XCTAssertNil(error, @"Received error for successful parse");
+    XCTAssertEqualObjects(tu.spelling, @"test.c");
+    XCTAssertNotNil(tu.cursor, @"Translation unit should have a cursor");
+    XCTAssertEqual(tu.cursor.kind, PLClangCursorKindTranslationUnit, @"Cursor should be a translation unit cursor");
+    XCTAssertNotNil([tu cursorWithSpelling: @"MACRO"], @"Should have found macro definition with detailed preprocessing record");
 }
 
 /**
@@ -95,10 +95,10 @@
     PLClangSourceLocation *location = [[PLClangSourceLocation alloc] initWithTranslationUnit: tu
                                                                                         file: @"test.c"
                                                                                       offset: 4];
-    STAssertNotNil(location, @"Could not create source location");
+    XCTAssertNotNil(location, @"Could not create source location");
     PLClangCursor *cursor = [tu cursorForSourceLocation: location];
-    STAssertNotNil(cursor, @"Could not map cursor");
-    STAssertEquals(cursor.kind, PLClangCursorKindVariableDeclaration, @"Cursor should be a variable declaration");
+    XCTAssertNotNil(cursor, @"Could not map cursor");
+    XCTAssertEqual(cursor.kind, PLClangCursorKindVariableDeclaration, @"Cursor should be a variable declaration");
 }
 
 /**
@@ -113,16 +113,16 @@
                                                          options: PLClangTranslationUnitCreationIncomplete |
                                                                   PLClangTranslationUnitCreationForSerialization];
     BOOL result = [tu writeToFile: path error: &error];
-    STAssertTrue(result, @"Failed to save translation unit");
-    STAssertNil(error, @"Received error for translation unit save");
+    XCTAssertTrue(result, @"Failed to save translation unit");
+    XCTAssertNil(error, @"Received error for translation unit save");
 
     PLClangSourceIndex *index = [PLClangSourceIndex new];
     tu = [index addTranslationUnitWithASTPath: path error: &error];
-    STAssertNotNil(tu, @"Failed to parse", nil);
-    STAssertNil(error, @"Received error for successful parse");
-    STAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
+    XCTAssertNotNil(tu, @"Failed to parse", nil);
+    XCTAssertNil(error, @"Received error for successful parse");
+    XCTAssertFalse(tu.didFail, @"Should be marked as non-failed: %@", tu.diagnostics);
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
-    STAssertNotNil(cursor, @"Failed to locate cursor in translation unit loaded from AST file");
+    XCTAssertNotNil(cursor, @"Failed to locate cursor in translation unit loaded from AST file");
 }
 
 - (void) testASTFileWriteToInvalidPath {
@@ -134,10 +134,10 @@
                                                          options: PLClangTranslationUnitCreationIncomplete |
                                                                   PLClangTranslationUnitCreationForSerialization];
     BOOL result = [tu writeToFile: path error: &error];
-    STAssertFalse(result, @"Translation unit save should have failed");
-    STAssertNotNil(error, @"Should have received error for translation unit save");
-    STAssertEqualObjects(error.domain, PLClangErrorDomain, nil);
-    STAssertEquals(error.code, PLClangErrorSaveFailed, nil);
+    XCTAssertFalse(result, @"Translation unit save should have failed");
+    XCTAssertNotNil(error, @"Should have received error for translation unit save");
+    XCTAssertEqualObjects(error.domain, PLClangErrorDomain);
+    XCTAssertEqual(error.code, PLClangErrorSaveFailed);
 }
 
 @end

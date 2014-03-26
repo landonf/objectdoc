@@ -184,6 +184,9 @@
 
         case CXType_DependentSizedArray:
             return PLClangTypeKindDependentSizedArray;
+
+        case CXType_MemberPointer:
+            return PLClangTypeKindMemberPointer;
     }
 
     // Type is unknown

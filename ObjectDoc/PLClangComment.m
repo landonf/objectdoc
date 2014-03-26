@@ -111,20 +111,20 @@ typedef CXString (*PLClangCommentGetArgTextFunction)(CXComment, unsigned);
     }
 
     if (self.commandName) {
-        [string appendFormat:@": %@", self.commandName];
+        [string appendFormat: @": %@", self.commandName];
         if ([self.arguments count] > 0) {
-            [string appendFormat:@": %@", [self.arguments componentsJoinedByString:@", "]];
+            [string appendFormat: @": %@", [self.arguments componentsJoinedByString: @", "]];
         }
     }
 
     if (self.parameterName) {
-        [string appendFormat:@": %@ (%@)", self.parameterName, (self.isParameterIndexValid ? @"valid" : @"invalid")];
+        [string appendFormat: @": %@ (%@)", self.parameterName, (self.isParameterIndexValid ? @"valid" : @"invalid")];
     }
 
     return string;
 }
 
-- (NSString *)stringForCommentKind: (PLClangCommentKind) kind {
+- (NSString *) stringForCommentKind: (PLClangCommentKind) kind {
     #define CKIND(X) case PLClangCommentKind##X: return @#X;
     switch (self.kind) {
         CKIND(Text);
@@ -261,13 +261,13 @@ typedef CXString (*PLClangCommentGetArgTextFunction)(CXComment, unsigned);
 /**
  * Returns a string representation of an HTML tag.
  */
-- (NSString *)stringForHTMLTag {
+- (NSString *) stringForHTMLTag {
     NSMutableString *tag = nil;
     enum CXCommentKind kind = clang_Comment_getKind(_comment);
 
     if (kind == CXComment_HTMLStartTag) {
         tag = [NSMutableString string];
-        [tag appendFormat:@"<%@", [self stringForCommentFunction:clang_HTMLTagComment_getTagName]];
+        [tag appendFormat: @"<%@", [self stringForCommentFunction: clang_HTMLTagComment_getTagName]];
 
         unsigned count = clang_HTMLStartTag_getNumAttrs(_comment);
         for (unsigned i = 0; i < count; i++) {
@@ -275,17 +275,17 @@ typedef CXString (*PLClangCommentGetArgTextFunction)(CXComment, unsigned);
             NSString *value = plclang_convert_and_dispose_cxstring(clang_HTMLStartTag_getAttrValue(_comment, i));
 
             if (name && value) {
-                [tag appendFormat:@" %@=\"%@\"", name, value];
+                [tag appendFormat: @" %@=\"%@\"", name, value];
             }
 
             if (clang_HTMLStartTagComment_isSelfClosing(_comment)) {
-                [tag appendString:@" /"];
+                [tag appendString: @" /"];
             }
         }
 
-        [tag appendString:@">"];
+        [tag appendString: @">"];
     } else if (kind == CXComment_HTMLEndTag) {
-        tag = [NSMutableString stringWithFormat:@"</%@>", [self stringForCommentFunction:clang_HTMLTagComment_getTagName]];
+        tag = [NSMutableString stringWithFormat: @"</%@>", [self stringForCommentFunction: clang_HTMLTagComment_getTagName]];
     }
 
     return tag;
@@ -294,7 +294,7 @@ typedef CXString (*PLClangCommentGetArgTextFunction)(CXComment, unsigned);
 /**
  * Returns an NSString for the result of the given comment function.
  */
-- (NSString *)stringForCommentFunction: (PLClangCommentGetStringFunction) func {
+- (NSString *) stringForCommentFunction: (PLClangCommentGetStringFunction) func {
     return plclang_convert_and_dispose_cxstring(func(_comment));
 }
 
