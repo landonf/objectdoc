@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+	<TOC>
+		<Node>
+			<Name>{{frameworkName}} Framework Reference</Name>
+			<Path>index.html</Path>
+			<Subnodes>
+				{{#classes.count}}
+				<Node type="folder" noindex="1">
+					<Name>Reference</Name>
+					<Path>Classes/index.html</Path>
+					<Subnodes>
+						{{#classes}}
+						<Node id="{{referenceNumber}}" documentType="reference">
+							<Name>{{name}} Class Reference</Name>
+							<Path>Classes/{{name}}.html</Path>
+							<Anchor>//apple_ref/doc/uid/{{UUID}}</Anchor>
+							<Subnodes>
+								{{#fullComment}}
+								<Node type="section">
+									<Name>Overview</Name>
+									<Path>{{HTMLPath}}</Path>
+									<Anchor>//apple_ref/doc/uid/{{UUID}}-overview</Anchor>
+								</Node>
+								{{/fullComment}}
+								{{#tasks.count}}
+								<Node type="section">
+									<Name>Tasks</Name>
+									<Path>{{HTMLPath}}</Path>
+									<Anchor>//apple_ref/doc/uid/{{UUID}}-tasks</Anchor>
+								</Node>
+								{{/tasks.count}}
+								{{#properties.count}}
+								<Node type="section">
+									<Name>Properties</Name>
+									<Path>{{HTMLPath}}</Path>
+									<Anchor>//apple_ref/doc/uid/{{UUID}}-properties</Anchor>
+									<Subnodes>
+										{{#properties}}
+										<Node type="section">
+											<Name>{{name}}</Name>
+											<Path>{{HTMLPath}}</Path>
+											<Anchor>{{appleRef}}</Anchor>
+										</Node>
+										{{/properties}}
+									</Subnodes>
+								</Node>
+								{{/properties.count}}
+								{{#classMethods.count}}
+								<Node type="section">
+									<Name>Class Methods</Name>
+									<Path>{{HTMLPath}}</Path>
+									<Anchor>//apple_ref/doc/uid/{{UUID}}-instance_methods</Anchor>
+									<Subnodes>
+										{{#classMethods}}
+										<Node type="section">
+											<Name>{{name}}</Name>
+											<Path>{{HTMLPath}}</Path>
+											<Anchor>{{appleRef}}</Anchor>
+										</Node>
+										{{/classMethods}}
+									</Subnodes>
+								</Node>
+								{{/classMethods.count}}
+								{{#instanceMethods.count}}
+								<Node type="section">
+									<Name>Instance Methods</Name>
+									<Path>{{HTMLPath}}</Path>
+									<Anchor>//apple_ref/doc/uid/{{UUID}}-instance_methods</Anchor>
+									<Subnodes>
+										{{#instanceMethods}}
+										<Node type="section">
+											<Name>{{name}}</Name>
+											<Path>{{HTMLPath}}</Path>
+											<Anchor>{{appleRef}}</Anchor>
+										</Node>
+										{{/instanceMethods}}
+									</Subnodes>
+								</Node>
+								{{/instanceMethods.count}}
+								{{#.constants.count}}
+								<Node type="section">
+									<Name>Constants</Name>
+									<Path>{{HTMLPath}}</Path>
+									<Anchor>//apple_ref/doc/uid/{{UUID}}-constants</Anchor>
+									<Subnodes>
+										{{#constants}}
+										<Node type="section">
+											<Name>{{name}}</Name>
+											<Path>{{HTMLPath}}</Path>
+											<Anchor>{{appleRef}}</Anchor>
+										</Node>
+										{{/constants}}
+									</Subnodes>
+								</Node>
+								{{/.constants.count}}
+							</Subnodes>
+						</Node>
+						{{/classes}}
+					</Subnodes>
+				</Node>
+				{{/classes.count}}
+			</Subnodes>
+		</Node>
+	</TOC>
+</DocSetNodes>

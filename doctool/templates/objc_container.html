@@ -1,0 +1,148 @@
+<html>
+<head>
+	<title>{{title}}</title>
+	<meta scheme="apple_ref" id="identifier" name="identifier" content="//apple_ref/doc/uid/{{UUID}}">
+	<link rel="stylesheet" href="../css/docset.css" type="text/css" />
+	<script src="../js/docset.js" type="text/javascript"></script>
+</head>
+<body>
+<article id="contents">
+<a name="//apple_ref/doc/uid/{{UUID}}" title="{{name}}"></a>
+<a name="{{appleRef}}"></a>
+<h1 class="pageTitle">{{title}}</h1>
+
+<div id="spec_sheet" class="hideInXcode5">
+	<table cellspacing="0" cellpadding="0" class="specbox">
+		<tbody>
+			{{#allSuperclasses.count}}
+			<tr>
+				<td><strong>Inherits from</strong></td>
+				<td><ul id="superclasses">{{#allSuperclasses}}<li>{{name}}</li>{{/allSuperclasses}}</ul></td>
+			</tr>
+			{{/allSuperclasses.count}}
+			{{#allProtocols.count}}
+			<tr>
+				<td><strong>Conforms to</strong></td>
+				<td>
+				{{#protocols}}{{#.HTMLPath}}<a href="{{.}}">{{/.HTMLPath}}{{.}}{{#.HTMLPath}}</a>{{/.HTMLPath}}<br>{{/protocols}}
+				{{#allSuperclasses}}
+				{{#protocols}}{{.}} ({{name}})<br>{{/protocols}}
+				{{/allSuperclasses}}
+				</td>
+			</tr>
+			{{/allProtocols.count}}
+			{{#frameworkName}}
+			<tr>
+				<td><strong>Framework</strong></td>
+				<td><a href="../index.html">{{.}}</a></td>
+			</tr>
+			{{/frameworkName}}
+			{{#path}}
+			<tr>
+				<td><strong>Declared in</strong></td>
+				<td>{{.lastPathComponent}}</td>
+			</tr>
+			{{/path}}
+		</tbody>
+	</table>
+</div>
+
+{{#fullComment}}
+<div id="overview_section">
+	<a name="//apple_ref/doc/uid/{{UUID}}-overview" title="Overview"></a>
+	<h2>Overview</h2>
+	{{{.}}}
+</div>
+{{/fullComment}}
+
+{{#tasks.count}}
+<div id="tasks_section">
+	<a name="//apple_ref/doc/uid/{{UUID}}-tasks" title="Tasks"></a>
+	<h2>Tasks</h2>
+
+	{{#tasks}}
+	<h3>{{name}}</h3>
+	<ul>
+		{{#methods}}
+		{{#isProperty}}
+		<li>
+		<code><a href="#{{appleRef}}">&nbsp;&nbsp;{{name}}</a></code>
+		<span class="task_api_suffix">&nbsp;property</span>{{#deprecated}} <span class="deprecated">&nbsp;Deprecated</span>{{/deprecated}}
+		</li>
+		{{/isProperty}}
+		{{#isClassMethod}}
+		<li><code><a href="#{{appleRef}}">+ {{name}}</a></code>{{#requiredMethod}} <span class="task_api_suffix">&nbsp;required method</span>{{/requiredMethod}}{{#deprecated}} <span class="deprecated">&nbsp;Deprecated</span>{{/deprecated}}</li>
+		{{/isClassMethod}}
+		{{#isInstanceMethod}}
+		<li><code><a href="#{{appleRef}}">- {{name}}</a></code>{{#requiredMethod}} <span class="task_api_suffix">&nbsp;required method</span>{{/requiredMethod}}{{#deprecated}} <span class="deprecated">&nbsp;Deprecated</span>{{/deprecated}}</li>
+		{{/isInstanceMethod}}
+		{{/methods}}
+	</ul>
+	{{/tasks}}
+</div>
+{{/tasks.count}}
+
+{{#properties.count}}
+<a name="//apple_ref/doc/uid/{{UUID}}-properties"></a>
+<h2>Properties</h2>
+
+<div class="method">
+{{#properties}}
+{{> objc_node}}
+{{/properties}}
+</div>
+{{/properties.count}}
+
+{{#classMethods.count}}
+<a name="//apple_ref/doc/uid/{{UUID}}-class_methods" title="Class Methods"></a>
+<h2>Class Methods</h2>
+
+<div class="method">
+{{#classMethods}}
+{{> objc_node}}
+{{/classMethods}}
+</div>
+{{/classMethods.count}}
+
+{{#instanceMethods.count}}
+<a name="//apple_ref/doc/uid/{{UUID}}-instance_methods" title="Instance Methods"></a>
+<h2>Instance Methods</h2>
+
+<div class="method">
+{{#instanceMethods}}
+{{> objc_node}}
+{{/instanceMethods}}
+</div>
+{{/instanceMethods.count}}
+
+{{#constants.count}}
+<a name="//apple_ref/doc/uid/{{UUID}}-constants" title="Constants"></a>
+<h2>Constants</h2>
+
+<div class="constant">
+{{#constants}}
+{{> objc_node}}
+{{/constants}}
+</div>
+{{/constants.count}}
+
+{{#functions.count}}
+<a name="//apple_ref/doc/uid/{{UUID}}-functions" title="Constants"></a>
+<h2>Functions</h2>
+
+<div class="function">
+{{#functions}}
+{{> objc_node}}
+{{/functions}}
+</div>
+{{/functions.count}}
+
+<div class="footer clear">
+<hr>
+<div align="center">
+Generated on {{generatedDate}}
+</div>
+</div>
+</article>
+</body>
+</html>

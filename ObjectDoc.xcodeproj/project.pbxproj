@@ -53,6 +53,25 @@
 		C9A9221517C3A9DA0052CB64 /* PLClangVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9221317C3A9DA0052CB64 /* PLClangVersion.h */; };
 		C9A9221617C3A9DA0052CB64 /* PLClangVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A9221417C3A9DA0052CB64 /* PLClangVersion.m */; };
 		C9A9221817C3A9F90052CB64 /* PLClangVersionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C9A9221717C3A9F90052CB64 /* PLClangVersionPrivate.h */; };
+		C9E8B1DD17D8C33200D7526D /* DTConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B1DC17D8C33200D7526D /* DTConfiguration.m */; };
+		C9E8B1E017D8CCE100D7526D /* DTSourceParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B1DF17D8CCE100D7526D /* DTSourceParser.m */; };
+		C9E8B1E317D8D04400D7526D /* DTNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B1E217D8D04400D7526D /* DTNode.m */; };
+		C9E8B1E617D8D14300D7526D /* DTApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B1E517D8D14300D7526D /* DTApplication.m */; };
+		C9E8B1E917D8E76200D7526D /* DTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B1E817D8E76200D7526D /* DTLibrary.m */; };
+		C9E8B1ED17D9208900D7526D /* DTTask.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B1EC17D9208900D7526D /* DTTask.m */; };
+		C9E8B2F517D9264700D7526D /* nodes.xml in Copy Templates */ = {isa = PBXBuildFile; fileRef = C9E8B2EE17D9260F00D7526D /* nodes.xml */; };
+		C9E8B2F617D9264700D7526D /* objc_container.html in Copy Templates */ = {isa = PBXBuildFile; fileRef = C9E8B2EF17D9260F00D7526D /* objc_container.html */; };
+		C9E8B2F717D9264700D7526D /* objc_node.html in Copy Templates */ = {isa = PBXBuildFile; fileRef = C9E8B2F017D9260F00D7526D /* objc_node.html */; };
+		C9E8B2F817D9264700D7526D /* token.xml in Copy Templates */ = {isa = PBXBuildFile; fileRef = C9E8B2F117D9260F00D7526D /* token.xml */; };
+		C9E8B2F917D9264700D7526D /* tokens.xml in Copy Templates */ = {isa = PBXBuildFile; fileRef = C9E8B2F217D9260F00D7526D /* tokens.xml */; };
+		C9E8B2FB17D9268300D7526D /* docset.css in Copy Template CSS */ = {isa = PBXBuildFile; fileRef = C9E8B2EA17D9260F00D7526D /* docset.css */; };
+		C9E8B2FF17D9271300D7526D /* docset.js in Copy Template JavaScript */ = {isa = PBXBuildFile; fileRef = C9E8B2FE17D9270600D7526D /* docset.js */; };
+		C9E8B30217D9279500D7526D /* DocTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B30117D9279500D7526D /* DocTool.m */; };
+		C9E8B30617D930C600D7526D /* DTHTMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B30517D930C600D7526D /* DTHTMLGenerator.m */; };
+		C9E8B30917D930D000D7526D /* DTDocSetGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B30817D930D000D7526D /* DTDocSetGenerator.m */; };
+		C9E8B30A17D935DC00D7526D /* index.html in Copy Templates */ = {isa = PBXBuildFile; fileRef = C9E8B2EB17D9260F00D7526D /* index.html */; };
+		C9E8B30D17D978D200D7526D /* DTDoxygenCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E8B30C17D978D200D7526D /* DTDoxygenCommands.m */; };
+		C9E8B32417D97DC700D7526D /* libGRMustache6-MacOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8B32317D97DB800D7526D /* libGRMustache6-MacOS.a */; };
 		C9F243BE17C08E75005E01BF /* PLClangNSString.h in Headers */ = {isa = PBXBuildFile; fileRef = C9F243BC17C08E75005E01BF /* PLClangNSString.h */; };
 		C9F243BF17C08E75005E01BF /* PLClangNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F243BD17C08E75005E01BF /* PLClangNSString.m */; };
 		C9F243C117C11090005E01BF /* PLClangCursorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F243C017C11090005E01BF /* PLClangCursorTests.m */; };
@@ -93,14 +112,53 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		05BE067516B4422C00DF46D5 /* CopyFiles */ = {
+		05BE067516B4422C00DF46D5 /* Copy Manpage */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 			);
+			name = "Copy Manpage";
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		C9E8B2F417D9262700D7526D /* Copy Templates */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = templates;
+			dstSubfolderSpec = 7;
+			files = (
+				C9E8B30A17D935DC00D7526D /* index.html in Copy Templates */,
+				C9E8B2F517D9264700D7526D /* nodes.xml in Copy Templates */,
+				C9E8B2F617D9264700D7526D /* objc_container.html in Copy Templates */,
+				C9E8B2F717D9264700D7526D /* objc_node.html in Copy Templates */,
+				C9E8B2F817D9264700D7526D /* token.xml in Copy Templates */,
+				C9E8B2F917D9264700D7526D /* tokens.xml in Copy Templates */,
+			);
+			name = "Copy Templates";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9E8B2FA17D9266F00D7526D /* Copy Template CSS */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = templates/css;
+			dstSubfolderSpec = 7;
+			files = (
+				C9E8B2FB17D9268300D7526D /* docset.css in Copy Template CSS */,
+			);
+			name = "Copy Template CSS";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9E8B2FC17D9269000D7526D /* Copy Template JavaScript */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = templates/js;
+			dstSubfolderSpec = 7;
+			files = (
+				C9E8B2FF17D9271300D7526D /* docset.js in Copy Template JavaScript */,
+			);
+			name = "Copy Template JavaScript";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -156,6 +214,52 @@
 		C9A9221317C3A9DA0052CB64 /* PLClangVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangVersion.h; sourceTree = "<group>"; };
 		C9A9221417C3A9DA0052CB64 /* PLClangVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangVersion.m; sourceTree = "<group>"; };
 		C9A9221717C3A9F90052CB64 /* PLClangVersionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangVersionPrivate.h; sourceTree = "<group>"; };
+		C9E8B1DB17D8C33200D7526D /* DTConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConfiguration.h; sourceTree = "<group>"; };
+		C9E8B1DC17D8C33200D7526D /* DTConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTConfiguration.m; sourceTree = "<group>"; };
+		C9E8B1DE17D8CCE100D7526D /* DTSourceParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTSourceParser.h; sourceTree = "<group>"; };
+		C9E8B1DF17D8CCE100D7526D /* DTSourceParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTSourceParser.m; sourceTree = "<group>"; };
+		C9E8B1E117D8D04400D7526D /* DTNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTNode.h; sourceTree = "<group>"; };
+		C9E8B1E217D8D04400D7526D /* DTNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTNode.m; sourceTree = "<group>"; };
+		C9E8B1E417D8D14300D7526D /* DTApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTApplication.h; sourceTree = "<group>"; };
+		C9E8B1E517D8D14300D7526D /* DTApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTApplication.m; sourceTree = "<group>"; };
+		C9E8B1E717D8E76200D7526D /* DTLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTLibrary.h; sourceTree = "<group>"; };
+		C9E8B1E817D8E76200D7526D /* DTLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTLibrary.m; sourceTree = "<group>"; };
+		C9E8B1EA17D8ECC300D7526D /* doctool-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "doctool-Info.plist"; sourceTree = "<group>"; };
+		C9E8B1EB17D9208900D7526D /* DTTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTask.h; sourceTree = "<group>"; };
+		C9E8B1EC17D9208900D7526D /* DTTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTask.m; sourceTree = "<group>"; };
+		C9E8B2EA17D9260F00D7526D /* docset.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = docset.css; sourceTree = "<group>"; };
+		C9E8B2EB17D9260F00D7526D /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		C9E8B2EE17D9260F00D7526D /* nodes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = nodes.xml; sourceTree = "<group>"; };
+		C9E8B2EF17D9260F00D7526D /* objc_container.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = objc_container.html; sourceTree = "<group>"; };
+		C9E8B2F017D9260F00D7526D /* objc_node.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = objc_node.html; sourceTree = "<group>"; };
+		C9E8B2F117D9260F00D7526D /* token.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = token.xml; sourceTree = "<group>"; };
+		C9E8B2F217D9260F00D7526D /* tokens.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tokens.xml; sourceTree = "<group>"; };
+		C9E8B2FE17D9270600D7526D /* docset.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = docset.js; sourceTree = "<group>"; };
+		C9E8B30017D9279500D7526D /* DocTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocTool.h; sourceTree = "<group>"; };
+		C9E8B30117D9279500D7526D /* DocTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocTool.m; sourceTree = "<group>"; };
+		C9E8B30317D9309200D7526D /* DTGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTGenerator.h; sourceTree = "<group>"; };
+		C9E8B30417D930C600D7526D /* DTHTMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTHTMLGenerator.h; sourceTree = "<group>"; };
+		C9E8B30517D930C600D7526D /* DTHTMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTHTMLGenerator.m; sourceTree = "<group>"; };
+		C9E8B30717D930D000D7526D /* DTDocSetGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTDocSetGenerator.h; sourceTree = "<group>"; };
+		C9E8B30817D930D000D7526D /* DTDocSetGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTDocSetGenerator.m; sourceTree = "<group>"; };
+		C9E8B30B17D978D200D7526D /* DTDoxygenCommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTDoxygenCommands.h; sourceTree = "<group>"; };
+		C9E8B30C17D978D200D7526D /* DTDoxygenCommands.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTDoxygenCommands.m; sourceTree = "<group>"; };
+		C9E8B31217D97DB800D7526D /* GRMustache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustache.h; sourceTree = "<group>"; };
+		C9E8B31317D97DB800D7526D /* GRMustacheAvailabilityMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheAvailabilityMacros.h; sourceTree = "<group>"; };
+		C9E8B31417D97DB800D7526D /* GRMustacheConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheConfiguration.h; sourceTree = "<group>"; };
+		C9E8B31517D97DB800D7526D /* GRMustacheContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheContext.h; sourceTree = "<group>"; };
+		C9E8B31617D97DB800D7526D /* GRMustacheError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheError.h; sourceTree = "<group>"; };
+		C9E8B31717D97DB800D7526D /* GRMustacheFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheFilter.h; sourceTree = "<group>"; };
+		C9E8B31817D97DB800D7526D /* GRMustacheLocalizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheLocalizer.h; sourceTree = "<group>"; };
+		C9E8B31917D97DB800D7526D /* GRMustacheRendering.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheRendering.h; sourceTree = "<group>"; };
+		C9E8B31A17D97DB800D7526D /* GRMustacheTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheTag.h; sourceTree = "<group>"; };
+		C9E8B31B17D97DB800D7526D /* GRMustacheTagDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheTagDelegate.h; sourceTree = "<group>"; };
+		C9E8B31C17D97DB800D7526D /* GRMustacheTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplate.h; sourceTree = "<group>"; };
+		C9E8B31D17D97DB800D7526D /* GRMustacheTemplateRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheTemplateRepository.h; sourceTree = "<group>"; };
+		C9E8B31E17D97DB800D7526D /* GRMustacheVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRMustacheVersion.h; sourceTree = "<group>"; };
+		C9E8B31F17D97DB800D7526D /* NSFormatter+GRMustache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFormatter+GRMustache.h"; sourceTree = "<group>"; };
+		C9E8B32017D97DB800D7526D /* NSValueTransformer+GRMustache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSValueTransformer+GRMustache.h"; sourceTree = "<group>"; };
+		C9E8B32317D97DB800D7526D /* libGRMustache6-MacOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libGRMustache6-MacOS.a"; sourceTree = "<group>"; };
 		C9F243BC17C08E75005E01BF /* PLClangNSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangNSString.h; sourceTree = "<group>"; };
 		C9F243BD17C08E75005E01BF /* PLClangNSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangNSString.m; sourceTree = "<group>"; };
 		C9F243C017C11090005E01BF /* PLClangCursorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangCursorTests.m; sourceTree = "<group>"; };
@@ -203,6 +307,7 @@
 			files = (
 				05BE067A16B4422C00DF46D5 /* Foundation.framework in Frameworks */,
 				05BE068716B4424900DF46D5 /* ObjectDoc.framework in Frameworks */,
+				C9E8B32417D97DC700D7526D /* libGRMustache6-MacOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +321,7 @@
 				05BE065E16B43ECF00DF46D5 /* ObjectDocTests */,
 				05BE067B16B4422C00DF46D5 /* doctool */,
 				05BE064116B43ECE00DF46D5 /* Frameworks */,
+				C9E8B30F17D97D8400D7526D /* Dependencies */,
 				05BE064016B43ECE00DF46D5 /* Products */,
 			);
 			indentWidth = 4;
@@ -295,7 +401,29 @@
 		05BE067B16B4422C00DF46D5 /* doctool */ = {
 			isa = PBXGroup;
 			children = (
+				C9E8B30017D9279500D7526D /* DocTool.h */,
+				C9E8B30117D9279500D7526D /* DocTool.m */,
+				C9E8B1E417D8D14300D7526D /* DTApplication.h */,
+				C9E8B1E517D8D14300D7526D /* DTApplication.m */,
+				C9E8B1DB17D8C33200D7526D /* DTConfiguration.h */,
+				C9E8B1DC17D8C33200D7526D /* DTConfiguration.m */,
+				C9E8B30717D930D000D7526D /* DTDocSetGenerator.h */,
+				C9E8B30817D930D000D7526D /* DTDocSetGenerator.m */,
+				C9E8B30B17D978D200D7526D /* DTDoxygenCommands.h */,
+				C9E8B30C17D978D200D7526D /* DTDoxygenCommands.m */,
+				C9E8B30317D9309200D7526D /* DTGenerator.h */,
+				C9E8B30417D930C600D7526D /* DTHTMLGenerator.h */,
+				C9E8B30517D930C600D7526D /* DTHTMLGenerator.m */,
+				C9E8B1E717D8E76200D7526D /* DTLibrary.h */,
+				C9E8B1E817D8E76200D7526D /* DTLibrary.m */,
+				C9E8B1E117D8D04400D7526D /* DTNode.h */,
+				C9E8B1E217D8D04400D7526D /* DTNode.m */,
+				C9E8B1DE17D8CCE100D7526D /* DTSourceParser.h */,
+				C9E8B1DF17D8CCE100D7526D /* DTSourceParser.m */,
+				C9E8B1EB17D9208900D7526D /* DTTask.h */,
+				C9E8B1EC17D9208900D7526D /* DTTask.m */,
 				05BE067C16B4422C00DF46D5 /* main.m */,
+				C9E8B2E717D925F700D7526D /* Resources */,
 				05BE067E16B4422C00DF46D5 /* Supporting Files */,
 			);
 			path = doctool;
@@ -304,8 +432,96 @@
 		05BE067E16B4422C00DF46D5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C9E8B1EA17D8ECC300D7526D /* doctool-Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C9E8B2E717D925F700D7526D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B2E817D9260F00D7526D /* templates */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		C9E8B2E817D9260F00D7526D /* templates */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B2E917D9260F00D7526D /* css */,
+				C9E8B2EB17D9260F00D7526D /* index.html */,
+				C9E8B2EC17D9260F00D7526D /* js */,
+				C9E8B2EE17D9260F00D7526D /* nodes.xml */,
+				C9E8B2EF17D9260F00D7526D /* objc_container.html */,
+				C9E8B2F017D9260F00D7526D /* objc_node.html */,
+				C9E8B2F117D9260F00D7526D /* token.xml */,
+				C9E8B2F217D9260F00D7526D /* tokens.xml */,
+			);
+			path = templates;
+			sourceTree = "<group>";
+		};
+		C9E8B2E917D9260F00D7526D /* css */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B2EA17D9260F00D7526D /* docset.css */,
+			);
+			path = css;
+			sourceTree = "<group>";
+		};
+		C9E8B2EC17D9260F00D7526D /* js */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B2FE17D9270600D7526D /* docset.js */,
+			);
+			path = js;
+			sourceTree = "<group>";
+		};
+		C9E8B30F17D97D8400D7526D /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B31017D97D9E00D7526D /* GRMustache */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		C9E8B31017D97D9E00D7526D /* GRMustache */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B31117D97DB800D7526D /* include */,
+				C9E8B32117D97DB800D7526D /* lib */,
+			);
+			name = GRMustache;
+			path = Dependencies/GRMustache;
+			sourceTree = "<group>";
+		};
+		C9E8B31117D97DB800D7526D /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B31217D97DB800D7526D /* GRMustache.h */,
+				C9E8B31317D97DB800D7526D /* GRMustacheAvailabilityMacros.h */,
+				C9E8B31417D97DB800D7526D /* GRMustacheConfiguration.h */,
+				C9E8B31517D97DB800D7526D /* GRMustacheContext.h */,
+				C9E8B31617D97DB800D7526D /* GRMustacheError.h */,
+				C9E8B31717D97DB800D7526D /* GRMustacheFilter.h */,
+				C9E8B31817D97DB800D7526D /* GRMustacheLocalizer.h */,
+				C9E8B31917D97DB800D7526D /* GRMustacheRendering.h */,
+				C9E8B31A17D97DB800D7526D /* GRMustacheTag.h */,
+				C9E8B31B17D97DB800D7526D /* GRMustacheTagDelegate.h */,
+				C9E8B31C17D97DB800D7526D /* GRMustacheTemplate.h */,
+				C9E8B31D17D97DB800D7526D /* GRMustacheTemplateRepository.h */,
+				C9E8B31E17D97DB800D7526D /* GRMustacheVersion.h */,
+				C9E8B31F17D97DB800D7526D /* NSFormatter+GRMustache.h */,
+				C9E8B32017D97DB800D7526D /* NSValueTransformer+GRMustache.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		C9E8B32117D97DB800D7526D /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				C9E8B32317D97DB800D7526D /* libGRMustache6-MacOS.a */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 		FCE45D525275A511EEFA311F /* Clang */ = {
@@ -465,7 +681,10 @@
 			buildPhases = (
 				05BE067316B4422C00DF46D5 /* Sources */,
 				05BE067416B4422C00DF46D5 /* Frameworks */,
-				05BE067516B4422C00DF46D5 /* CopyFiles */,
+				05BE067516B4422C00DF46D5 /* Copy Manpage */,
+				C9E8B2F417D9262700D7526D /* Copy Templates */,
+				C9E8B2FA17D9266F00D7526D /* Copy Template CSS */,
+				C9E8B2FC17D9269000D7526D /* Copy Template JavaScript */,
 			);
 			buildRules = (
 			);
@@ -587,7 +806,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E8B30217D9279500D7526D /* DocTool.m in Sources */,
+				C9E8B1DD17D8C33200D7526D /* DTConfiguration.m in Sources */,
+				C9E8B30D17D978D200D7526D /* DTDoxygenCommands.m in Sources */,
+				C9E8B30617D930C600D7526D /* DTHTMLGenerator.m in Sources */,
+				C9E8B1E917D8E76200D7526D /* DTLibrary.m in Sources */,
+				C9E8B1E317D8D04400D7526D /* DTNode.m in Sources */,
+				C9E8B1E617D8D14300D7526D /* DTApplication.m in Sources */,
 				05BE067D16B4422C00DF46D5 /* main.m in Sources */,
+				C9E8B30917D930D000D7526D /* DTDocSetGenerator.m in Sources */,
+				C9E8B1E017D8CCE100D7526D /* DTSourceParser.m in Sources */,
+				C9E8B1ED17D9208900D7526D /* DTTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +863,7 @@
 				CLANG_CONFIG_LDFLAGS = "$(LLVM_INSTALL_DIR)/lib/libclang.a -lclangARCMigrate -lclangAST -lclangASTMatchers -lclangAnalysis -lclangBasic -lclangCodeGen -lclangDriver -lclangEdit -lclangFormat -lclangFrontend -lclangFrontendTool -lclangIndex -lclangLex -lclangParse -lclangRewriteCore -lclangRewriteFrontend -lclangSema -lclangSerialization -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangStaticAnalyzerFrontend -lclangTooling";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -686,6 +916,7 @@
 				CLANG_CONFIG_LDFLAGS = "$(LLVM_INSTALL_DIR)/lib/libclang.a -lclangARCMigrate -lclangAST -lclangASTMatchers -lclangAnalysis -lclangBasic -lclangCodeGen -lclangDriver -lclangEdit -lclangFormat -lclangFrontend -lclangFrontendTool -lclangIndex -lclangLex -lclangParse -lclangRewriteCore -lclangRewriteFrontend -lclangSema -lclangSerialization -lclangStaticAnalyzerCheckers -lclangStaticAnalyzerCore -lclangStaticAnalyzerFrontend -lclangTooling";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -806,6 +1037,16 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/GRMustache/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"doctool/doctool-Info.plist",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -815,6 +1056,16 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Dependencies/GRMustache/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"doctool/doctool-Info.plist",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

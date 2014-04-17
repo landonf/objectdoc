@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title>{{title}}</title>
+	<link rel="stylesheet" href="css/docset.css" type="text/css" />
+</head>
+<body>
+<article id="contents">
+
+<h1>{{title}}</h1>
+
+{{#classes.count}}
+<div class="index_column">
+<ol>
+<div class="collection_header">Class References</div>
+{{#classes}}
+<li><a href="Classes/{{name}}.html">{{name}}</a></li>
+{{/classes}}
+</ol>
+</div>
+{{/classes.count}}
+
+{{#protocols.count}}
+<div class="index_column">
+<ol>
+<div class="collection_header">Protocol References</div>
+{{#protocols}}
+<li><a href="Protocols/{{name}}.html">{{name}}</a></li>
+{{/protocols}}
+</ol>
+</div>
+{{/protocols.count}}
+
+{{#includeOtherReferences}}
+<div class="index_column">
+<ol>
+<div class="collection_header">Other References</div>
+{{#constants.count}}
+<li><a href="Misc/Constants.html">{{frameworkName}} Constants</a></li>
+{{/constants.count}}
+{{#functions.count}}
+<li><a href="Misc/Functions.html">{{frameworkName}} Functions</a></li>
+{{/functions.count}}
+</ol>
+</div>
+{{/includeOtherReferences}}
+
+<p class="clear"></p>
+
+<div class="footer clear">
+<hr>
+<div align="center">
+Generated on {{generatedDate}}
+</div>
+</div>
+</article>
+</body>
+</html>

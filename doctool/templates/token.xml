@@ -1,0 +1,14 @@
+	<Token>
+		<TokenIdentifier>{{appleRef}}</TokenIdentifier>
+		<Path>{{HTMLPath}}</Path>
+		<Anchor>{{appleRef}}</Anchor>
+		<Abstract>{{briefComment}}</Abstract>
+		<Availability distribution="{{frameworkName}}">
+			<IntroducedInVersion>1.0</IntroducedInVersion>
+		</Availability>
+		<DeclaredIn>
+			<HeaderPath>{{path.lastPathComponent}}</HeaderPath>
+			<FrameworkName>{{frameworkName}}</FrameworkName>
+		</DeclaredIn>
+		{{#referenceNumber}}<NodeRef refid="{{referenceNumber}}" />{{/referenceNumber}}
+	</Token>
