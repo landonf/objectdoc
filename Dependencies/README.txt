@@ -7,3 +7,13 @@ GRMustache
 
     License:
       MIT
+
+LLVM
+    Description:
+      LLVM and Clang sources.
+
+    Version:
+      3.4 downloaded from http://llvm.org/releases/download.html
+
+    License:
+      "UIUC" BSD-Style license
