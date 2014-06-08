@@ -90,6 +90,7 @@
 		C9F243BF17C08E75005E01BF /* PLClangNSString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F243BD17C08E75005E01BF /* PLClangNSString.m */; };
 		C9F243C117C11090005E01BF /* PLClangCursorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F243C017C11090005E01BF /* PLClangCursorTests.m */; };
 		C9F243C617C1119E005E01BF /* PLClangTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F243C317C11196005E01BF /* PLClangTestCase.m */; };
+		C9F6C0331944066400D3011F /* clang in Copy Clang Headers */ = {isa = PBXBuildFile; fileRef = C9F6C030194405F300D3011F /* clang */; };
 		FCE4508CD72B9C5BAAF6F603 /* PLClangDiagnostic.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4576CFA89A9EA19B558F9 /* PLClangDiagnostic.h */; };
 		FCE4511607B3484B969529F5 /* PLSourceLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE4517E1BB8112F853B6650 /* PLSourceLocation.h */; };
 		FCE451617D97D37E53EE138F /* PLClangSourceLocationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE45F27005C44A99E4A1F06 /* PLClangSourceLocationPrivate.h */; };
@@ -179,6 +180,17 @@
 				C9E8B2FF17D9271300D7526D /* docset.js in Copy Template JavaScript */,
 			);
 			name = "Copy Template JavaScript";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9F6C0321944065A00D3011F /* Copy Clang Headers */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				C9F6C0331944066400D3011F /* clang in Copy Clang Headers */,
+			);
+			name = "Copy Clang Headers";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -291,6 +303,7 @@
 		C9F243C017C11090005E01BF /* PLClangCursorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangCursorTests.m; sourceTree = "<group>"; };
 		C9F243C217C11196005E01BF /* PLClangTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLClangTestCase.h; sourceTree = "<group>"; };
 		C9F243C317C11196005E01BF /* PLClangTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLClangTestCase.m; sourceTree = "<group>"; };
+		C9F6C030194405F300D3011F /* clang */ = {isa = PBXFileReference; lastKnownFileType = text; name = clang; path = "../clang-install/lib/clang"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCE4500562CD408DEE335EAC /* PLClangSourceIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLClangSourceIndex.h; path = ObjectDoc/PLClangSourceIndex.h; sourceTree = SOURCE_ROOT; };
 		FCE4502439DC9B6948831382 /* PLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLAdditions.h; sourceTree = "<group>"; };
 		FCE4509877E08051C0B7C274 /* PLClangTranslationUnitPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLClangTranslationUnitPrivate.h; path = ObjectDoc/PLClangTranslationUnitPrivate.h; sourceTree = SOURCE_ROOT; };
@@ -343,6 +356,7 @@
 		05A2157C19008B310050A058 /* LLVM */ = {
 			isa = PBXGroup;
 			children = (
+				C9F6C030194405F300D3011F /* clang */,
 				05A2157D19008B310050A058 /* clang-3.4.src.tar.gz */,
 				05A2157E19008B310050A058 /* clang-3.4.src.tar.gz.sig */,
 				05A2157F19008B310050A058 /* llvm-3.4.src.tar.gz */,
@@ -686,6 +700,7 @@
 				05BE063B16B43ECE00DF46D5 /* Frameworks */,
 				05BE063C16B43ECE00DF46D5 /* Headers */,
 				05BE063D16B43ECE00DF46D5 /* Resources */,
+				C9F6C0321944065A00D3011F /* Copy Clang Headers */,
 			);
 			buildRules = (
 			);
@@ -1168,6 +1183,7 @@
 				05A2157A19008A910050A058 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		05BE063816B43ECE00DF46D5 /* Build configuration list for PBXProject "ObjectDoc" */ = {
 			isa = XCConfigurationList;
