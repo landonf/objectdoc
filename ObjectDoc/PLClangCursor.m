@@ -26,6 +26,18 @@
     /** The backing clang cursor. */
     CXCursor _cursor;
 
+    /** The Unified Symbol Resolution for this cursor. */
+    NSString *_USR;
+
+    /** The spelling for this cursor. */
+    NSString *_spelling;
+
+    /**
+     * The display name for this cursor, which may contain additional identifying
+     * information beyond the spelling such as the parameters of a function.
+     */
+    NSString *_displayName;
+
     /** The source location for this cursor. */
     PLClangSourceLocation *_location;
 
@@ -45,6 +57,12 @@
     PLClangType *_resultType;
     PLClangType *_receiverType;
     PLClangType *_enumDeclarationIntegerType;
+
+    /** The arguments for this cursor, if any. */
+    NSArray *_arguments;
+
+    /** The overloaded declarations for this cursor, if any. */
+    NSArray *_overloadedDeclarations;
 
     /**
      * Platform availability information derived from the availability,
@@ -558,6 +576,18 @@
     abort();
 }
 
+- (NSString *) USR {
+    return _USR ?: (_USR = plclang_convert_and_dispose_cxstring(clang_getCursorUSR(_cursor)));
+}
+
+- (NSString *) spelling {
+    return _spelling ?: (_spelling = plclang_convert_and_dispose_cxstring(clang_getCursorSpelling(_cursor)));
+}
+
+- (NSString *) displayName {
+    return _displayName ?: (_displayName = plclang_convert_and_dispose_cxstring(clang_getCursorDisplayName(_cursor)));
+}
+
 /**
  * The physical location of the source constructor referenced by this cursor.
  *
@@ -834,6 +864,38 @@
     return clang_getEnumConstantDeclUnsignedValue(_cursor);
 }
 
+- (NSArray *) arguments {
+    if (_arguments == nil) {
+        int argCount = clang_Cursor_getNumArguments(_cursor);
+        if (argCount >= 0) {
+            NSMutableArray *arguments = [NSMutableArray arrayWithCapacity: (unsigned int)argCount];
+
+            for (unsigned int i = 0; i < (unsigned int)argCount; i++) {
+                [arguments addObject: [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_Cursor_getArgument(_cursor, i)]];
+            }
+
+            _arguments = [arguments copy];
+        }
+    }
+
+    return _arguments;
+}
+
+- (NSArray *) overloadedDeclarations {
+    if (_overloadedDeclarations == nil && _cursor.kind == CXCursor_OverloadedDeclRef) {
+        unsigned int count = clang_getNumOverloadedDecls(_cursor);
+        NSMutableArray *declarations = [NSMutableArray arrayWithCapacity: count];
+
+        for (unsigned int i = 0; i < count; i++) {
+            [declarations addObject: [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getOverloadedDecl(_cursor, i)]];
+        }
+
+        _overloadedDeclarations = [declarations copy];
+    }
+
+    return _overloadedDeclarations;
+}
+
 /**
  * The bit width of a bit field declaration as an integer.
  *
@@ -1007,32 +1069,6 @@
 
     _owner = owner;
     _cursor = cursor;
-
-    _USR = plclang_convert_and_dispose_cxstring(clang_getCursorUSR(_cursor));
-    _spelling = plclang_convert_and_dispose_cxstring(clang_getCursorSpelling(_cursor));
-    _displayName = plclang_convert_and_dispose_cxstring(clang_getCursorDisplayName(_cursor));
-
-    int argCount = clang_Cursor_getNumArguments(_cursor);
-    if (argCount >= 0) {
-        NSMutableArray *arguments = [NSMutableArray arrayWithCapacity: (unsigned int)argCount];
-
-        for (unsigned int i = 0; i < (unsigned int)argCount; i++) {
-            [arguments addObject: [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_Cursor_getArgument(_cursor, i)]];
-        }
-
-        _arguments = arguments;
-    }
-
-    if (cursor.kind == CXCursor_OverloadedDeclRef) {
-        unsigned int count = clang_getNumOverloadedDecls(_cursor);
-        NSMutableArray *declarations = [NSMutableArray arrayWithCapacity: count];
-
-        for (unsigned int i = 0; i < count; i++) {
-            [declarations addObject: [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_getOverloadedDecl(_cursor, i)]];
-        }
-
-        _overloadedDeclarations = declarations;
-    }
 
     return self;
 }
