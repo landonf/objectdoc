@@ -4,7 +4,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "PLSourceLocation.h"
 
 typedef NS_ENUM(NSUInteger, PLClangDiagnosticSeverity) {
     /** A diagnostic that has been suppressed, eg, by a command line option. */
