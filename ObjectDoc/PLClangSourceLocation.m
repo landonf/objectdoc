@@ -20,6 +20,27 @@
 
     /** Backing clang source location. */
     CXSourceLocation _location;
+
+    /**
+     * Indicates whether or not the expansion location has been read from the
+     * source location.
+     *
+     * Obtaining the expansion location is an expensive operation, so it is
+     * deferred until a property that requires it is read.
+     */
+    BOOL _expansionLocationRead;
+
+    /** The path to the file. */
+    NSString *_path;
+
+    /** The byte offset within the file. */
+    off_t _fileOffset;
+
+    /** The line number within the file. */
+    NSUInteger _lineNumber;
+
+    /** The column number within the file. */
+    NSUInteger _columnNumber;
 }
 
 /**
@@ -85,6 +106,38 @@
     return location;
 }
 
+- (NSString *) path {
+    if (_expansionLocationRead == NO) {
+        [self readExpansionLocation];
+    }
+
+    return _path;
+}
+
+- (off_t) fileOffset {
+    if (_expansionLocationRead == NO) {
+        [self readExpansionLocation];
+    }
+
+    return _fileOffset;
+}
+
+- (NSUInteger) lineNumber {
+    if (_expansionLocationRead == NO) {
+        [self readExpansionLocation];
+    }
+
+    return _lineNumber;
+}
+
+- (NSUInteger) columnNumber {
+    if (_expansionLocationRead == NO) {
+        [self readExpansionLocation];
+    }
+
+    return _columnNumber;
+}
+
 - (BOOL) isInMainFile {
     return clang_Location_isFromMainFile(_location);
 }
@@ -117,6 +170,19 @@
             (unsigned long)self.columnNumber];
 }
 
+- (void) readExpansionLocation {
+    CXFile file = NULL;
+    unsigned int line = 0, column = 0, offset = 0;
+    clang_getExpansionLocation(_location, &file, &line, &column, &offset);
+
+    _path = plclang_convert_and_dispose_cxstring(clang_getFileName(file));
+    _fileOffset = offset;
+    _lineNumber = line;
+    _columnNumber = column;
+
+    _expansionLocationRead = YES;
+}
+
 @end
 
 /**
@@ -139,16 +205,8 @@
     if (clang_equalLocations(sourceLocation, clang_getNullLocation()))
         return nil;
 
-    CXFile file = NULL;
-    unsigned int line = 0, column = 0, offset = 0;
-    clang_getExpansionLocation(sourceLocation, &file, &line, &column, &offset);
-
     _owner = owner;
     _location = sourceLocation;
-    _path = plclang_convert_and_dispose_cxstring(clang_getFileName(file));
-    _fileOffset = offset;
-    _lineNumber = line;
-    _columnNumber = column;
 
     return self;
 }
