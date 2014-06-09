@@ -468,11 +468,11 @@ BOOL PLClangSourceRangeContainsRange(PLClangSourceRange *range1, PLClangSourceRa
         node.path = cursor.location.path;
 
     if (!node.deprecated) {
-        if (cursor.availability.isDeprecated) {
+        if (cursor.availability.isUnconditionallyDeprecated) {
             node.deprecated = YES;
 
             /** Convert the first letter to upper-case, lower-case is often used in attributes to match clang's style */
-            NSString *message = cursor.availability.deprecationMessage;
+            NSString *message = cursor.availability.unconditionalDeprecationMessage;
             if ([message length] > 1) {
                 message = [message stringByReplacingCharactersInRange: NSMakeRange(0, 1) withString: [[message substringToIndex: 1] uppercaseString]];
             }
@@ -480,7 +480,7 @@ BOOL PLClangSourceRangeContainsRange(PLClangSourceRange *range1, PLClangSourceRa
         }
     }
 
-    if (cursor.availability.isUnavailable)
+    if (cursor.availability.isUnconditionallyUnavailable)
         return;
 
     _nodes[cursor.USR] = node;

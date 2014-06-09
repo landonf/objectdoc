@@ -17,24 +17,35 @@
 - (NSString *) description {
     NSMutableString *string = [NSMutableString string];
 
-    if (!self.isDeprecated && !self.isUnavailable)
-        [string appendString: @"available"];
-
-    if (self.isDeprecated) {
-        [string appendString: @"deprecated"];
-        if ([self.deprecationMessage length] > 0) {
-            [string appendFormat: @": \"%@\"", self.deprecationMessage];
-        }
-    }
-
-    if (self.isUnavailable) {
-        if ([string length] > 0) {
-            [string appendString: @"\n"];
+    switch (self.kind) {
+        case PLClangAvailabilityKindAvailable:
+        {
+            [string appendString: @"available"];
+            break;
         }
 
-        [string appendString: @"unavailable"];
-        if ([self.unavailabilityMessage length] > 0) {
-            [string appendFormat: @": \"%@\"", self.unavailabilityMessage];
+        case PLClangAvailabilityKindDeprecated:
+        {
+            [string appendString: @"deprecated"];
+            if ([self.unconditionalDeprecationMessage length] > 0) {
+                [string appendFormat: @": \"%@\"", self.unconditionalDeprecationMessage];
+            }
+            break;
+        }
+
+        case PLClangAvailabilityKindUnavailable:
+        {
+            [string appendString: @"unavailable"];
+            if ([self.unconditionalUnavailabilityMessage length] > 0) {
+                [string appendFormat: @": \"%@\"", self.unconditionalUnavailabilityMessage];
+            }
+            break;
+        }
+
+        case PLClangAvailabilityKindInaccessible:
+        {
+            [string appendString: @"inaccessible"];
+            break;
         }
     }
 
@@ -81,10 +92,10 @@
                                         platformAvailability,
                                         platformCount);
 
-    _isDeprecated = always_deprecated;
-    _isUnavailable = always_unavailable;
-    _deprecationMessage = plclang_convert_and_dispose_cxstring(deprecationString);
-    _unavailabilityMessage = plclang_convert_and_dispose_cxstring(unavilableString);
+    _isUnconditionallyDeprecated = always_deprecated;
+    _isUnconditionallyUnavailable = always_unavailable;
+    _unconditionalDeprecationMessage = plclang_convert_and_dispose_cxstring(deprecationString);
+    _unconditionalUnavailabilityMessage = plclang_convert_and_dispose_cxstring(unavilableString);
 
     NSMutableArray *entries = [NSMutableArray array];
 

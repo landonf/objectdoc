@@ -10,10 +10,10 @@
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
     XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindAvailable);
-    XCTAssertFalse(cursor.availability.isDeprecated);
-    XCTAssertFalse(cursor.availability.isUnavailable);
-    XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"");
-    XCTAssertEqualObjects(cursor.availability.unavailabilityMessage, @"");
+    XCTAssertFalse(cursor.availability.isUnconditionallyDeprecated);
+    XCTAssertFalse(cursor.availability.isUnconditionallyUnavailable);
+    XCTAssertEqualObjects(cursor.availability.unconditionalDeprecationMessage, @"");
+    XCTAssertEqualObjects(cursor.availability.unconditionalUnavailabilityMessage, @"");
     XCTAssertTrue([cursor.availability.platformAvailabilityEntries count] == 0);
 }
 
@@ -22,17 +22,17 @@
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
     XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindDeprecated);
-    XCTAssertTrue(cursor.availability.isDeprecated);
-    XCTAssertFalse(cursor.availability.isUnavailable);
-    XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"message");
-    XCTAssertEqualObjects(cursor.availability.unavailabilityMessage, @"");
+    XCTAssertTrue(cursor.availability.isUnconditionallyDeprecated);
+    XCTAssertFalse(cursor.availability.isUnconditionallyUnavailable);
+    XCTAssertEqualObjects(cursor.availability.unconditionalDeprecationMessage, @"message");
+    XCTAssertEqualObjects(cursor.availability.unconditionalUnavailabilityMessage, @"");
     XCTAssertTrue([cursor.availability.platformAvailabilityEntries count] == 0);
 
     tu = [self translationUnitWithSource: @"void f() __attribute__((deprecated));"];
     cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
-    XCTAssertTrue(cursor.availability.isDeprecated);
-    XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"");
+    XCTAssertTrue(cursor.availability.isUnconditionallyDeprecated);
+    XCTAssertEqualObjects(cursor.availability.unconditionalDeprecationMessage, @"");
 }
 
 - (void) testUnavailableAttribute {
@@ -40,17 +40,17 @@
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
     XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindUnavailable);
-    XCTAssertFalse(cursor.availability.isDeprecated);
-    XCTAssertTrue(cursor.availability.isUnavailable);
-    XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"");
-    XCTAssertEqualObjects(cursor.availability.unavailabilityMessage, @"message");
+    XCTAssertFalse(cursor.availability.isUnconditionallyDeprecated);
+    XCTAssertTrue(cursor.availability.isUnconditionallyUnavailable);
+    XCTAssertEqualObjects(cursor.availability.unconditionalDeprecationMessage, @"");
+    XCTAssertEqualObjects(cursor.availability.unconditionalUnavailabilityMessage, @"message");
     XCTAssertTrue([cursor.availability.platformAvailabilityEntries count] == 0);
 
     tu = [self translationUnitWithSource: @"void f() __attribute__((unavailable));"];
     cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
-    XCTAssertTrue(cursor.availability.isUnavailable);
-    XCTAssertEqualObjects(cursor.availability.unavailabilityMessage, @"");
+    XCTAssertTrue(cursor.availability.isUnconditionallyUnavailable);
+    XCTAssertEqualObjects(cursor.availability.unconditionalUnavailabilityMessage, @"");
 }
 
 - (void) testDeprecatedAndUnavailable {
@@ -58,10 +58,10 @@
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
     XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindUnavailable);
-    XCTAssertTrue(cursor.availability.isDeprecated);
-    XCTAssertTrue(cursor.availability.isUnavailable);
-    XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"deprecated");
-    XCTAssertEqualObjects(cursor.availability.unavailabilityMessage, @"unavailable");
+    XCTAssertTrue(cursor.availability.isUnconditionallyDeprecated);
+    XCTAssertTrue(cursor.availability.isUnconditionallyUnavailable);
+    XCTAssertEqualObjects(cursor.availability.unconditionalDeprecationMessage, @"deprecated");
+    XCTAssertEqualObjects(cursor.availability.unconditionalUnavailabilityMessage, @"unavailable");
     XCTAssertTrue([cursor.availability.platformAvailabilityEntries count] == 0);
 }
 
@@ -70,8 +70,8 @@
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
     XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindUnavailable);
-    XCTAssertFalse(cursor.availability.isDeprecated, @"Cursor should not be unconditionally deprecated");
-    XCTAssertFalse(cursor.availability.isUnavailable, @"Cursor should not be unconditionally unavailable");
+    XCTAssertFalse(cursor.availability.isUnconditionallyDeprecated, @"Cursor should not be unconditionally deprecated");
+    XCTAssertFalse(cursor.availability.isUnconditionallyUnavailable, @"Cursor should not be unconditionally unavailable");
     XCTAssertTrue([cursor.availability.platformAvailabilityEntries count] == 1);
 
     PLClangPlatformAvailability *availability = cursor.availability.platformAvailabilityEntries[0];

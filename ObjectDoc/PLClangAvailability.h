@@ -44,22 +44,22 @@ typedef NS_ENUM(NSUInteger, PLClangAvailabilityKind) {
 /**
  * A Boolean value indicating whether the entity is deprecated on all platforms.
  */
-@property(nonatomic, readonly) BOOL isDeprecated;
+@property(nonatomic, readonly) BOOL isUnconditionallyDeprecated;
 
 /**
  * The message provided along with the unconditional deprecation of the entity, or nil if no message was provided.
  */
-@property(nonatomic, readonly) NSString *deprecationMessage;
+@property(nonatomic, readonly) NSString *unconditionalDeprecationMessage;
 
 /**
  * A Boolean value indicating whether the entity is unavailable on all platforms.
  */
-@property(nonatomic, readonly) BOOL isUnavailable;
+@property(nonatomic, readonly) BOOL isUnconditionallyUnavailable;
 
 /**
  * The message provided along with the unconditional unavailability of the entity, or nil if no message was provided.
  */
-@property(nonatomic, readonly) NSString *unavailabilityMessage;
+@property(nonatomic, readonly) NSString *unconditionalUnavailabilityMessage;
 
 /**
  * An array of PLClangPlatformAvailability objects with plaform-specific availability information.
