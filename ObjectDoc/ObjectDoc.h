@@ -28,5 +28,4 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PLClangSourceIndex.h"
-#import "PLClangTranslationUnit.h"
+#import "PLClang.h"
