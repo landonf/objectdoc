@@ -6,7 +6,40 @@
 #import <Foundation/Foundation.h>
 #import "PLClangPlatformAvailability.h"
 
+/**
+ * The availability kind of an entity.
+ */
+typedef NS_ENUM(NSUInteger, PLClangAvailabilityKind) {
+    /**
+     * The entity is available.
+     */
+    PLClangAvailabilityKindAvailable    = 0,
+
+    /**
+     * The entity is available, but deprecated.
+     */
+    PLClangAvailabilityKindDeprecated   = 1,
+
+    /**
+     * The entity is unavailable.
+     */
+    PLClangAvailabilityKindUnavailable  = 2,
+
+    /**
+     * The entity is available, but inaccessible.
+     */
+    PLClangAvailabilityKindInaccessible = 3
+};
+
 @interface PLClangAvailability : NSObject
+
+/**
+ * The overall availability kind of the entity.
+ *
+ * This takes into account both unconditional deprecation and unavailability attributes as well as those
+ * specific to the target platform.
+ */
+@property(nonatomic, readonly) PLClangAvailabilityKind kind;
 
 /**
  * A Boolean value indicating whether the entity is deprecated on all platforms.

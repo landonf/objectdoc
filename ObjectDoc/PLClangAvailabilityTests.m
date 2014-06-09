@@ -9,6 +9,7 @@
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f();"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindAvailable);
     XCTAssertFalse(cursor.availability.isDeprecated);
     XCTAssertFalse(cursor.availability.isUnavailable);
     XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"");
@@ -20,6 +21,7 @@
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f() __attribute__((deprecated(\"message\")));"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindDeprecated);
     XCTAssertTrue(cursor.availability.isDeprecated);
     XCTAssertFalse(cursor.availability.isUnavailable);
     XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"message");
@@ -37,6 +39,7 @@
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f() __attribute__((unavailable(\"message\")));"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindUnavailable);
     XCTAssertFalse(cursor.availability.isDeprecated);
     XCTAssertTrue(cursor.availability.isUnavailable);
     XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"");
@@ -54,6 +57,7 @@
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f() __attribute__((deprecated(\"deprecated\"))) __attribute__((unavailable(\"unavailable\")));"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindUnavailable);
     XCTAssertTrue(cursor.availability.isDeprecated);
     XCTAssertTrue(cursor.availability.isUnavailable);
     XCTAssertEqualObjects(cursor.availability.deprecationMessage, @"deprecated");
@@ -65,6 +69,7 @@
     PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f() __attribute__((availability(macosx,introduced=10.4.3,deprecated=10.6,obsoleted=10.7,message=\"message\")));"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindUnavailable);
     XCTAssertFalse(cursor.availability.isDeprecated, @"Cursor should not be unconditionally deprecated");
     XCTAssertFalse(cursor.availability.isUnavailable, @"Cursor should not be unconditionally unavailable");
     XCTAssertTrue([cursor.availability.platformAvailabilityEntries count] == 1);

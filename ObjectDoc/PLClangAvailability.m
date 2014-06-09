@@ -62,6 +62,8 @@
 - (instancetype) initWithCXCursor: (CXCursor) cursor {
     PLSuperInit();
 
+    _kind = [self availabilityKindForCXAvailabilityKind: clang_getCursorAvailability(cursor)];
+
     // Get the number of platform availability entries
     int platformCount = clang_getCursorPlatformAvailability(cursor, NULL, NULL, NULL, NULL, NULL, 0);
     NSAssert(platformCount >= 0, @"clang_getCursorPlatformAvailability() returned a negative number of platforms");
@@ -96,6 +98,24 @@
     free(platformAvailability);
 
     return self;
+}
+
+- (PLClangAvailabilityKind) availabilityKindForCXAvailabilityKind: (enum CXAvailabilityKind) cxAvailabilityKind {
+    switch (cxAvailabilityKind) {
+        case CXAvailability_Available:
+            return PLClangAvailabilityKindAvailable;
+
+        case CXAvailability_Deprecated:
+            return PLClangAvailabilityKindDeprecated;
+
+        case CXAvailability_NotAvailable:
+            return PLClangAvailabilityKindUnavailable;
+
+        case CXAvailability_NotAccessible:
+            return PLClangAvailabilityKindInaccessible;
+    }
+
+    abort();
 }
 
 @end
