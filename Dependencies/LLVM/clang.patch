@@ -1,0 +1,323 @@
+Index: include/clang-c/Index.h
+===================================================================
+--- include/clang-c/Index.h	(revision 210980)
++++ include/clang-c/Index.h	(working copy)
+@@ -3432,6 +3432,23 @@
+                                                              unsigned reserved);
+ 
+ /**
++ * \brief Given a cursor that represents an Objective-C property declaration
++ * retrieve a cursor representing the property's getter method.
++ *
++ * If given a cursor that does not represent an Objective-C property
++ * declaration a NULL cursor is returned.
++ */
++CINDEX_LINKAGE CXCursor clang_Cursor_getObjCPropertyGetter(CXCursor C);
++/**
++ * \brief Given a cursor that represents an Objective-C property declaration
++ * retrieve a cursor representing the property's setter method.
++ *
++ * If given a cursor that does not represent an Objective-C property
++ * declaration or represents a readonly property a NULL cursor is returned.
++ */
++CINDEX_LINKAGE CXCursor clang_Cursor_getObjCPropertySetter(CXCursor C);
++
++/**
+  * \brief 'Qualifiers' written next to the return and parameter types in
+  * ObjC method declarations.
+  */
+@@ -3465,6 +3482,13 @@
+ CINDEX_LINKAGE unsigned clang_Cursor_isVariadic(CXCursor C);
+ 
+ /**
++ * \brief Returns non-zero if the cursor represents an entity that was
++ * implicitly created by the compiler rather than explicitly written in the
++ * source code.
++ */
++CINDEX_LINKAGE unsigned clang_Cursor_isImplicit(CXCursor C);
++
++/**
+  * \brief Given a cursor that represents a declaration, return the associated
+  * comment's source range.  The range may include multiple consecutive comments
+  * with whitespace in between.
+Index: test/Index/c-index-api-loadTU-test.m
+===================================================================
+--- test/Index/c-index-api-loadTU-test.m	(revision 210980)
++++ test/Index/c-index-api-loadTU-test.m	(working copy)
+@@ -172,6 +172,6 @@
+ // CHECK: c-index-api-loadTU-test.m:75:32: ObjCPropertyDecl=anotherOutlet:75:32 [retain,] Extent=[75:1 - 75:45]
+ // CHECK: c-index-api-loadTU-test.m:75:20: attribute(iboutlet)= Extent=[75:20 - 75:28]
+ // CHECK: c-index-api-loadTU-test.m:75:29: TypeRef=id:0:0 Extent=[75:29 - 75:31]
+-// CHECK: c-index-api-loadTU-test.m:75:32: ObjCInstanceMethodDecl=anotherOutlet:75:32 Extent=[75:32 - 75:45]
+-// CHECK: c-index-api-loadTU-test.m:75:32: ObjCInstanceMethodDecl=setAnotherOutlet::75:32 Extent=[75:32 - 75:45]
++// CHECK: c-index-api-loadTU-test.m:75:32: ObjCInstanceMethodDecl=anotherOutlet:75:32 (implicit) Extent=[75:32 - 75:45]
++// CHECK: c-index-api-loadTU-test.m:75:32: ObjCInstanceMethodDecl=setAnotherOutlet::75:32 (implicit) Extent=[75:32 - 75:45]
+ // CHECK: c-index-api-loadTU-test.m:75:32: ParmDecl=anotherOutlet:75:32 (Definition) Extent=[75:32 - 75:45]
+Index: test/Index/overrides.m
+===================================================================
+--- test/Index/overrides.m	(revision 210980)
++++ test/Index/overrides.m	(working copy)
+@@ -106,14 +106,14 @@
+ // CHECK: overrides.m:36:9: ObjCInstanceMethodDecl=protoMethod:36:9 [Overrides @8:9, @12:9, @17:9, @32:9]
+ // CHECK: overrides.m:50:8: ObjCInstanceMethodDecl=meth:50:8 (Definition) [Overrides @43:8]
+ // CHECK: overrides.m:55:8: ObjCInstanceMethodDecl=kol:55:8 Extent=[55:1 - 55:12]
+-// CHECK: overrides.m:65:26: ObjCInstanceMethodDecl=prop1:65:26 [Overrides @59:25] Extent=[65:26 - 65:31]
+-// CHECK: overrides.m:65:26: ObjCInstanceMethodDecl=setProp1::65:26 Extent=[65:26 - 65:31]
+-// CHECK: overrides.m:70:26: ObjCInstanceMethodDecl=prop2:70:26 [Overrides @60:25] Extent=[70:26 - 70:31]
+-// CHECK: overrides.m:70:26: ObjCInstanceMethodDecl=setProp2::70:26 Extent=[70:26 - 70:31]
+-// CHECK: overrides.m:71:26: ObjCInstanceMethodDecl=setBar::71:26 Extent=[71:26 - 71:29]
++// CHECK: overrides.m:65:26: ObjCInstanceMethodDecl=prop1:65:26 (implicit) [Overrides @59:25] Extent=[65:26 - 65:31]
++// CHECK: overrides.m:65:26: ObjCInstanceMethodDecl=setProp1::65:26 (implicit) Extent=[65:26 - 65:31]
++// CHECK: overrides.m:70:26: ObjCInstanceMethodDecl=prop2:70:26 (implicit) [Overrides @60:25] Extent=[70:26 - 70:31]
++// CHECK: overrides.m:70:26: ObjCInstanceMethodDecl=setProp2::70:26 (implicit) Extent=[70:26 - 70:31]
++// CHECK: overrides.m:71:26: ObjCInstanceMethodDecl=setBar::71:26 (implicit) Extent=[71:26 - 71:29]
+ // CHECK: overrides.m:72:8: ObjCInstanceMethodDecl=meth:72:8 [Overrides @61:8] Extent=[72:1 - 72:13]
+-// CHECK: overrides.m:81:23: ObjCInstanceMethodDecl=prop:81:23 [Overrides @76:6] Extent=[81:23 - 81:27]
+-// CHECK: overrides.m:81:23: ObjCInstanceMethodDecl=setProp::81:23 [Overrides @77:8] Extent=[81:23 - 81:27]
++// CHECK: overrides.m:81:23: ObjCInstanceMethodDecl=prop:81:23 (implicit) [Overrides @76:6] Extent=[81:23 - 81:27]
++// CHECK: overrides.m:81:23: ObjCInstanceMethodDecl=setProp::81:23 (implicit) [Overrides @77:8] Extent=[81:23 - 81:27]
+ // CHECK: overrides.m:92:8: ObjCInstanceMethodDecl=meth:92:8 Extent=[92:1 - 92:13]
+ // CHECK: overrides.m:95:17: ObjCImplementationDecl=I5:95:17 (Definition) Extent=[95:1 - 97:2]
+ // CHECK: overrides.m:96:8: ObjCInstanceMethodDecl=meth:96:8 (Definition) [Overrides @92:8] Extent=[96:1 - 96:14]
+Index: test/Index/print-objc-property-methods.m
+===================================================================
+--- test/Index/print-objc-property-methods.m	(revision 0)
++++ test/Index/print-objc-property-methods.m	(working copy)
+@@ -0,0 +1,10 @@
++@interface Test1
++@property int prop1;
++@property (readonly) int prop2;
++@property (getter=customGetter, setter=customSetter:) int prop3;
++@end
++
++// RUN: c-index-test -test-print-property-methods %s | FileCheck %s
++// CHECK: ObjCPropertyDecl=prop1:2:15 getter=prop1:2:15 setter=setProp1::2:15
++// CHECK: ObjCPropertyDecl=prop2:3:26 [readonly,] getter=prop2:3:26
++// CHECK: ObjCPropertyDecl=prop3:4:59 [getter,setter,] getter=customGetter:4:59 setter=customSetter::4:59
+Index: test/Index/properties-class-extensions.m
+===================================================================
+--- test/Index/properties-class-extensions.m	(revision 210980)
++++ test/Index/properties-class-extensions.m	(working copy)
+@@ -49,33 +49,33 @@
+ // CHECK: properties-class-extensions.m:5:12: ObjCCategoryDecl=Cat:5:12 Extent=[5:1 - 7:5]
+ // CHECK: properties-class-extensions.m:5:12: ObjCClassRef=Foo:4:12 Extent=[5:12 - 5:15]
+ // CHECK: properties-class-extensions.m:6:15: ObjCPropertyDecl=a:6:15 Extent=[6:1 - 6:16]
+-// CHECK: properties-class-extensions.m:6:15: ObjCInstanceMethodDecl=a:6:15 Extent=[6:15 - 6:16]
+-// CHECK: properties-class-extensions.m:6:15: ObjCInstanceMethodDecl=setA::6:15 Extent=[6:15 - 6:16]
++// CHECK: properties-class-extensions.m:6:15: ObjCInstanceMethodDecl=a:6:15 (implicit) Extent=[6:15 - 6:16]
++// CHECK: properties-class-extensions.m:6:15: ObjCInstanceMethodDecl=setA::6:15 (implicit) Extent=[6:15 - 6:16]
+ // CHECK: properties-class-extensions.m:6:15: ParmDecl=a:6:15 (Definition) Extent=[6:15 - 6:16]
+ // CHECK: properties-class-extensions.m:8:12: ObjCCategoryDecl=:8:12 Extent=[8:1 - 11:5]
+ // CHECK: properties-class-extensions.m:8:12: ObjCClassRef=Foo:4:12 Extent=[8:12 - 8:15]
+ // CHECK: properties-class-extensions.m:9:15: ObjCPropertyDecl=b:9:15 Extent=[9:1 - 9:16]
+-// CHECK: properties-class-extensions.m:9:15: ObjCInstanceMethodDecl=b:9:15 Extent=[9:15 - 9:16]
+-// CHECK: properties-class-extensions.m:9:15: ObjCInstanceMethodDecl=setB::9:15 Extent=[9:15 - 9:16]
++// CHECK: properties-class-extensions.m:9:15: ObjCInstanceMethodDecl=b:9:15 (implicit) Extent=[9:15 - 9:16]
++// CHECK: properties-class-extensions.m:9:15: ObjCInstanceMethodDecl=setB::9:15 (implicit) Extent=[9:15 - 9:16]
+ // CHECK: properties-class-extensions.m:9:15: ParmDecl=b:9:15 (Definition) Extent=[9:15 - 9:16]
+ // CHECK: properties-class-extensions.m:10:10: ObjCInstanceMethodDecl=bar:10:10 Extent=[10:1 - 10:14]
+ // CHECK: properties-class-extensions.m:15:12: ObjCInterfaceDecl=Bar:15:12 Extent=[15:1 - 17:5]
+ // CHECK: properties-class-extensions.m:16:25: ObjCPropertyDecl=bar:16:25 [readonly,] Extent=[16:1 - 16:28]
+ // CHECK: properties-class-extensions.m:16:22: TypeRef=id:0:0 Extent=[16:22 - 16:24]
+-// CHECK: properties-class-extensions.m:16:25: ObjCInstanceMethodDecl=bar:16:25 Extent=[16:25 - 16:28]
++// CHECK: properties-class-extensions.m:16:25: ObjCInstanceMethodDecl=bar:16:25 (implicit) Extent=[16:25 - 16:28]
+ // CHECK: properties-class-extensions.m:18:12: ObjCCategoryDecl=:18:12 Extent=[18:1 - 20:5]
+ // CHECK: properties-class-extensions.m:18:12: ObjCClassRef=Bar:15:12 Extent=[18:12 - 18:15]
+ // CHECK: properties-class-extensions.m:19:26: ObjCPropertyDecl=bar:19:26 [readwrite,] Extent=[19:1 - 19:29]
+ // CHECK: properties-class-extensions.m:19:23: TypeRef=id:0:0 Extent=[19:23 - 19:25]
+-// CHECK-NOT: properties-class-extensions.m:16:25: ObjCInstanceMethodDecl=bar:16:25 Extent=[16:25 - 16:28]
+-// CHECK: properties-class-extensions.m:19:26: ObjCInstanceMethodDecl=setBar::19:26 Extent=[19:26 - 19:29]
++// CHECK-NOT: properties-class-extensions.m:16:25: ObjCInstanceMethodDecl=bar:16:25 (implicit) Extent=[16:25 - 16:28]
++// CHECK: properties-class-extensions.m:19:26: ObjCInstanceMethodDecl=setBar::19:26 (implicit) Extent=[19:26 - 19:29]
+ // CHECK: properties-class-extensions.m:19:26: ParmDecl=bar:19:26 (Definition) Extent=[19:26 - 19:29]
+ // CHECK: properties-class-extensions.m:24:8: ObjCInterfaceDecl=Rdar8467189_Bar:24:8 Extent=[24:1 - 24:23]
+ // CHECK: properties-class-extensions.m:24:8: ObjCClassRef=Rdar8467189_Bar:24:8 Extent=[24:8 - 24:23]
+ // CHECK: properties-class-extensions.m:25:11: ObjCProtocolDecl=Rdar8467189_FooProtocol:25:11 (Definition) Extent=[25:1 - 27:5]
+ // CHECK: properties-class-extensions.m:26:39: ObjCPropertyDecl=Rdar8467189_Bar:26:39 [readonly,] Extent=[26:1 - 26:54]
+ // CHECK: properties-class-extensions.m:26:22: ObjCClassRef=Rdar8467189_Bar:24:8 Extent=[26:22 - 26:37]
+-// CHECK: properties-class-extensions.m:26:39: ObjCInstanceMethodDecl=Rdar8467189_Bar:26:39 Extent=[26:39 - 26:54]
++// CHECK: properties-class-extensions.m:26:39: ObjCInstanceMethodDecl=Rdar8467189_Bar:26:39 (implicit) Extent=[26:39 - 26:54]
+ // CHECK: properties-class-extensions.m:28:12: ObjCInterfaceDecl=Rdar8467189_Foo:28:12 Extent=[28:1 - 29:5]
+ // CHECK: properties-class-extensions.m:28:29: ObjCProtocolRef=Rdar8467189_FooProtocol:25:11 Extent=[28:29 - 28:52]
+ // CHECK-NOT: properties-class-extensions.m:31:40: ObjCPropertyDecl=Rdar8467189_Bar:31:40 Extent=[31:40 - 31:55]
+@@ -84,16 +84,16 @@
+ // CHECK: properties-class-extensions.m:30:12: ObjCClassRef=Rdar8467189_Foo:28:12 Extent=[30:12 - 30:27]
+ // CHECK: properties-class-extensions.m:31:40: ObjCPropertyDecl=Rdar8467189_Bar:31:40 [readwrite,] Extent=[31:1 - 31:55]
+ // CHECK: properties-class-extensions.m:31:23: ObjCClassRef=Rdar8467189_Bar:24:8 Extent=[31:23 - 31:38]
+-// CHECK: properties-class-extensions.m:31:40: ObjCInstanceMethodDecl=Rdar8467189_Bar:31:40 [Overrides @26:39] Extent=[31:40 - 31:55]
+-// CHECK: properties-class-extensions.m:31:40: ObjCInstanceMethodDecl=setRdar8467189_Bar::31:40 Extent=[31:40 - 31:55]
++// CHECK: properties-class-extensions.m:31:40: ObjCInstanceMethodDecl=Rdar8467189_Bar:31:40 (implicit) [Overrides @26:39] Extent=[31:40 - 31:55]
++// CHECK: properties-class-extensions.m:31:40: ObjCInstanceMethodDecl=setRdar8467189_Bar::31:40 (implicit) Extent=[31:40 - 31:55]
+ // CHECK: properties-class-extensions.m:31:40: ParmDecl=Rdar8467189_Bar:31:40 (Definition) Extent=[31:40 - 31:55]
+ // CHECK: properties-class-extensions.m:35:12: ObjCInterfaceDecl=Qux:35:12 Extent=[35:1 - 36:5]
+ // CHECK: properties-class-extensions.m:37:12: ObjCCategoryDecl=:37:12 Extent=[37:1 - 39:5]
+ // CHECK: properties-class-extensions.m:37:12: ObjCClassRef=Qux:35:12 Extent=[37:12 - 37:15]
+ // CHECK: properties-class-extensions.m:38:34: ObjCPropertyDecl=qux:38:34 [assign,readwrite,] Extent=[38:1 - 38:37]
+ // CHECK: properties-class-extensions.m:38:31: TypeRef=id:0:0 Extent=[38:31 - 38:33]
+-// CHECK: properties-class-extensions.m:38:34: ObjCInstanceMethodDecl=qux:38:34 Extent=[38:34 - 38:37]
+-// CHECK: properties-class-extensions.m:38:34: ObjCInstanceMethodDecl=setQux::38:34 Extent=[38:34 - 38:37]
++// CHECK: properties-class-extensions.m:38:34: ObjCInstanceMethodDecl=qux:38:34 (implicit) Extent=[38:34 - 38:37]
++// CHECK: properties-class-extensions.m:38:34: ObjCInstanceMethodDecl=setQux::38:34 (implicit) Extent=[38:34 - 38:37]
+ // CHECK: properties-class-extensions.m:38:34: ParmDecl=qux:38:34 (Definition) Extent=[38:34 - 38:37]
+ // CHECK: properties-class-extensions.m:42:10: ObjCDynamicDecl=qux:38:34 (Definition) Extent=[42:1 - 42:13]
+ 
+Index: test/Index/usrs.m
+===================================================================
+--- test/Index/usrs.m	(revision 210980)
++++ test/Index/usrs.m	(working copy)
+@@ -185,8 +185,8 @@
+ // CHECK-source: usrs.m:30:8: ObjCClassMethodDecl=kingkong:30:8 Extent=[30:1 - 30:17]
+ // CHECK-source: usrs.m:30:4: TypeRef=id:0:0 Extent=[30:4 - 30:6]
+ // CHECK-source: usrs.m:31:15: ObjCPropertyDecl=d1:31:15 Extent=[31:1 - 31:17]
+-// CHECK-source: usrs.m:31:15: ObjCInstanceMethodDecl=d1:31:15 Extent=[31:15 - 31:17]
+-// CHECK-source: usrs.m:31:15: ObjCInstanceMethodDecl=setD1::31:15 Extent=[31:15 - 31:17]
++// CHECK-source: usrs.m:31:15: ObjCInstanceMethodDecl=d1:31:15 (implicit) Extent=[31:15 - 31:17]
++// CHECK-source: usrs.m:31:15: ObjCInstanceMethodDecl=setD1::31:15 (implicit) Extent=[31:15 - 31:17]
+ // CHECK-source: usrs.m:31:15: ParmDecl=d1:31:15 (Definition) Extent=[31:15 - 31:17]
+ // CHECK-source: usrs.m:34:17: ObjCImplementationDecl=Foo:34:17 (Definition) Extent=[34:1 - 45:2]
+ // CHECK-source: usrs.m:35:8: ObjCInstanceMethodDecl=godzilla:35:8 (Definition) Extent=[35:1 - 39:2]
+Index: tools/c-index-test/c-index-test.c
+===================================================================
+--- tools/c-index-test/c-index-test.c	(revision 210980)
++++ tools/c-index-test/c-index-test.c	(working copy)
+@@ -700,6 +700,8 @@
+       printf(" (variadic)");
+     if (clang_Cursor_isObjCOptional(Cursor))
+       printf(" (@optional)");
++    if (clang_Cursor_isImplicit(Cursor))
++      printf(" (implicit)");
+ 
+     if (Cursor.kind == CXCursor_IBOutletCollectionAttr) {
+       CXType T =
+@@ -1285,6 +1287,44 @@
+ }
+ 
+ /******************************************************************************/
++/* Objective-C property method testing.                                       */
++/******************************************************************************/
++
++static void PrintObjCPropertyMethod(const char *label, CXCursor cursor) {
++  unsigned line;
++  unsigned column;
++  CXString spelling = clang_getCursorSpelling(cursor);
++  CXSourceLocation location = clang_getCursorLocation(cursor);
++  clang_getSpellingLocation(location, NULL, &line, &column, NULL);
++  printf(" %s=%s:%u:%u", label, clang_getCString(spelling), line, column);
++  clang_disposeString(spelling);
++}
++
++static enum CXChildVisitResult PrintObjCPropertyMethods(CXCursor cursor,
++                                                        CXCursor p,
++                                                        CXClientData d) {
++  CXCursor method;
++  if (clang_getCursorKind(cursor) != CXCursor_ObjCPropertyDecl)
++    return CXChildVisit_Recurse;
++
++  PrintCursor(cursor, NULL);
++
++  method = clang_Cursor_getObjCPropertyGetter(cursor);
++  if (!clang_equalCursors(method, clang_getNullCursor())) {
++    PrintObjCPropertyMethod("getter", method);
++  }
++
++  method = clang_Cursor_getObjCPropertySetter(cursor);
++  if (!clang_equalCursors(method, clang_getNullCursor())) {
++    PrintObjCPropertyMethod("setter", method);
++  }
++
++  printf("\n");
++
++  return CXChildVisit_Recurse;
++}
++
++/******************************************************************************/
+ /* Loading ASTs/source.                                                       */
+ /******************************************************************************/
+ 
+@@ -3771,6 +3811,7 @@
+     "       c-index-test -test-print-type {<args>}*\n"
+     "       c-index-test -test-print-type-size {<args>}*\n"
+     "       c-index-test -test-print-bitwidth {<args>}*\n"
++    "       c-index-test -test-print-property-methods {<args>}*\n"
+     "       c-index-test -print-usr [<CursorKind> {<args>}]*\n"
+     "       c-index-test -print-usr-file <file>\n"
+     "       c-index-test -write-pch <file> <compiler arguments>\n");
+@@ -3862,6 +3903,9 @@
+   else if (argc > 2 && strcmp(argv[1], "-test-print-bitwidth") == 0)
+     return perform_test_load_source(argc - 2, argv + 2, "all",
+                                     PrintBitWidth, 0);
++  else if (argc > 2 && strcmp(argv[1], "-test-print-property-methods") == 0)
++    return perform_test_load_source(argc - 2, argv + 2, "all",
++                                    PrintObjCPropertyMethods, 0);
+   else if (argc > 1 && strcmp(argv[1], "-print-usr") == 0) {
+     if (argc > 2)
+       return print_usrs(argv + 2, argv + argc);
+Index: tools/libclang/CIndex.cpp
+===================================================================
+--- tools/libclang/CIndex.cpp	(revision 210980)
++++ tools/libclang/CIndex.cpp	(working copy)
+@@ -6075,6 +6075,28 @@
+   return Result;
+ }
+ 
++CXCursor clang_Cursor_getObjCPropertyGetter(CXCursor C) {
++  if (C.kind != CXCursor_ObjCPropertyDecl)
++    return clang_getNullCursor();
++
++  const ObjCPropertyDecl *D = dyn_cast<ObjCPropertyDecl>(getCursorDecl(C));
++  if (!D || !D->getGetterMethodDecl())
++    return clang_getNullCursor();
++
++  return MakeCXCursor(D->getGetterMethodDecl(), getCursorTU(C));
++}
++
++CXCursor clang_Cursor_getObjCPropertySetter(CXCursor C) {
++  if (C.kind != CXCursor_ObjCPropertyDecl)
++    return clang_getNullCursor();
++
++  const ObjCPropertyDecl *D = dyn_cast<ObjCPropertyDecl>(getCursorDecl(C));
++  if (!D || !D->getSetterMethodDecl())
++    return clang_getNullCursor();
++
++  return MakeCXCursor(D->getSetterMethodDecl(), getCursorTU(C));
++}
++
+ unsigned clang_Cursor_getObjCDeclQualifiers(CXCursor C) {
+   if (!clang_isDeclaration(C.kind))
+     return CXObjCDeclQualifier_None;
+@@ -6125,6 +6147,15 @@
+   return 0;
+ }
+ 
++unsigned clang_Cursor_isImplicit(CXCursor C) {
++  if (clang_isDeclaration(C.kind)) {
++    if (const Decl *D = getCursorDecl(C))
++      return D->isImplicit();
++  }
++
++  return 0;
++}
++
+ CXSourceRange clang_Cursor_getCommentRange(CXCursor C) {
+   if (!clang_isDeclaration(C.kind))
+     return clang_getNullRange();
+Index: tools/libclang/libclang.exports
+===================================================================
+--- tools/libclang/libclang.exports	(revision 210980)
++++ tools/libclang/libclang.exports	(working copy)
+@@ -13,12 +13,15 @@
+ clang_Cursor_getNumArguments
+ clang_Cursor_getObjCDeclQualifiers
+ clang_Cursor_getObjCPropertyAttributes
++clang_Cursor_getObjCPropertyGetter
++clang_Cursor_getObjCPropertySetter
+ clang_Cursor_getObjCSelectorIndex
+ clang_Cursor_getSpellingNameRange
+ clang_Cursor_getTranslationUnit
+ clang_Cursor_getReceiverType
+ clang_Cursor_isBitField
+ clang_Cursor_isDynamicCall
++clang_Cursor_isImplicit
+ clang_Cursor_isNull
+ clang_Cursor_isObjCOptional
+ clang_Cursor_isVariadic
