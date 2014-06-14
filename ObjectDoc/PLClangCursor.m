@@ -50,6 +50,8 @@
     PLClangCursor *_lexicalParent;
     PLClangCursor *_referencedCursor;
     PLClangCursor *_definition;
+    PLClangCursor *_propertyGetter;
+    PLClangCursor *_propertySetter;
 
     /* Related types */
     PLClangType *_type;
@@ -957,6 +959,20 @@
         attrs |= PLClangObjCPropertyAttributeUnsafeUnretained;
 
     return attrs;
+}
+
+/**
+ * A cursor representing the getter method for an Objective-C property declaration.
+ */
+- (PLClangCursor *) objCPropertyGetter {
+    return _propertyGetter ?: (_propertyGetter = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_Cursor_getObjCPropertyGetter(_cursor)]);
+}
+
+/**
+ * A cursor representing the setter method for an Objective-C property declaration.
+ */
+- (PLClangCursor *) objCPropertySetter {
+    return _propertySetter ?: (_propertySetter = [[PLClangCursor alloc] initWithOwner: _owner cxCursor: clang_Cursor_getObjCPropertySetter(_cursor)]);
 }
 
 /**

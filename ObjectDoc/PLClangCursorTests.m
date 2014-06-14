@@ -296,6 +296,38 @@
                                             PLClangObjCPropertyAttributeSetter];
 }
 
+/**
+ * Tests that accessor methods for an Objective-C property can be retrieved and are equal to the cursors
+ * exposed when visting the children of their container.
+ */
+- (void)testObjCPropertyAccessors {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"@interface T @property (getter=tGetter) int t;@end"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
+    PLClangCursor *getter = [tu cursorWithSpelling: @"tGetter"];
+    PLClangCursor *setter = [tu cursorWithSpelling: @"setT:"];
+    XCTAssertNotNil(cursor);
+    XCTAssertNotNil(getter);
+    XCTAssertNotNil(setter);
+
+    PLClangCursor *retrievedGetter = cursor.objCPropertyGetter;
+    PLClangCursor *retrievedSetter = cursor.objCPropertySetter;
+    XCTAssertNotNil(retrievedGetter);
+    XCTAssertNotNil(retrievedSetter);
+    XCTAssertEqualObjects(getter, retrievedGetter);
+    XCTAssertEqualObjects(setter, retrievedSetter);
+}
+
+/**
+ * Tests that a readonly property has getter method and a nil setter method.
+ */
+- (void)testObjCReadonlyPropertyAccessors {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"@interface T @property (readonly) int t; @end"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
+    XCTAssertNotNil(cursor);
+    XCTAssertNotNil(cursor.objCPropertyGetter);
+    XCTAssertNil(cursor.objCPropertySetter);
+}
+
 - (void) verifyObjCPropertyWithAttributes: (NSString *)attributes expectedResults: (PLClangObjCPropertyAttributes) expected {
     NSString *source = [NSString stringWithFormat: @"@interface Test\n"
     "@property (%@) id prop;\n"
