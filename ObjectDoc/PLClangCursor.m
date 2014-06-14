@@ -689,6 +689,14 @@
 }
 
 /**
+ * A Boolean value indicating whether the cursor represents an entity that was implicitly created by the
+ * compiler rather than explicitly written in the source code.
+ */
+- (BOOL) isImplicit {
+    return clang_Cursor_isImplicit(_cursor);
+}
+
+/**
  * The canonical cursor corresponding to this cursor.
  *
  * In the C family of languages, many kinds of entities can be declared several

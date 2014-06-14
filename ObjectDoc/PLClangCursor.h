@@ -1085,6 +1085,7 @@ typedef PLClangCursorVisitResult (^PLClangCursorVisitorBlock)(PLClangCursor *cur
 @property(nonatomic, readonly) BOOL isUnexposed;
 @property(nonatomic, readonly) BOOL isObjCOptional;
 @property(nonatomic, readonly) BOOL isVariadic;
+@property(nonatomic, readonly) BOOL isImplicit;
 
 @property(nonatomic, readonly) PLClangCursor *canonicalCursor;
 @property(nonatomic, readonly) PLClangCursor *semanticParent;

@@ -349,6 +349,28 @@
 }
 
 /**
+ * Tests that cursors for implicit declarations are correctly identified.
+ */
+- (void) testImplicit {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"@interface T @property (getter=t1Getter) int t1; - (void)t2; @end"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"T"];
+    XCTAssertNotNil(cursor);
+    XCTAssertFalse(cursor.isImplicit);
+
+    cursor = [tu cursorWithSpelling: @"t1Getter"];
+    XCTAssertNotNil(cursor);
+    XCTAssertTrue(cursor.isImplicit);
+
+    cursor = [tu cursorWithSpelling: @"setT1:"];
+    XCTAssertNotNil(cursor);
+    XCTAssertTrue(cursor.isImplicit);
+
+    cursor = [tu cursorWithSpelling: @"t2"];
+    XCTAssertNotNil(cursor);
+    XCTAssertFalse(cursor.isImplicit);
+}
+
+/**
  * Test that extended identifiers are properly converted to NSStrings.
  */
 - (void) testExtendedIdentifiers {
