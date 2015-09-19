@@ -1,8 +1,8 @@
 Index: include/clang-c/Index.h
 ===================================================================
---- include/clang-c/Index.h	(revision 210980)
+--- include/clang-c/Index.h	(revision 248094)
 +++ include/clang-c/Index.h	(working copy)
-@@ -3432,6 +3432,23 @@
+@@ -3786,6 +3786,24 @@
                                                               unsigned reserved);
  
  /**
@@ -13,6 +13,7 @@ Index: include/clang-c/Index.h
 + * declaration a NULL cursor is returned.
 + */
 +CINDEX_LINKAGE CXCursor clang_Cursor_getObjCPropertyGetter(CXCursor C);
++
 +/**
 + * \brief Given a cursor that represents an Objective-C property declaration
 + * retrieve a cursor representing the property's setter method.
@@ -24,9 +25,9 @@ Index: include/clang-c/Index.h
 +
 +/**
   * \brief 'Qualifiers' written next to the return and parameter types in
-  * ObjC method declarations.
+  * Objective-C method declarations.
   */
-@@ -3465,6 +3482,13 @@
+@@ -3820,6 +3838,13 @@
  CINDEX_LINKAGE unsigned clang_Cursor_isVariadic(CXCursor C);
  
  /**
@@ -42,7 +43,7 @@ Index: include/clang-c/Index.h
   * with whitespace in between.
 Index: test/Index/c-index-api-loadTU-test.m
 ===================================================================
---- test/Index/c-index-api-loadTU-test.m	(revision 210980)
+--- test/Index/c-index-api-loadTU-test.m	(revision 248094)
 +++ test/Index/c-index-api-loadTU-test.m	(working copy)
 @@ -172,6 +172,6 @@
  // CHECK: c-index-api-loadTU-test.m:75:32: ObjCPropertyDecl=anotherOutlet:75:32 [retain,] Extent=[75:1 - 75:45]
@@ -55,7 +56,7 @@ Index: test/Index/c-index-api-loadTU-test.m
  // CHECK: c-index-api-loadTU-test.m:75:32: ParmDecl=anotherOutlet:75:32 (Definition) Extent=[75:32 - 75:45]
 Index: test/Index/overrides.m
 ===================================================================
---- test/Index/overrides.m	(revision 210980)
+--- test/Index/overrides.m	(revision 248094)
 +++ test/Index/overrides.m	(working copy)
 @@ -106,14 +106,14 @@
  // CHECK: overrides.m:36:9: ObjCInstanceMethodDecl=protoMethod:36:9 [Overrides @8:9, @12:9, @17:9, @32:9]
@@ -96,7 +97,7 @@ Index: test/Index/print-objc-property-methods.m
 +// CHECK: ObjCPropertyDecl=prop3:4:59 [getter,setter,] getter=customGetter:4:59 setter=customSetter::4:59
 Index: test/Index/properties-class-extensions.m
 ===================================================================
---- test/Index/properties-class-extensions.m	(revision 210980)
+--- test/Index/properties-class-extensions.m	(revision 248094)
 +++ test/Index/properties-class-extensions.m	(working copy)
 @@ -49,33 +49,33 @@
  // CHECK: properties-class-extensions.m:5:12: ObjCCategoryDecl=Cat:5:12 Extent=[5:1 - 7:5]
@@ -163,9 +164,9 @@ Index: test/Index/properties-class-extensions.m
  
 Index: test/Index/usrs.m
 ===================================================================
---- test/Index/usrs.m	(revision 210980)
+--- test/Index/usrs.m	(revision 248094)
 +++ test/Index/usrs.m	(working copy)
-@@ -185,8 +185,8 @@
+@@ -208,8 +208,8 @@
  // CHECK-source: usrs.m:30:8: ObjCClassMethodDecl=kingkong:30:8 Extent=[30:1 - 30:17]
  // CHECK-source: usrs.m:30:4: TypeRef=id:0:0 Extent=[30:4 - 30:6]
  // CHECK-source: usrs.m:31:15: ObjCPropertyDecl=d1:31:15 Extent=[31:1 - 31:17]
@@ -178,9 +179,9 @@ Index: test/Index/usrs.m
  // CHECK-source: usrs.m:35:8: ObjCInstanceMethodDecl=godzilla:35:8 (Definition) Extent=[35:1 - 39:2]
 Index: tools/c-index-test/c-index-test.c
 ===================================================================
---- tools/c-index-test/c-index-test.c	(revision 210980)
+--- tools/c-index-test/c-index-test.c	(revision 248094)
 +++ tools/c-index-test/c-index-test.c	(working copy)
-@@ -700,6 +700,8 @@
+@@ -779,6 +779,8 @@
        printf(" (variadic)");
      if (clang_Cursor_isObjCOptional(Cursor))
        printf(" (@optional)");
@@ -189,7 +190,7 @@ Index: tools/c-index-test/c-index-test.c
  
      if (Cursor.kind == CXCursor_IBOutletCollectionAttr) {
        CXType T =
-@@ -1285,6 +1287,44 @@
+@@ -1457,6 +1459,44 @@
  }
  
  /******************************************************************************/
@@ -234,7 +235,7 @@ Index: tools/c-index-test/c-index-test.c
  /* Loading ASTs/source.                                                       */
  /******************************************************************************/
  
-@@ -3771,6 +3811,7 @@
+@@ -4064,6 +4104,7 @@
      "       c-index-test -test-print-type {<args>}*\n"
      "       c-index-test -test-print-type-size {<args>}*\n"
      "       c-index-test -test-print-bitwidth {<args>}*\n"
@@ -242,10 +243,10 @@ Index: tools/c-index-test/c-index-test.c
      "       c-index-test -print-usr [<CursorKind> {<args>}]*\n"
      "       c-index-test -print-usr-file <file>\n"
      "       c-index-test -write-pch <file> <compiler arguments>\n");
-@@ -3862,6 +3903,9 @@
-   else if (argc > 2 && strcmp(argv[1], "-test-print-bitwidth") == 0)
-     return perform_test_load_source(argc - 2, argv + 2, "all",
+@@ -4159,6 +4200,9 @@
                                      PrintBitWidth, 0);
+   else if (argc > 2 && strcmp(argv[1], "-test-print-mangle") == 0)
+     return perform_test_load_tu(argv[2], "all", NULL, PrintMangledName, NULL);
 +  else if (argc > 2 && strcmp(argv[1], "-test-print-property-methods") == 0)
 +    return perform_test_load_source(argc - 2, argv + 2, "all",
 +                                    PrintObjCPropertyMethods, 0);
@@ -254,9 +255,9 @@ Index: tools/c-index-test/c-index-test.c
        return print_usrs(argv + 2, argv + argc);
 Index: tools/libclang/CIndex.cpp
 ===================================================================
---- tools/libclang/CIndex.cpp	(revision 210980)
+--- tools/libclang/CIndex.cpp	(revision 248094)
 +++ tools/libclang/CIndex.cpp	(working copy)
-@@ -6075,6 +6075,28 @@
+@@ -6696,6 +6696,28 @@
    return Result;
  }
  
@@ -285,7 +286,7 @@ Index: tools/libclang/CIndex.cpp
  unsigned clang_Cursor_getObjCDeclQualifiers(CXCursor C) {
    if (!clang_isDeclaration(C.kind))
      return CXObjCDeclQualifier_None;
-@@ -6125,6 +6147,15 @@
+@@ -6746,6 +6768,15 @@
    return 0;
  }
  
@@ -303,21 +304,22 @@ Index: tools/libclang/CIndex.cpp
      return clang_getNullRange();
 Index: tools/libclang/libclang.exports
 ===================================================================
---- tools/libclang/libclang.exports	(revision 210980)
+--- tools/libclang/libclang.exports	(revision 248094)
 +++ tools/libclang/libclang.exports	(working copy)
-@@ -13,12 +13,15 @@
+@@ -20,6 +20,8 @@
  clang_Cursor_getNumArguments
  clang_Cursor_getObjCDeclQualifiers
  clang_Cursor_getObjCPropertyAttributes
 +clang_Cursor_getObjCPropertyGetter
 +clang_Cursor_getObjCPropertySetter
  clang_Cursor_getObjCSelectorIndex
+ clang_Cursor_getOffsetOfField
  clang_Cursor_getSpellingNameRange
- clang_Cursor_getTranslationUnit
- clang_Cursor_getReceiverType
- clang_Cursor_isBitField
- clang_Cursor_isDynamicCall
-+clang_Cursor_isImplicit
+@@ -31,6 +33,7 @@
  clang_Cursor_isNull
  clang_Cursor_isObjCOptional
  clang_Cursor_isVariadic
++clang_Cursor_isImplicit
+ clang_Cursor_getModule
+ clang_Cursor_getStorageClass
+ clang_File_isEqual
