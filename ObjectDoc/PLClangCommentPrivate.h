@@ -7,6 +7,7 @@
 #import "PLClangComment.h"
 
 #import <clang-c/Index.h>
+#import <clang-c/Documentation.h>
 
 @interface PLClangComment (PackagePrivate)
 
