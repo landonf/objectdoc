@@ -22,3 +22,5 @@ LLVM
       - Added clang_Cursor_isImplicit()
       - Added clang_Cursor_getObjCPropertyGetter()
       - Added clang_Cursor_getObjCPropertySetter()
+	  - Added clang_Type_getNullability()
+	  - Added clang_Type_removeOuterNullability()

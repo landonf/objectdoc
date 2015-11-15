@@ -2,7 +2,58 @@ Index: include/clang-c/Index.h
 ===================================================================
 --- include/clang-c/Index.h	(revision 248094)
 +++ include/clang-c/Index.h	(working copy)
-@@ -3786,6 +3786,24 @@
+@@ -3350,7 +3350,37 @@
+  */
+ CINDEX_LINKAGE enum CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T);
+ 
++enum CXNullabilityKind {
++  /**
++   * \brief No nullability information is available for this type.
++   */
++  CXNullability_None = 0,
++  /**
++   * \brief Values of this type can never be null.
++   */
++  CXNullability_Nonnull = 1,
++  /**
++   * \brief Values of this type can be null.
++   */
++  CXNullability_Nullable = 2,
++  /**
++   * \brief Whether values of this type can be null is explicitly unspecified.
++   */
++  CXNullability_Unspecified = 3
++};
++
+ /**
++ * \brief Returns the nullability of a type, if any.
++ */
++CINDEX_LINKAGE enum CXNullabilityKind clang_Type_getNullability(CXType T);
++
++/**
++ * \brief Returns a copy of the given type with its outer nullability
++ * information removed.
++ */
++CINDEX_LINKAGE CXType clang_Type_removeOuterNullability(CXType T);
++
++/**
+  * \brief Returns non-zero if the cursor specifies a Record member that is a
+  *   bitfield.
+  */
+@@ -3772,7 +3802,11 @@
+   CXObjCPropertyAttr_atomic    = 0x100,
+   CXObjCPropertyAttr_weak      = 0x200,
+   CXObjCPropertyAttr_strong    = 0x400,
+-  CXObjCPropertyAttr_unsafe_unretained = 0x800
++  CXObjCPropertyAttr_unsafe_unretained = 0x800,
++  CXObjCPropertyAttr_nonnull = 0x1000,
++  CXObjCPropertyAttr_nullable = 0x2000,
++  CXObjCPropertyAttr_null_resettable = 0x4000,
++  CXObjCPropertyAttr_null_unspecified = 0x8000
+ } CXObjCPropertyAttrKind;
+ 
+ /**
+@@ -3786,6 +3820,24 @@
                                                               unsigned reserved);
  
  /**
@@ -27,7 +78,7 @@ Index: include/clang-c/Index.h
   * \brief 'Qualifiers' written next to the return and parameter types in
   * Objective-C method declarations.
   */
-@@ -3820,6 +3838,13 @@
+@@ -3820,6 +3872,13 @@
  CINDEX_LINKAGE unsigned clang_Cursor_isVariadic(CXCursor C);
  
  /**
@@ -41,6 +92,21 @@ Index: include/clang-c/Index.h
   * \brief Given a cursor that represents a declaration, return the associated
   * comment's source range.  The range may include multiple consecutive comments
   * with whitespace in between.
+Index: lib/Sema/SemaObjCProperty.cpp
+===================================================================
+--- lib/Sema/SemaObjCProperty.cpp	(revision 248094)
++++ lib/Sema/SemaObjCProperty.cpp	(working copy)
+@@ -259,6 +259,10 @@
+     attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_nonatomic;
+   if (Attributes & ObjCDeclSpec::DQ_PR_atomic)
+     attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_atomic;
++  if (Attributes & ObjCDeclSpec::DQ_PR_nullability)
++    attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_nullability;
++  if (Attributes & ObjCDeclSpec::DQ_PR_null_resettable)
++    attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_null_resettable;
+   
+   return (ObjCPropertyDecl::PropertyAttributeKind)attributesAsWritten;
+ }
 Index: test/Index/c-index-api-loadTU-test.m
 ===================================================================
 --- test/Index/c-index-api-loadTU-test.m	(revision 248094)
@@ -190,7 +256,18 @@ Index: tools/c-index-test/c-index-test.c
  
      if (Cursor.kind == CXCursor_IBOutletCollectionAttr) {
        CXType T =
-@@ -1457,6 +1459,44 @@
+@@ -918,6 +920,10 @@
+         PRINT_PROP_ATTR(weak);
+         PRINT_PROP_ATTR(strong);
+         PRINT_PROP_ATTR(unsafe_unretained);
++        PRINT_PROP_ATTR(nonnull);
++        PRINT_PROP_ATTR(nullable);
++        PRINT_PROP_ATTR(null_resettable);
++        PRINT_PROP_ATTR(null_unspecified);
+         printf("]");
+       }
+     }
+@@ -1457,6 +1463,44 @@
  }
  
  /******************************************************************************/
@@ -235,7 +312,7 @@ Index: tools/c-index-test/c-index-test.c
  /* Loading ASTs/source.                                                       */
  /******************************************************************************/
  
-@@ -4064,6 +4104,7 @@
+@@ -4064,6 +4108,7 @@
      "       c-index-test -test-print-type {<args>}*\n"
      "       c-index-test -test-print-type-size {<args>}*\n"
      "       c-index-test -test-print-bitwidth {<args>}*\n"
@@ -243,7 +320,7 @@ Index: tools/c-index-test/c-index-test.c
      "       c-index-test -print-usr [<CursorKind> {<args>}]*\n"
      "       c-index-test -print-usr-file <file>\n"
      "       c-index-test -write-pch <file> <compiler arguments>\n");
-@@ -4159,6 +4200,9 @@
+@@ -4159,6 +4204,9 @@
                                      PrintBitWidth, 0);
    else if (argc > 2 && strcmp(argv[1], "-test-print-mangle") == 0)
      return perform_test_load_tu(argv[2], "all", NULL, PrintMangledName, NULL);
@@ -257,7 +334,49 @@ Index: tools/libclang/CIndex.cpp
 ===================================================================
 --- tools/libclang/CIndex.cpp	(revision 248094)
 +++ tools/libclang/CIndex.cpp	(working copy)
-@@ -6696,6 +6696,28 @@
+@@ -6265,6 +6265,10 @@
+               .Case("setter", true)
+               .Case("strong", true)
+               .Case("weak", true)
++              .Case("nonnull", true)
++              .Case("nullable", true)
++              .Case("null_resettable", true)
++              .Case("null_unspecified", true)
+               .Default(false))
+             Tokens[I].int_data[0] = CXToken_Keyword;
+         }
+@@ -6672,6 +6676,7 @@
+     return CXObjCPropertyAttr_noattr;
+ 
+   unsigned Result = CXObjCPropertyAttr_noattr;
++  ASTContext &Context = getCursorContext(C);
+   const ObjCPropertyDecl *PD = dyn_cast<ObjCPropertyDecl>(getCursorDecl(C));
+   ObjCPropertyDecl::PropertyAttributeKind Attr =
+       PD->getPropertyAttributesAsWritten();
+@@ -6693,9 +6698,51 @@
+   SET_CXOBJCPROP_ATTR(unsafe_unretained);
+ #undef SET_CXOBJCPROP_ATTR
+ 
++  if (Attr & ObjCPropertyDecl::OBJC_PR_nullability) {
++    if (auto nullability = PD->getType()->getNullability(Context)) {
++      switch (*nullability) {
++        case NullabilityKind::NonNull:
++          Result |= CXObjCPropertyAttr_nonnull;
++          break;
++        case NullabilityKind::Nullable:
++          Result |= CXObjCPropertyAttr_nullable;
++          break;
++        case NullabilityKind::Unspecified:
++          if (Attr & ObjCPropertyDecl::OBJC_PR_null_resettable) {
++            Result |= CXObjCPropertyAttr_null_resettable;
++          } else {
++            Result |= CXObjCPropertyAttr_null_unspecified;
++          }
++          break;
++      }
++    }
++  }
++
    return Result;
  }
  
@@ -286,7 +405,7 @@ Index: tools/libclang/CIndex.cpp
  unsigned clang_Cursor_getObjCDeclQualifiers(CXCursor C) {
    if (!clang_isDeclaration(C.kind))
      return CXObjCDeclQualifier_None;
-@@ -6746,6 +6768,15 @@
+@@ -6746,6 +6793,15 @@
    return 0;
  }
  
@@ -302,6 +421,50 @@ Index: tools/libclang/CIndex.cpp
  CXSourceRange clang_Cursor_getCommentRange(CXCursor C) {
    if (!clang_isDeclaration(C.kind))
      return clang_getNullRange();
+Index: tools/libclang/CXType.cpp
+===================================================================
+--- tools/libclang/CXType.cpp	(revision 248094)
++++ tools/libclang/CXType.cpp	(working copy)
+@@ -869,6 +869,39 @@
+   return CXRefQualifier_None;
+ }
+ 
++enum CXNullabilityKind clang_Type_getNullability(CXType CT) {
++  QualType QT = GetQualType(CT);
++  if (QT.isNull())
++    return CXNullability_None;
++
++  CXTranslationUnit TU = GetTU(CT);
++  auto nullability = QT->getNullability(cxtu::getASTUnit(TU)->getASTContext());
++  if (!nullability)
++    return CXNullability_None;
++
++  switch (*nullability) {
++    case NullabilityKind::NonNull:
++      return CXNullability_Nonnull;
++    case NullabilityKind::Nullable:
++      return CXNullability_Nullable;
++    case NullabilityKind::Unspecified:
++      return CXNullability_Unspecified;
++  }
++
++  return CXNullability_None;
++}
++
++CXType clang_Type_removeOuterNullability(CXType CT) {
++  QualType QT = GetQualType(CT);
++  if (QT.isNull())
++    return CT;
++
++  if (AttributedType::stripOuterNullability(QT))
++    return MakeCXType(QT, GetTU(CT));
++
++  return CT;
++}
++
+ unsigned clang_Cursor_isBitField(CXCursor C) {
+   if (!clang_isDeclaration(C.kind))
+     return 0;
 Index: tools/libclang/libclang.exports
 ===================================================================
 --- tools/libclang/libclang.exports	(revision 248094)
@@ -323,3 +486,12 @@ Index: tools/libclang/libclang.exports
  clang_Cursor_getModule
  clang_Cursor_getStorageClass
  clang_File_isEqual
+@@ -79,6 +82,8 @@
+ clang_Type_getNumTemplateArguments
+ clang_Type_getTemplateArgumentAsType
+ clang_Type_getCXXRefQualifier
++clang_Type_getNullability
++clang_Type_removeOuterNullability
+ clang_Type_visitFields
+ clang_VerbatimBlockLineComment_getText
+ clang_VerbatimLineComment_getText
