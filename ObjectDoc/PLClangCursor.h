@@ -1173,7 +1173,19 @@ typedef NS_OPTIONS(NSUInteger, PLClangObjCPropertyAttributes) {
     PLClangObjCPropertyAttributeGetter           = 1UL << 10,
 
     /** The property has an explicit setter method. */
-    PLClangObjCPropertyAttributeSetter           = 1UL << 11
+    PLClangObjCPropertyAttributeSetter           = 1UL << 11,
+
+    /** The property's value can never be null. */
+    PLClangObjCPropertyAttributeNonnull          = 1UL << 12,
+
+    /** The property's value can be null. */
+    PLClangObjCPropertyAttributeNullable         = 1UL << 13,
+
+    /** The property is reset to a default value when null is assigned. */
+    PLClangObjCPropertyAttributeNullResettable   = 1UL << 14,
+
+    /** Whether the property's value can be null is explicitly unspecified. */
+    PLClangObjCPropertyAttributeNullUnspecified  = 1UL << 15
 };
 
 /**

@@ -158,4 +158,36 @@
     XCTAssertFalse(cursor.type.isVariadic, @"Function should not have been variadic");
 }
 
+- (void) testNullability {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"id t;" path: @"test.m"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.type.nullability, PLClangNullabilityNone);
+
+    tu = [self translationUnitWithSource: @"id _Nonnull t;" path: @"test.m"];
+    cursor = [tu cursorWithSpelling: @"t"];
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.type.nullability, PLClangNullabilityNonnull);
+
+    tu = [self translationUnitWithSource: @"id _Nullable t;" path: @"test.m"];
+    cursor = [tu cursorWithSpelling: @"t"];
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.type.nullability, PLClangNullabilityNullable);
+
+    tu = [self translationUnitWithSource: @"id _Null_unspecified t;" path: @"test.m"];
+    cursor = [tu cursorWithSpelling: @"t"];
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.type.nullability, PLClangNullabilityExplicitlyUnspecified);
+}
+
+- (void) testRemoveOuterNullability {
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"id _Nonnull t;" path: @"test.m"];
+    PLClangCursor *cursor = [tu cursorWithSpelling: @"t"];
+    XCTAssertNotNil(cursor);
+    XCTAssertEqual(cursor.type.nullability, PLClangNullabilityNonnull);
+
+    PLClangType *nullabilityRemovedType = [cursor.type typeByRemovingOuterNullability];
+    XCTAssertEqual(nullabilityRemovedType.nullability, PLClangNullabilityNone);
+}
+
 @end

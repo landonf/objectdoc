@@ -1057,6 +1057,18 @@
     if (clangAttributes & CXObjCPropertyAttr_unsafe_unretained)
         attrs |= PLClangObjCPropertyAttributeUnsafeUnretained;
 
+    if (clangAttributes & CXObjCPropertyAttr_nonnull)
+        attrs |= PLClangObjCPropertyAttributeNonnull;
+
+    if (clangAttributes & CXObjCPropertyAttr_nullable)
+        attrs |= PLClangObjCPropertyAttributeNullable;
+
+    if (clangAttributes & CXObjCPropertyAttr_null_resettable)
+        attrs |= PLClangObjCPropertyAttributeNullResettable;
+
+    if (clangAttributes & CXObjCPropertyAttr_null_unspecified)
+        attrs |= PLClangObjCPropertyAttributeNullUnspecified;
+
     return attrs;
 }
 

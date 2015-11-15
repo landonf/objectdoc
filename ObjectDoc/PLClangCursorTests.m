@@ -289,6 +289,10 @@
     [self verifyObjCPropertyWithAttributes: @"weak" expectedResults: PLClangObjCPropertyAttributeWeak];
     [self verifyObjCPropertyWithAttributes: @"getter=prop" expectedResults: PLClangObjCPropertyAttributeGetter];
     [self verifyObjCPropertyWithAttributes: @"setter=setProp:" expectedResults: PLClangObjCPropertyAttributeSetter];
+    [self verifyObjCPropertyWithAttributes: @"nullable" expectedResults: PLClangObjCPropertyAttributeNullable];
+    [self verifyObjCPropertyWithAttributes: @"nonnull" expectedResults: PLClangObjCPropertyAttributeNonnull];
+    [self verifyObjCPropertyWithAttributes: @"null_resettable" expectedResults: PLClangObjCPropertyAttributeNullResettable];
+    [self verifyObjCPropertyWithAttributes: @"null_unspecified" expectedResults: PLClangObjCPropertyAttributeNullUnspecified];
     [self verifyObjCPropertyWithAttributes: @"nonatomic, copy, getter=prop, setter=setProp:" expectedResults:
                                             PLClangObjCPropertyAttributeNonAtomic |
                                             PLClangObjCPropertyAttributeCopy |
