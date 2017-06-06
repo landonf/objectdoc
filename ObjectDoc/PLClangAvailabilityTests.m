@@ -66,7 +66,7 @@
 }
 
 - (void) testAvailabilityAttribute {
-    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f() __attribute__((availability(macosx,introduced=10.4.3,deprecated=10.6,obsoleted=10.7,message=\"message\")));"];
+    PLClangTranslationUnit *tu = [self translationUnitWithSource: @"void f() __attribute__((availability(macos,introduced=10.4.3,deprecated=10.6,obsoleted=10.7,message=\"message\")));"];
     PLClangCursor *cursor = [tu cursorWithSpelling: @"f"];
     XCTAssertNotNil(cursor);
     XCTAssertEqual(cursor.availability.kind, PLClangAvailabilityKindUnavailable);
@@ -75,7 +75,7 @@
     XCTAssertTrue([cursor.availability.platformAvailabilityEntries count] == 1);
 
     PLClangPlatformAvailability *availability = cursor.availability.platformAvailabilityEntries[0];
-    XCTAssertEqualObjects(availability.platformName, @"macosx");
+    XCTAssertEqualObjects(availability.platformName, @"macos");
     XCTAssertEqualObjects(availability.message, @"message");
 
     XCTAssertEqual(availability.introducedVersion.major, 10);

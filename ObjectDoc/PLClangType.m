@@ -134,6 +134,9 @@
         case CXType_ObjCSel:
             return PLClangTypeKindObjCSel;
 
+        case CXType_Float128:
+            return PLClangTypeKindFloat128;
+
         case CXType_Complex:
             return PLClangTypeKindComplex;
 
@@ -187,6 +190,12 @@
 
         case CXType_MemberPointer:
             return PLClangTypeKindMemberPointer;
+
+        case CXType_Auto:
+            return PLClangTypeKindAuto;
+
+        case CXType_Elaborated:
+            return PLClangTypeKindElaborated;
     }
 
     // Type is unknown

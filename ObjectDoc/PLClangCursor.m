@@ -373,6 +373,12 @@
         case CXCursor_ObjCSelfExpr:
             return PLClangCursorKindObjCSelfExpression;
 
+        case CXCursor_OMPArraySectionExpr:
+            return PLClangCursorKindOMPArraySectionExpression;
+
+        case CXCursor_ObjCAvailabilityCheckExpr:
+            return PLClangCursorKindObjCAvailabilityCheckExpression;
+
         case CXCursor_UnexposedStmt:
             return PLClangCursorKindUnexposedStatement;
 
@@ -544,6 +550,75 @@
         case CXCursor_OMPCancelDirective:
             return PLClangCursorKindOMPCancelDirective;
 
+        case CXCursor_OMPTargetDataDirective:
+            return PLClangCursorKindOMPTargetDataDirective;
+
+        case CXCursor_OMPTaskLoopDirective:
+            return PLClangCursorKindOMPTaskLoopDirective;
+
+        case CXCursor_OMPTaskLoopSimdDirective:
+            return PLClangCursorKindOMPTaskLoopSimdDirective;
+
+        case CXCursor_OMPDistributeDirective:
+            return PLClangCursorKindOMPDistributeDirective;
+
+        case CXCursor_OMPTargetEnterDataDirective:
+            return PLClangCursorKindOMPTargetEnterDataDirective;
+
+        case CXCursor_OMPTargetExitDataDirective:
+            return PLClangCursorKindOMPTargetExitDataDirective;
+
+        case CXCursor_OMPTargetParallelDirective:
+            return PLClangCursorKindOMPTargetParallelDirective;
+
+        case CXCursor_OMPTargetParallelForDirective:
+            return PLClangCursorKindOMPTargetParallelForDirective;
+
+        case CXCursor_OMPTargetUpdateDirective:
+            return PLClangCursorKindOMPTargetUpdateDirective;
+
+        case CXCursor_OMPDistributeParallelForDirective:
+            return PLClangCursorKindOMPDistributeParallelForDirective;
+
+        case CXCursor_OMPDistributeParallelForSimdDirective:
+            return PLClangCursorKindOMPDistributeParallelForSimdDirective;
+
+        case CXCursor_OMPDistributeSimdDirective:
+            return PLClangCursorKindOMPDistributeSimdDirective;
+
+        case CXCursor_OMPTargetParallelForSimdDirective:
+            return PLClangCursorKindOMPTargetParallelForSimdDirective;
+
+        case CXCursor_OMPTargetSimdDirective:
+            return PLClangCursorKindOMPTargetSimdDirective;
+
+        case CXCursor_OMPTeamsDistributeDirective:
+            return PLClangCursorKindOMPTeamsDistributeDirective;
+
+        case CXCursor_OMPTeamsDistributeSimdDirective:
+            return PLClangCursorKindOMPTeamsDistributeSimdDirective;
+
+        case CXCursor_OMPTeamsDistributeParallelForSimdDirective:
+            return PLClangCursorKindOMPTeamsDistributeParallelForSimdDirective;
+
+        case CXCursor_OMPTeamsDistributeParallelForDirective:
+            return PLClangCursorKindOMPTeamsDistributeParallelForDirective;
+
+        case CXCursor_OMPTargetTeamsDirective:
+            return PLClangCursorKindOMPTargetTeamsDirective;
+
+        case CXCursor_OMPTargetTeamsDistributeDirective:
+            return PLClangCursorKindOMPTargetTeamsDistributeDirective;
+
+        case CXCursor_OMPTargetTeamsDistributeParallelForDirective:
+            return PLClangCursorKindOMPTargetTeamsDistributeParallelForDirective;
+
+        case CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective:
+            return PLClangCursorKindOMPTargetTeamsDistributeParallelForSimdDirective;
+
+        case CXCursor_OMPTargetTeamsDistributeSimdDirective:
+            return PLClangCursorKindOMPTargetTeamsDistributeSimdDirective;
+
         case CXCursor_TranslationUnit:
             return PLClangCursorKindTranslationUnit;
 
@@ -598,6 +673,15 @@
         case CXCursor_CUDASharedAttr:
             return PLClangCursorKindCUDASharedAttribute;
 
+        case CXCursor_VisibilityAttr:
+            return PLClangCursorKindVisibilityAttribute;
+
+        case CXCursor_DLLExport:
+            return PLClangCursorKindDLLExportAttribute;
+
+        case CXCursor_DLLImport:
+            return PLClangCursorKindDLLImportAttribute;
+
         case CXCursor_PreprocessingDirective:
             return PLClangCursorKindPreprocessingDirective;
 
@@ -612,6 +696,15 @@
 
         case CXCursor_ModuleImportDecl:
             return PLClangCursorKindModuleImportDeclaration;
+
+        case CXCursor_TypeAliasTemplateDecl:
+            return PLClangCursorKindTypeAliasTemplateDeclaration;
+
+        case CXCursor_StaticAssert:
+            return PLClangCursorKindStaticAssert;
+
+        case CXCursor_FriendDecl:
+            return PLClangCursorKindFriendDeclaration;
 
         case CXCursor_OverloadCandidate:
             return PLClangCursorKindOverloadCandidate;
