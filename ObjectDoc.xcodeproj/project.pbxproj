@@ -196,10 +196,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		05A2157D19008B310050A058 /* clang-3.4.src.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "clang-3.4.src.tar.gz"; sourceTree = "<group>"; };
-		05A2157E19008B310050A058 /* clang-3.4.src.tar.gz.sig */ = {isa = PBXFileReference; lastKnownFileType = file; path = "clang-3.4.src.tar.gz.sig"; sourceTree = "<group>"; };
-		05A2157F19008B310050A058 /* llvm-3.4.src.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = "llvm-3.4.src.tar.gz"; sourceTree = "<group>"; };
-		05A2158019008B310050A058 /* llvm-3.4.src.tar.gz.sig */ = {isa = PBXFileReference; lastKnownFileType = file; path = "llvm-3.4.src.tar.gz.sig"; sourceTree = "<group>"; };
+		05A2157D19008B310050A058 /* cfe-4.0.0.src.tar.xz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cfe-4.0.0.src.tar.xz"; sourceTree = "<group>"; };
+		05A2157E19008B310050A058 /* cfe-4.0.0.src.tar.xz.sig */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cfe-4.0.0.src.tar.xz.sig"; sourceTree = "<group>"; };
+		05A2157F19008B310050A058 /* llvm-4.0.0.src.tar.xz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "llvm-4.0.0.src.tar.xz"; sourceTree = "<group>"; };
+		05A2158019008B310050A058 /* llvm-4.0.0.src.tar.xz.sig */ = {isa = PBXFileReference; lastKnownFileType = file; path = "llvm-4.0.0.src.tar.xz.sig"; sourceTree = "<group>"; };
 		05A2158119008B310050A058 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.txt; path = Dependencies/README.txt; sourceTree = "<group>"; };
 		05BE063F16B43ECE00DF46D5 /* ObjectDoc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectDoc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		05BE064216B43ECE00DF46D5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -357,10 +357,10 @@
 			isa = PBXGroup;
 			children = (
 				C9F6C030194405F300D3011F /* clang */,
-				05A2157D19008B310050A058 /* clang-3.4.src.tar.gz */,
-				05A2157E19008B310050A058 /* clang-3.4.src.tar.gz.sig */,
-				05A2157F19008B310050A058 /* llvm-3.4.src.tar.gz */,
-				05A2158019008B310050A058 /* llvm-3.4.src.tar.gz.sig */,
+				05A2157D19008B310050A058 /* cfe-4.0.0.src.tar.xz */,
+				05A2157E19008B310050A058 /* cfe-4.0.0.src.tar.xz.sig */,
+				05A2157F19008B310050A058 /* llvm-4.0.0.src.tar.xz */,
+				05A2158019008B310050A058 /* llvm-4.0.0.src.tar.xz.sig */,
 			);
 			name = LLVM;
 			path = Dependencies/LLVM;
@@ -719,7 +719,6 @@
 				05BE065216B43ECF00DF46D5 /* Sources */,
 				05BE065316B43ECF00DF46D5 /* Frameworks */,
 				05BE065416B43ECF00DF46D5 /* Resources */,
-				05BE065516B43ECF00DF46D5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -758,7 +757,7 @@
 		05BE063516B43ECE00DF46D5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Landon Fuller";
 				TargetAttributes = {
 					05BE065616B43ECF00DF46D5 = {
@@ -808,7 +807,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		05A2157B19008A9F0050A058 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -820,20 +819,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "BUILDDIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}/llvm-build\"\nLLVM_SRC_DIR=\"${BUILDDIR}/llvm-${LLVM_VERSION}.src\"\nCLANG_SRC_DIR=\"${LLVM_SRC_DIR}/tools/clang\"\nLOG=${BUILDDIR}/log\n\n# We use env to clean any conflicting environmental variables\n# set by Xcode\nENV_CLEAN=\"env -i \\\"PATH=${PATH}\\\" MACOSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET}\"\n\n# Set up the build directory\nmkdir -p \"${BUILDDIR}\"\npushd \"${BUILDDIR}\" >/dev/null\n\n# Extract LLVM + Clang\nif [ ! -d \"${LLVM_SRC_DIR}\" ]; then\n    tar -C \"${BUILDDIR}\" -zxf \"${LLVM_SRC}\"\nfi\n\nif [ ! -d \"${CLANG_SRC_DIR}\" ]; then\n    tar -C \"${LLVM_SRC_DIR}/tools\" -zxf \"${CLANG_SRC}\"\n\n    pushd \"${LLVM_SRC_DIR}/tools\" >/dev/null\n    mv \"cfe-${LLVM_VERSION}.src\" \"clang\"\n    popd >/dev/null\n\n    # Apply Clang patch\n    if [ ! -z \"${CLANG_PATCH}\" ]; then\n      pushd \"${CLANG_SRC_DIR}\" >/dev/null\n      patch -p0 < \"${CLANG_PATCH}\"\n      popd >/dev/null\n    fi\nfi\n\n# Initialize the build log\necho -n \"\" > \"${LOG}\"\necho \"Clang build log available at ${LOG}\"\n\n# Configure the compiler\n$ENV_CLEAN \"${LLVM_SRC_DIR}/configure\" -C --enable-libcpp --prefix \"${LLVM_INSTALL_DIR}\" >\"${LOG}\" 2>&1\nif [ $? != 0 ]; then\n    echo \"A configure error occured. See the build log for more details\" >/dev/stderr\n    exit 1\nfi\n\n# Run the build\n$ENV_CLEAN \"make\" -j `sysctl -n hw.ncpu` >>\"${LOG}\" 2>&1\nif [ $? != 0 ]; then\n    echo \"Failed to build clang. See the build log for more details\" >/dev/stderr\n    exit 1\nfi\n\n# Install the build\n$ENV_CLEAN \"make\" install >>\"${LOG}\" 2>&1\nif [ $? != 0 ]; then\n    echo \"Failed to build clang. See the build log for more details\" >/dev/stderr\n    exit 1\nfi\n\npopd >/dev/null\n\ntouch \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}/build.stamp\"";
-		};
-		05BE065516B43ECF00DF46D5 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+			shellScript = "BUILDDIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}/llvm-build\"\nLLVM_SRC_DIR=\"${BUILDDIR}/llvm-${LLVM_VERSION}.src\"\nCLANG_SRC_DIR=\"${LLVM_SRC_DIR}/tools/clang\"\nLOG=${BUILDDIR}/log\n\nPATH=${PATH}:/usr/local/bin:/opt/local/bin\nCMAKE_PATH=`which cmake`\n\n# We use env to clean any conflicting environmental variables\n# set by Xcode\nENV_CLEAN=\"env -i \\\"PATH=${PATH}\\\"\"\n\n# Set up the build directory\nmkdir -p \"${BUILDDIR}\"\npushd \"${BUILDDIR}\" >/dev/null\n\n# Extract LLVM + Clang\nif [ ! -d \"${LLVM_SRC_DIR}\" ]; then\ntar -C \"${BUILDDIR}\" -zxf \"${LLVM_SRC}\"\nfi\n\nif [ ! -d \"${CLANG_SRC_DIR}\" ]; then\n    tar -C \"${LLVM_SRC_DIR}/tools\" -zxf \"${CLANG_SRC}\"\n\n    pushd \"${LLVM_SRC_DIR}/tools\" >/dev/null\n    mv \"cfe-${LLVM_VERSION}.src\" \"clang\"\n    popd >/dev/null\n\n    # Apply Clang patch\n    if [ ! -z \"${CLANG_PATCH}\" ]; then\n      pushd \"${CLANG_SRC_DIR}\" >/dev/null\n      patch -p0 < \"${CLANG_PATCH}\"\n      if [ $? != 0 ]; then\n      echo \"Failed to apply clang patch\" >/dev/stderr\n      exit 1\n      fi\n      popd >/dev/null\n    fi\nfi\n\n# Initialize the build log\necho -n \"\" > \"${LOG}\"\necho \"Clang build log available at ${LOG}\"\n\n# Configure the compiler\n$ENV_CLEAN \"${CMAKE_PATH}\" -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBCXX=1 -DLIBCLANG_BUILD_STATIC=1 -DCMAKE_OSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=\"${LLVM_INSTALL_DIR}\" \"${LLVM_SRC_DIR}\" >\"${LOG}\" 2>&1\nif [ $? != 0 ]; then\necho \"A configure error occured. See the build log for more details\" >/dev/stderr\nexit 1\nfi\n\n# Run the build\n$ENV_CLEAN \"make\" -j `sysctl -n hw.ncpu` >>\"${LOG}\" 2>&1\nif [ $? != 0 ]; then\necho \"Failed to build clang. See the build log for more details\" >/dev/stderr\nexit 1\nfi\n\n# Install the build\n$ENV_CLEAN \"make\" install >>\"${LOG}\" 2>&1\nif [ $? != 0 ]; then\necho \"Failed to build clang. See the build log for more details\" >/dev/stderr\nexit 1\nfi\n\npopd >/dev/null\n\ntouch \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}/build.stamp\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -963,7 +949,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_PATCH = "$(SRCROOT)/Dependencies/LLVM/clang.patch";
-				CLANG_SRC = "$(SRCROOT)/Dependencies/LLVM/cfe-3.7.0.src.tar.xz";
+				CLANG_SRC = "$(SRCROOT)/Dependencies/LLVM/cfe-4.0.0.src.tar.xz";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
@@ -993,10 +979,10 @@
 					"$(LLVM_INSTALL_DIR)/lib",
 				);
 				LLVM_CONFIG_CFLAGS = "-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wno-shorten-64-to-32";
-				LLVM_CONFIG_LDFLAGS = "-lLLVMAsmParser -lLLVMInstrumentation -lLLVMBitReader -lLLVMLinker -lLLVMOption -lLLVMipo -lLLVMVectorize -lLLVMBitWriter -lLLVMTableGen -lLLVMXCoreDisassembler -lLLVMXCoreCodeGen -lLLVMXCoreDesc -lLLVMXCoreInfo -lLLVMXCoreAsmPrinter -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMSparcCodeGen -lLLVMSparcDesc -lLLVMSparcInfo -lLLVMSparcAsmParser -lLLVMSparcAsmPrinter -lLLVMPowerPCCodeGen -lLLVMPowerPCDesc -lLLVMPowerPCInfo -lLLVMPowerPCAsmParser -lLLVMPowerPCAsmPrinter -lLLVMNVPTXCodeGen -lLLVMNVPTXDesc -lLLVMNVPTXInfo -lLLVMNVPTXAsmPrinter -lLLVMMSP430CodeGen -lLLVMMSP430Desc -lLLVMMSP430Info -lLLVMMSP430AsmPrinter -lLLVMMipsDisassembler -lLLVMMipsCodeGen -lLLVMMipsAsmParser -lLLVMMipsDesc -lLLVMMipsInfo -lLLVMMipsAsmPrinter -lLLVMHexagonCodeGen -lLLVMHexagonDesc -lLLVMHexagonInfo -lLLVMCppBackendCodeGen -lLLVMCppBackendInfo -lLLVMARMDisassembler -lLLVMARMCodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMAArch64AsmParser -lLLVMAArch64AsmPrinter -lLLVMAArch64CodeGen -lLLVMAArch64Info -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAMDGPUAsmParser -lLLVMAMDGPUCodeGen -lLLVMAMDGPUInfo -lLLVMAMDGPUDesc -lLLVMAMDGPUAsmPrinter -lLLVMAMDGPUUtils -lLLVMARMAsmParser -lLLVMARMDesc -lLLVMARMInfo -lLLVMARMAsmPrinter -lLLVMSystemZAsmParser -lLLVMSystemZCodeGen -lLLVMSystemZInfo -lLLVMSystemZDesc -lLLVMSystemZAsmPrinter -lLLVMBPFCodeGen -lLLVMBPFInfo -lLLVMBPFDesc -lLLVMBPFAsmPrinter -lLLVMMCDisassembler -lLLVMMCParser -lLLVMInterpreter -lLLVMMCJIT -lLLVMCodeGen -lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMipa -lLLVMAnalysis -lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore -lLLVMSupport -ltermcap -lz";
+				LLVM_CONFIG_LDFLAGS = "-lLLVMAsmParser -lLLVMInstrumentation -lLLVMBitReader -lLLVMLinker -lLLVMOption -lLLVMipo -lLLVMVectorize -lLLVMBitWriter -lLLVMTableGen -lLLVMXCoreDisassembler -lLLVMXCoreCodeGen -lLLVMXCoreDesc -lLLVMXCoreInfo -lLLVMXCoreAsmPrinter -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMSparcCodeGen -lLLVMSparcDesc -lLLVMSparcInfo -lLLVMSparcAsmParser -lLLVMSparcAsmPrinter -lLLVMPowerPCCodeGen -lLLVMPowerPCDesc -lLLVMPowerPCInfo -lLLVMPowerPCAsmParser -lLLVMPowerPCAsmPrinter -lLLVMNVPTXCodeGen -lLLVMNVPTXDesc -lLLVMNVPTXInfo -lLLVMNVPTXAsmPrinter -lLLVMMSP430CodeGen -lLLVMMSP430Desc -lLLVMMSP430Info -lLLVMMSP430AsmPrinter -lLLVMMipsDisassembler -lLLVMMipsCodeGen -lLLVMMipsAsmParser -lLLVMMipsDesc -lLLVMMipsInfo -lLLVMMipsAsmPrinter -lLLVMHexagonCodeGen -lLLVMHexagonDesc -lLLVMHexagonInfo -lLLVMARMDisassembler -lLLVMARMCodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMAArch64AsmParser -lLLVMAArch64AsmPrinter -lLLVMAArch64CodeGen -lLLVMAArch64Info -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAMDGPUAsmParser -lLLVMAMDGPUCodeGen -lLLVMAMDGPUInfo -lLLVMAMDGPUDesc -lLLVMAMDGPUAsmPrinter -lLLVMAMDGPUUtils -lLLVMARMAsmParser -lLLVMARMDesc -lLLVMARMInfo -lLLVMARMAsmPrinter -lLLVMSystemZAsmParser -lLLVMSystemZCodeGen -lLLVMSystemZInfo -lLLVMSystemZDesc -lLLVMSystemZAsmPrinter -lLLVMBPFCodeGen -lLLVMBPFInfo -lLLVMBPFDesc -lLLVMBPFAsmPrinter -lLLVMMCDisassembler -lLLVMMCParser -lLLVMInterpreter -lLLVMMCJIT -lLLVMCodeGen -lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMAnalysis -lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore -lLLVMSupport -lLLVMHexagonAsmParser -lLLVMHexagonDisassembler -lLLVMLanaiAsmParser -lLLVMLanaiCodeGen -lLLVMLanaiDesc -lLLVMLanaiInfo -lLLVMLanaiInstPrinter -lLLVMDebugInfoCodeView -lLLVMDebugInfoMSF -lLLVMGlobalISel -lLLVMProfileData -lLLVMRISCVCodeGen -lLLVMRISCVDesc -lLLVMRISCVInfo -lLLVMDemangle -ltermcap -lz";
 				LLVM_INSTALL_DIR = "${SYMROOT}/clang-install";
-				LLVM_SRC = "$(SRCROOT)/Dependencies/LLVM/llvm-3.7.0.src.tar.xz";
-				LLVM_VERSION = 3.7.0;
+				LLVM_SRC = "$(SRCROOT)/Dependencies/LLVM/llvm-4.0.0.src.tar.xz";
+				LLVM_VERSION = 4.0.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -1020,7 +1006,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_PATCH = "$(SRCROOT)/Dependencies/LLVM/clang.patch";
-				CLANG_SRC = "$(SRCROOT)/Dependencies/LLVM/cfe-3.7.0.src.tar.xz";
+				CLANG_SRC = "$(SRCROOT)/Dependencies/LLVM/cfe-4.0.0.src.tar.xz";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
@@ -1044,10 +1030,10 @@
 					"$(LLVM_INSTALL_DIR)/lib",
 				);
 				LLVM_CONFIG_CFLAGS = "-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wno-shorten-64-to-32";
-				LLVM_CONFIG_LDFLAGS = "-lLLVMAsmParser -lLLVMInstrumentation -lLLVMBitReader -lLLVMLinker -lLLVMOption -lLLVMipo -lLLVMVectorize -lLLVMBitWriter -lLLVMTableGen -lLLVMXCoreDisassembler -lLLVMXCoreCodeGen -lLLVMXCoreDesc -lLLVMXCoreInfo -lLLVMXCoreAsmPrinter -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMSparcCodeGen -lLLVMSparcDesc -lLLVMSparcInfo -lLLVMSparcAsmParser -lLLVMSparcAsmPrinter -lLLVMPowerPCCodeGen -lLLVMPowerPCDesc -lLLVMPowerPCInfo -lLLVMPowerPCAsmParser -lLLVMPowerPCAsmPrinter -lLLVMNVPTXCodeGen -lLLVMNVPTXDesc -lLLVMNVPTXInfo -lLLVMNVPTXAsmPrinter -lLLVMMSP430CodeGen -lLLVMMSP430Desc -lLLVMMSP430Info -lLLVMMSP430AsmPrinter -lLLVMMipsDisassembler -lLLVMMipsCodeGen -lLLVMMipsAsmParser -lLLVMMipsDesc -lLLVMMipsInfo -lLLVMMipsAsmPrinter -lLLVMHexagonCodeGen -lLLVMHexagonDesc -lLLVMHexagonInfo -lLLVMCppBackendCodeGen -lLLVMCppBackendInfo -lLLVMARMDisassembler -lLLVMARMCodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMAArch64AsmParser -lLLVMAArch64AsmPrinter -lLLVMAArch64CodeGen -lLLVMAArch64Info -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAMDGPUAsmParser -lLLVMAMDGPUCodeGen -lLLVMAMDGPUInfo -lLLVMAMDGPUDesc -lLLVMAMDGPUAsmPrinter -lLLVMAMDGPUUtils -lLLVMARMAsmParser -lLLVMARMDesc -lLLVMARMInfo -lLLVMARMAsmPrinter -lLLVMSystemZAsmParser -lLLVMSystemZCodeGen -lLLVMSystemZInfo -lLLVMSystemZDesc -lLLVMSystemZAsmPrinter -lLLVMBPFCodeGen -lLLVMBPFInfo -lLLVMBPFDesc -lLLVMBPFAsmPrinter -lLLVMMCDisassembler -lLLVMMCParser -lLLVMInterpreter -lLLVMMCJIT -lLLVMCodeGen -lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMipa -lLLVMAnalysis -lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore -lLLVMSupport -ltermcap -lz";
+				LLVM_CONFIG_LDFLAGS = "-lLLVMAsmParser -lLLVMInstrumentation -lLLVMBitReader -lLLVMLinker -lLLVMOption -lLLVMipo -lLLVMVectorize -lLLVMBitWriter -lLLVMTableGen -lLLVMXCoreDisassembler -lLLVMXCoreCodeGen -lLLVMXCoreDesc -lLLVMXCoreInfo -lLLVMXCoreAsmPrinter -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMX86Desc -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMSparcCodeGen -lLLVMSparcDesc -lLLVMSparcInfo -lLLVMSparcAsmParser -lLLVMSparcAsmPrinter -lLLVMPowerPCCodeGen -lLLVMPowerPCDesc -lLLVMPowerPCInfo -lLLVMPowerPCAsmParser -lLLVMPowerPCAsmPrinter -lLLVMNVPTXCodeGen -lLLVMNVPTXDesc -lLLVMNVPTXInfo -lLLVMNVPTXAsmPrinter -lLLVMMSP430CodeGen -lLLVMMSP430Desc -lLLVMMSP430Info -lLLVMMSP430AsmPrinter -lLLVMMipsDisassembler -lLLVMMipsCodeGen -lLLVMMipsAsmParser -lLLVMMipsDesc -lLLVMMipsInfo -lLLVMMipsAsmPrinter -lLLVMHexagonCodeGen -lLLVMHexagonDesc -lLLVMHexagonInfo -lLLVMARMDisassembler -lLLVMARMCodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMAArch64AsmParser -lLLVMAArch64AsmPrinter -lLLVMAArch64CodeGen -lLLVMAArch64Info -lLLVMAArch64Desc -lLLVMAArch64Utils -lLLVMAMDGPUAsmParser -lLLVMAMDGPUCodeGen -lLLVMAMDGPUInfo -lLLVMAMDGPUDesc -lLLVMAMDGPUAsmPrinter -lLLVMAMDGPUUtils -lLLVMARMAsmParser -lLLVMARMDesc -lLLVMARMInfo -lLLVMARMAsmPrinter -lLLVMSystemZAsmParser -lLLVMSystemZCodeGen -lLLVMSystemZInfo -lLLVMSystemZDesc -lLLVMSystemZAsmPrinter -lLLVMBPFCodeGen -lLLVMBPFInfo -lLLVMBPFDesc -lLLVMBPFAsmPrinter -lLLVMMCDisassembler -lLLVMMCParser -lLLVMInterpreter -lLLVMMCJIT -lLLVMCodeGen -lLLVMScalarOpts -lLLVMInstCombine -lLLVMTransformUtils -lLLVMAnalysis -lLLVMRuntimeDyld -lLLVMExecutionEngine -lLLVMTarget -lLLVMMC -lLLVMObject -lLLVMCore -lLLVMSupport -lLLVMHexagonAsmParser -lLLVMHexagonDisassembler -lLLVMLanaiAsmParser -lLLVMLanaiCodeGen -lLLVMLanaiDesc -lLLVMLanaiInfo -lLLVMLanaiInstPrinter -lLLVMDebugInfoCodeView -lLLVMDebugInfoMSF -lLLVMGlobalISel -lLLVMProfileData -lLLVMRISCVCodeGen -lLLVMRISCVDesc -lLLVMRISCVInfo -lLLVMDemangle -ltermcap -lz";
 				LLVM_INSTALL_DIR = "${SYMROOT}/clang-install";
-				LLVM_SRC = "$(SRCROOT)/Dependencies/LLVM/llvm-3.7.0.src.tar.xz";
-				LLVM_VERSION = 3.7.0;
+				LLVM_SRC = "$(SRCROOT)/Dependencies/LLVM/llvm-4.0.0.src.tar.xz";
+				LLVM_VERSION = 4.0.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (

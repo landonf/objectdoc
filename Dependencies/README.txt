@@ -13,7 +13,7 @@ LLVM
       LLVM and Clang sources.
 
     Version:
-      3.7 downloaded from http://llvm.org/releases/download.html
+      4.0 downloaded from http://releases.llvm.org/download.html
 
     License:
       "UIUC" BSD-Style license
