@@ -1346,7 +1346,10 @@ typedef NS_OPTIONS(NSUInteger, PLClangObjCPropertyAttributes) {
     PLClangObjCPropertyAttributeNullResettable   = 1UL << 14,
 
     /** Whether the property's value can be null is explicitly unspecified. */
-    PLClangObjCPropertyAttributeNullUnspecified  = 1UL << 15
+    PLClangObjCPropertyAttributeNullUnspecified  = 1UL << 15,
+
+    /** The property is a class property. */
+    PLClangObjCPropertyAttributeClass            = 1UL << 16,
 };
 
 /**

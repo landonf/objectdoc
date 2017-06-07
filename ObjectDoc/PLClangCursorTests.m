@@ -293,6 +293,7 @@
     [self verifyObjCPropertyWithAttributes: @"nonnull" expectedResults: PLClangObjCPropertyAttributeNonnull];
     [self verifyObjCPropertyWithAttributes: @"null_resettable" expectedResults: PLClangObjCPropertyAttributeNullResettable];
     [self verifyObjCPropertyWithAttributes: @"null_unspecified" expectedResults: PLClangObjCPropertyAttributeNullUnspecified];
+    [self verifyObjCPropertyWithAttributes: @"class" expectedResults: PLClangObjCPropertyAttributeClass];
     [self verifyObjCPropertyWithAttributes: @"nonatomic, copy, getter=prop, setter=setProp:" expectedResults:
                                             PLClangObjCPropertyAttributeNonAtomic |
                                             PLClangObjCPropertyAttributeCopy |

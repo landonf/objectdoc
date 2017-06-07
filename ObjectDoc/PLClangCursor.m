@@ -1162,6 +1162,9 @@
     if (clangAttributes & CXObjCPropertyAttr_null_unspecified)
         attrs |= PLClangObjCPropertyAttributeNullUnspecified;
 
+    if (clangAttributes & CXObjCPropertyAttr_class)
+        attrs |= PLClangObjCPropertyAttributeClass;
+
     return attrs;
 }
 
