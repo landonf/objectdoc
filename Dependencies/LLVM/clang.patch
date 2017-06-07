@@ -1,8 +1,8 @@
 Index: include/clang-c/Index.h
 ===================================================================
---- include/clang-c/Index.h	(revision 248094)
+--- include/clang-c/Index.h	(revision 304830)
 +++ include/clang-c/Index.h	(working copy)
-@@ -3350,7 +3350,37 @@
+@@ -3566,7 +3566,37 @@
   */
  CINDEX_LINKAGE enum CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T);
  
@@ -40,20 +40,20 @@ Index: include/clang-c/Index.h
   * \brief Returns non-zero if the cursor specifies a Record member that is a
   *   bitfield.
   */
-@@ -3772,7 +3802,11 @@
-   CXObjCPropertyAttr_atomic    = 0x100,
+@@ -3986,7 +4016,11 @@
    CXObjCPropertyAttr_weak      = 0x200,
    CXObjCPropertyAttr_strong    = 0x400,
--  CXObjCPropertyAttr_unsafe_unretained = 0x800
-+  CXObjCPropertyAttr_unsafe_unretained = 0x800,
-+  CXObjCPropertyAttr_nonnull = 0x1000,
-+  CXObjCPropertyAttr_nullable = 0x2000,
-+  CXObjCPropertyAttr_null_resettable = 0x4000,
-+  CXObjCPropertyAttr_null_unspecified = 0x8000
+   CXObjCPropertyAttr_unsafe_unretained = 0x800,
+-  CXObjCPropertyAttr_class = 0x1000
++  CXObjCPropertyAttr_class = 0x1000,
++  CXObjCPropertyAttr_nonnull = 0x2000,
++  CXObjCPropertyAttr_nullable = 0x4000,
++  CXObjCPropertyAttr_null_resettable = 0x8000,
++  CXObjCPropertyAttr_null_unspecified = 0x10000
  } CXObjCPropertyAttrKind;
  
  /**
-@@ -3786,6 +3820,24 @@
+@@ -4000,6 +4034,24 @@
                                                               unsigned reserved);
  
  /**
@@ -78,7 +78,7 @@ Index: include/clang-c/Index.h
   * \brief 'Qualifiers' written next to the return and parameter types in
   * Objective-C method declarations.
   */
-@@ -3820,6 +3872,13 @@
+@@ -4034,6 +4086,13 @@
  CINDEX_LINKAGE unsigned clang_Cursor_isVariadic(CXCursor C);
  
  /**
@@ -94,12 +94,12 @@ Index: include/clang-c/Index.h
   * with whitespace in between.
 Index: lib/Sema/SemaObjCProperty.cpp
 ===================================================================
---- lib/Sema/SemaObjCProperty.cpp	(revision 248094)
+--- lib/Sema/SemaObjCProperty.cpp	(revision 304830)
 +++ lib/Sema/SemaObjCProperty.cpp	(working copy)
-@@ -259,6 +259,10 @@
-     attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_nonatomic;
-   if (Attributes & ObjCDeclSpec::DQ_PR_atomic)
+@@ -305,6 +305,10 @@
      attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_atomic;
+   if (Attributes & ObjCDeclSpec::DQ_PR_class)
+     attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_class;
 +  if (Attributes & ObjCDeclSpec::DQ_PR_nullability)
 +    attributesAsWritten |= ObjCPropertyDecl::OBJC_PR_nullability;
 +  if (Attributes & ObjCDeclSpec::DQ_PR_null_resettable)
@@ -109,9 +109,9 @@ Index: lib/Sema/SemaObjCProperty.cpp
  }
 Index: test/Index/c-index-api-loadTU-test.m
 ===================================================================
---- test/Index/c-index-api-loadTU-test.m	(revision 248094)
+--- test/Index/c-index-api-loadTU-test.m	(revision 304830)
 +++ test/Index/c-index-api-loadTU-test.m	(working copy)
-@@ -172,6 +172,6 @@
+@@ -173,10 +173,10 @@
  // CHECK: c-index-api-loadTU-test.m:75:32: ObjCPropertyDecl=anotherOutlet:75:32 [retain,] Extent=[75:1 - 75:45]
  // CHECK: c-index-api-loadTU-test.m:75:20: attribute(iboutlet)= Extent=[75:20 - 75:28]
  // CHECK: c-index-api-loadTU-test.m:75:29: TypeRef=id:0:0 Extent=[75:29 - 75:31]
@@ -120,9 +120,15 @@ Index: test/Index/c-index-api-loadTU-test.m
 +// CHECK: c-index-api-loadTU-test.m:75:32: ObjCInstanceMethodDecl=anotherOutlet:75:32 (implicit) Extent=[75:32 - 75:45]
 +// CHECK: c-index-api-loadTU-test.m:75:32: ObjCInstanceMethodDecl=setAnotherOutlet::75:32 (implicit) Extent=[75:32 - 75:45]
  // CHECK: c-index-api-loadTU-test.m:75:32: ParmDecl=anotherOutlet:75:32 (Definition) Extent=[75:32 - 75:45]
+ // CHECK: c-index-api-loadTU-test.m:76:23: ObjCPropertyDecl=cProp:76:23 [class,] Extent=[76:1 - 76:28]
+-// CHECK: c-index-api-loadTU-test.m:76:23: ObjCClassMethodDecl=cProp:76:23 Extent=[76:23 - 76:28]
+-// CHECK: c-index-api-loadTU-test.m:76:23: ObjCClassMethodDecl=setCProp::76:23 Extent=[76:23 - 76:28]
++// CHECK: c-index-api-loadTU-test.m:76:23: ObjCClassMethodDecl=cProp:76:23 (implicit) Extent=[76:23 - 76:28]
++// CHECK: c-index-api-loadTU-test.m:76:23: ObjCClassMethodDecl=setCProp::76:23 (implicit) Extent=[76:23 - 76:28]
+ // CHECK: c-index-api-loadTU-test.m:76:23: ParmDecl=cProp:76:23 (Definition) Extent=[76:23 - 76:28]
 Index: test/Index/overrides.m
 ===================================================================
---- test/Index/overrides.m	(revision 248094)
+--- test/Index/overrides.m	(revision 304830)
 +++ test/Index/overrides.m	(working copy)
 @@ -106,14 +106,14 @@
  // CHECK: overrides.m:36:9: ObjCInstanceMethodDecl=protoMethod:36:9 [Overrides @8:9, @12:9, @17:9, @32:9]
@@ -148,7 +154,7 @@ Index: test/Index/overrides.m
  // CHECK: overrides.m:96:8: ObjCInstanceMethodDecl=meth:96:8 (Definition) [Overrides @92:8] Extent=[96:1 - 96:14]
 Index: test/Index/print-objc-property-methods.m
 ===================================================================
---- test/Index/print-objc-property-methods.m	(revision 0)
+--- test/Index/print-objc-property-methods.m	(nonexistent)
 +++ test/Index/print-objc-property-methods.m	(working copy)
 @@ -0,0 +1,10 @@
 +@interface Test1
@@ -163,9 +169,15 @@ Index: test/Index/print-objc-property-methods.m
 +// CHECK: ObjCPropertyDecl=prop3:4:59 [getter,setter,] getter=customGetter:4:59 setter=customSetter::4:59
 Index: test/Index/properties-class-extensions.m
 ===================================================================
---- test/Index/properties-class-extensions.m	(revision 248094)
+--- test/Index/properties-class-extensions.m	(revision 304830)
 +++ test/Index/properties-class-extensions.m	(working copy)
-@@ -49,33 +49,33 @@
+@@ -44,31 +44,31 @@
+ 
+ // RUN: c-index-test -test-load-source local %s | FileCheck %s
+ // CHECK: properties-class-extensions.m:4:12: ObjCInterfaceDecl=Foo:4:12 Extent=[4:1 - 4:23]
+-// CHECK-NOT: properties-class-extensions.m:9:15: ObjCInstanceMethodDecl=setB::9:15 Extent=[9:15 - 9:16]
++// CHECK-NOT: properties-class-extensions.m:9:15: ObjCInstanceMethodDecl=setB::9:15 (implicit) Extent=[9:15 - 9:16]
+ // CHECK-NOT: properties-class-extensions.m:9:15: ParmDecl=b:9:15 (Definition) Extent=[9:15 - 9:16]
  // CHECK: properties-class-extensions.m:5:12: ObjCCategoryDecl=Cat:5:12 Extent=[5:1 - 7:5]
  // CHECK: properties-class-extensions.m:5:12: ObjCClassRef=Foo:4:12 Extent=[5:12 - 5:15]
  // CHECK: properties-class-extensions.m:6:15: ObjCPropertyDecl=a:6:15 Extent=[6:1 - 6:16]
@@ -197,8 +209,9 @@ Index: test/Index/properties-class-extensions.m
 +// CHECK-NOT: properties-class-extensions.m:16:25: ObjCInstanceMethodDecl=bar:16:25 (implicit) Extent=[16:25 - 16:28]
 +// CHECK: properties-class-extensions.m:19:26: ObjCInstanceMethodDecl=setBar::19:26 (implicit) Extent=[19:26 - 19:29]
  // CHECK: properties-class-extensions.m:19:26: ParmDecl=bar:19:26 (Definition) Extent=[19:26 - 19:29]
- // CHECK: properties-class-extensions.m:24:8: ObjCInterfaceDecl=Rdar8467189_Bar:24:8 Extent=[24:1 - 24:23]
+ // CHECK-NOT: properties-class-extensions.m:24:8: ObjCInterfaceDecl=Rdar8467189_Bar:24:8
  // CHECK: properties-class-extensions.m:24:8: ObjCClassRef=Rdar8467189_Bar:24:8 Extent=[24:8 - 24:23]
+@@ -75,7 +75,7 @@
  // CHECK: properties-class-extensions.m:25:11: ObjCProtocolDecl=Rdar8467189_FooProtocol:25:11 (Definition) Extent=[25:1 - 27:5]
  // CHECK: properties-class-extensions.m:26:39: ObjCPropertyDecl=Rdar8467189_Bar:26:39 [readonly,] Extent=[26:1 - 26:54]
  // CHECK: properties-class-extensions.m:26:22: ObjCClassRef=Rdar8467189_Bar:24:8 Extent=[26:22 - 26:37]
@@ -207,7 +220,7 @@ Index: test/Index/properties-class-extensions.m
  // CHECK: properties-class-extensions.m:28:12: ObjCInterfaceDecl=Rdar8467189_Foo:28:12 Extent=[28:1 - 29:5]
  // CHECK: properties-class-extensions.m:28:29: ObjCProtocolRef=Rdar8467189_FooProtocol:25:11 Extent=[28:29 - 28:52]
  // CHECK-NOT: properties-class-extensions.m:31:40: ObjCPropertyDecl=Rdar8467189_Bar:31:40 Extent=[31:40 - 31:55]
-@@ -84,16 +84,16 @@
+@@ -84,8 +84,8 @@
  // CHECK: properties-class-extensions.m:30:12: ObjCClassRef=Rdar8467189_Foo:28:12 Extent=[30:12 - 30:27]
  // CHECK: properties-class-extensions.m:31:40: ObjCPropertyDecl=Rdar8467189_Bar:31:40 [readwrite,] Extent=[31:1 - 31:55]
  // CHECK: properties-class-extensions.m:31:23: ObjCClassRef=Rdar8467189_Bar:24:8 Extent=[31:23 - 31:38]
@@ -218,6 +231,7 @@ Index: test/Index/properties-class-extensions.m
  // CHECK: properties-class-extensions.m:31:40: ParmDecl=Rdar8467189_Bar:31:40 (Definition) Extent=[31:40 - 31:55]
  // CHECK: properties-class-extensions.m:35:12: ObjCInterfaceDecl=Qux:35:12 Extent=[35:1 - 36:5]
  // CHECK: properties-class-extensions.m:37:12: ObjCCategoryDecl=:37:12 Extent=[37:1 - 39:5]
+@@ -92,8 +92,8 @@
  // CHECK: properties-class-extensions.m:37:12: ObjCClassRef=Qux:35:12 Extent=[37:12 - 37:15]
  // CHECK: properties-class-extensions.m:38:34: ObjCPropertyDecl=qux:38:34 [assign,readwrite,] Extent=[38:1 - 38:37]
  // CHECK: properties-class-extensions.m:38:31: TypeRef=id:0:0 Extent=[38:31 - 38:33]
@@ -230,7 +244,7 @@ Index: test/Index/properties-class-extensions.m
  
 Index: test/Index/usrs.m
 ===================================================================
---- test/Index/usrs.m	(revision 248094)
+--- test/Index/usrs.m	(revision 304830)
 +++ test/Index/usrs.m	(working copy)
 @@ -208,8 +208,8 @@
  // CHECK-source: usrs.m:30:8: ObjCClassMethodDecl=kingkong:30:8 Extent=[30:1 - 30:17]
@@ -245,9 +259,9 @@ Index: test/Index/usrs.m
  // CHECK-source: usrs.m:35:8: ObjCInstanceMethodDecl=godzilla:35:8 (Definition) Extent=[35:1 - 39:2]
 Index: tools/c-index-test/c-index-test.c
 ===================================================================
---- tools/c-index-test/c-index-test.c	(revision 248094)
+--- tools/c-index-test/c-index-test.c	(revision 304830)
 +++ tools/c-index-test/c-index-test.c	(working copy)
-@@ -779,6 +779,8 @@
+@@ -798,6 +798,8 @@
        printf(" (variadic)");
      if (clang_Cursor_isObjCOptional(Cursor))
        printf(" (@optional)");
@@ -256,10 +270,10 @@ Index: tools/c-index-test/c-index-test.c
  
      if (Cursor.kind == CXCursor_IBOutletCollectionAttr) {
        CXType T =
-@@ -918,6 +920,10 @@
-         PRINT_PROP_ATTR(weak);
+@@ -941,6 +943,10 @@
          PRINT_PROP_ATTR(strong);
          PRINT_PROP_ATTR(unsafe_unretained);
+         PRINT_PROP_ATTR(class);
 +        PRINT_PROP_ATTR(nonnull);
 +        PRINT_PROP_ATTR(nullable);
 +        PRINT_PROP_ATTR(null_resettable);
@@ -267,7 +281,7 @@ Index: tools/c-index-test/c-index-test.c
          printf("]");
        }
      }
-@@ -1457,6 +1463,44 @@
+@@ -1550,6 +1556,44 @@
  }
  
  /******************************************************************************/
@@ -312,18 +326,18 @@ Index: tools/c-index-test/c-index-test.c
  /* Loading ASTs/source.                                                       */
  /******************************************************************************/
  
-@@ -4064,6 +4108,7 @@
-     "       c-index-test -test-print-type {<args>}*\n"
+@@ -4288,6 +4332,7 @@
      "       c-index-test -test-print-type-size {<args>}*\n"
      "       c-index-test -test-print-bitwidth {<args>}*\n"
+     "       c-index-test -test-print-type-declaration {<args>}*\n"
 +    "       c-index-test -test-print-property-methods {<args>}*\n"
      "       c-index-test -print-usr [<CursorKind> {<args>}]*\n"
      "       c-index-test -print-usr-file <file>\n"
      "       c-index-test -write-pch <file> <compiler arguments>\n");
-@@ -4159,6 +4204,9 @@
-                                     PrintBitWidth, 0);
-   else if (argc > 2 && strcmp(argv[1], "-test-print-mangle") == 0)
+@@ -4397,6 +4442,9 @@
      return perform_test_load_tu(argv[2], "all", NULL, PrintMangledName, NULL);
+   else if (argc > 2 && strcmp(argv[1], "-test-print-manglings") == 0)
+     return perform_test_load_tu(argv[2], "all", NULL, PrintManglings, NULL);
 +  else if (argc > 2 && strcmp(argv[1], "-test-print-property-methods") == 0)
 +    return perform_test_load_source(argc - 2, argv + 2, "all",
 +                                    PrintObjCPropertyMethods, 0);
@@ -332,12 +346,12 @@ Index: tools/c-index-test/c-index-test.c
        return print_usrs(argv + 2, argv + argc);
 Index: tools/libclang/CIndex.cpp
 ===================================================================
---- tools/libclang/CIndex.cpp	(revision 248094)
+--- tools/libclang/CIndex.cpp	(revision 304830)
 +++ tools/libclang/CIndex.cpp	(working copy)
-@@ -6265,6 +6265,10 @@
-               .Case("setter", true)
+@@ -6925,6 +6925,10 @@
                .Case("strong", true)
                .Case("weak", true)
+               .Case("class", true)
 +              .Case("nonnull", true)
 +              .Case("nullable", true)
 +              .Case("null_resettable", true)
@@ -345,7 +359,7 @@ Index: tools/libclang/CIndex.cpp
                .Default(false))
              Tokens[I].int_data[0] = CXToken_Keyword;
          }
-@@ -6672,6 +6676,7 @@
+@@ -7342,6 +7346,7 @@
      return CXObjCPropertyAttr_noattr;
  
    unsigned Result = CXObjCPropertyAttr_noattr;
@@ -353,8 +367,8 @@ Index: tools/libclang/CIndex.cpp
    const ObjCPropertyDecl *PD = dyn_cast<ObjCPropertyDecl>(getCursorDecl(C));
    ObjCPropertyDecl::PropertyAttributeKind Attr =
        PD->getPropertyAttributesAsWritten();
-@@ -6693,9 +6698,51 @@
-   SET_CXOBJCPROP_ATTR(unsafe_unretained);
+@@ -7364,9 +7369,51 @@
+   SET_CXOBJCPROP_ATTR(class);
  #undef SET_CXOBJCPROP_ATTR
  
 +  if (Attr & ObjCPropertyDecl::OBJC_PR_nullability) {
@@ -405,7 +419,7 @@ Index: tools/libclang/CIndex.cpp
  unsigned clang_Cursor_getObjCDeclQualifiers(CXCursor C) {
    if (!clang_isDeclaration(C.kind))
      return CXObjCDeclQualifier_None;
-@@ -6746,6 +6793,15 @@
+@@ -7417,6 +7464,15 @@
    return 0;
  }
  
@@ -423,9 +437,21 @@ Index: tools/libclang/CIndex.cpp
      return clang_getNullRange();
 Index: tools/libclang/CXType.cpp
 ===================================================================
---- tools/libclang/CXType.cpp	(revision 248094)
+--- tools/libclang/CXType.cpp	(revision 304830)
 +++ tools/libclang/CXType.cpp	(working copy)
-@@ -869,6 +869,39 @@
+@@ -105,9 +105,9 @@
+ 
+   if (TU && !T.isNull()) {
+     // Handle attributed types as the original type
+-    if (auto *ATT = T->getAs<AttributedType>()) {
++    /*if (auto *ATT = T->getAs<AttributedType>()) {
+       return MakeCXType(ATT->getModifiedType(), TU);
+-    }
++    }*/
+ 
+     ASTContext &Ctx = cxtu::getASTUnit(TU)->getASTContext();
+     if (Ctx.getLangOpts().ObjC1) {
+@@ -921,6 +921,39 @@
    return CXRefQualifier_None;
  }
  
@@ -467,9 +493,9 @@ Index: tools/libclang/CXType.cpp
      return 0;
 Index: tools/libclang/libclang.exports
 ===================================================================
---- tools/libclang/libclang.exports	(revision 248094)
+--- tools/libclang/libclang.exports	(revision 304830)
 +++ tools/libclang/libclang.exports	(working copy)
-@@ -20,6 +20,8 @@
+@@ -27,6 +27,8 @@
  clang_Cursor_getNumArguments
  clang_Cursor_getObjCDeclQualifiers
  clang_Cursor_getObjCPropertyAttributes
@@ -478,7 +504,7 @@ Index: tools/libclang/libclang.exports
  clang_Cursor_getObjCSelectorIndex
  clang_Cursor_getOffsetOfField
  clang_Cursor_getSpellingNameRange
-@@ -31,6 +33,7 @@
+@@ -38,6 +40,7 @@
  clang_Cursor_isNull
  clang_Cursor_isObjCOptional
  clang_Cursor_isVariadic
@@ -486,12 +512,12 @@ Index: tools/libclang/libclang.exports
  clang_Cursor_getModule
  clang_Cursor_getStorageClass
  clang_File_isEqual
-@@ -79,6 +82,8 @@
+@@ -86,6 +89,8 @@
  clang_Type_getNumTemplateArguments
  clang_Type_getTemplateArgumentAsType
  clang_Type_getCXXRefQualifier
 +clang_Type_getNullability
 +clang_Type_removeOuterNullability
  clang_Type_visitFields
+ clang_Type_getNamedType
  clang_VerbatimBlockLineComment_getText
- clang_VerbatimLineComment_getText
