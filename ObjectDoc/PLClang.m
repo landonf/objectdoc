@@ -17,6 +17,6 @@ NSString * const PLClangErrorDomain = @"PLClangErrorDomain";
  * @return The Clang version as a string suitable for displaying to the user. The string
  *         is not suitable for parsing as the format is not guaranteed to be stable.
  */
-NSString *PLClangGetVersionString() {
+NSString *PLClangGetVersionString(void) {
     return plclang_convert_and_dispose_cxstring(clang_getClangVersion());
 }
