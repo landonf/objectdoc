@@ -2,7 +2,38 @@ Index: include/clang-c/Index.h
 ===================================================================
 --- include/clang-c/Index.h	(revision 304830)
 +++ include/clang-c/Index.h	(working copy)
-@@ -3566,7 +3566,37 @@
+@@ -2665,6 +2665,11 @@
+    * suggest replacement APIs.
+    */
+   CXString Message;
++  /**
++   * \brief Optional message text that Clang will use to provide Fix-It when
++   * emitting a warning about use of a deprecated declaration.
++   */
++  CXString Replacement;
+ } CXPlatformAvailability;
+ 
+ /**
+@@ -2707,6 +2712,7 @@
+ clang_getCursorPlatformAvailability(CXCursor cursor,
+                                     int *always_deprecated,
+                                     CXString *deprecated_message,
++                                    CXString *deprecated_replacement,
+                                     int *always_unavailable,
+                                     CXString *unavailable_message,
+                                     CXPlatformAvailability *availability,
+@@ -2717,7 +2723,9 @@
+  */
+ CINDEX_LINKAGE void
+ clang_disposeCXPlatformAvailability(CXPlatformAvailability *availability);
+-  
++
++CINDEX_LINKAGE CXString clang_getTargetPlatformName(CXTranslationUnit TU);
++
+ /**
+  * \brief Describe the "language" of the entity referred to by a cursor.
+  */
+@@ -3566,7 +3574,37 @@
   */
  CINDEX_LINKAGE enum CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T);
  
@@ -40,7 +71,7 @@ Index: include/clang-c/Index.h
   * \brief Returns non-zero if the cursor specifies a Record member that is a
   *   bitfield.
   */
-@@ -3986,7 +4016,11 @@
+@@ -3986,7 +4024,11 @@
    CXObjCPropertyAttr_weak      = 0x200,
    CXObjCPropertyAttr_strong    = 0x400,
    CXObjCPropertyAttr_unsafe_unretained = 0x800,
@@ -53,7 +84,7 @@ Index: include/clang-c/Index.h
  } CXObjCPropertyAttrKind;
  
  /**
-@@ -4000,6 +4034,24 @@
+@@ -4000,6 +4042,24 @@
                                                               unsigned reserved);
  
  /**
@@ -78,7 +109,7 @@ Index: include/clang-c/Index.h
   * \brief 'Qualifiers' written next to the return and parameter types in
   * Objective-C method declarations.
   */
-@@ -4034,6 +4086,13 @@
+@@ -4034,6 +4094,13 @@
  CINDEX_LINKAGE unsigned clang_Cursor_isVariadic(CXCursor C);
  
  /**
@@ -111,6 +142,15 @@ Index: test/Index/c-index-api-loadTU-test.m
 ===================================================================
 --- test/Index/c-index-api-loadTU-test.m	(revision 304830)
 +++ test/Index/c-index-api-loadTU-test.m	(working copy)
+@@ -84,7 +84,7 @@
+ // CHECK: c-index-api-loadTU-test.m:8:25: attribute(ibaction)= Extent=[8:25 - 8:33]
+ // CHECK: c-index-api-loadTU-test.m:8:50: ParmDecl=msg:8:50 (Definition) Extent=[8:47 - 8:53]
+ // CHECK: c-index-api-loadTU-test.m:8:47: TypeRef=id:0:0 Extent=[8:47 - 8:49]
+-// CHECK: c-index-api-loadTU-test.m:9:3: ObjCInstanceMethodDecl=foo:9:3 (deprecated)  (always deprecated: "") Extent=[9:1 - 9:35]
++// CHECK: c-index-api-loadTU-test.m:9:3: ObjCInstanceMethodDecl=foo:9:3 (deprecated)  (always deprecated: "", replacement: "") Extent=[9:1 - 9:35]
+ // CHECK: c-index-api-loadTU-test.m:9:22: UnexposedAttr= Extent=[9:22 - 9:32]
+ // CHECK: c-index-api-loadTU-test.m:10:3: ObjCClassMethodDecl=fooC:10:3 Extent=[10:1 - 10:8]
+ // CHECK: c-index-api-loadTU-test.m:14:12: ObjCInterfaceDecl=Bar:14:12 Extent=[14:1 - 18:5]
 @@ -173,10 +173,10 @@
  // CHECK: c-index-api-loadTU-test.m:75:32: ObjCPropertyDecl=anotherOutlet:75:32 [retain,] Extent=[75:1 - 75:45]
  // CHECK: c-index-api-loadTU-test.m:75:20: attribute(iboutlet)= Extent=[75:20 - 75:28]
@@ -261,7 +301,43 @@ Index: tools/c-index-test/c-index-test.c
 ===================================================================
 --- tools/c-index-test/c-index-test.c	(revision 304830)
 +++ tools/c-index-test/c-index-test.c	(working copy)
-@@ -798,6 +798,8 @@
+@@ -677,6 +677,7 @@
+     int AlwaysDeprecated;
+     CXString UnavailableMessage;
+     CXString DeprecatedMessage;
++    CXString Replacement;
+     CXPlatformAvailability PlatformAvailability[2];
+     int NumPlatformAvailability;
+     int I;
+@@ -736,6 +737,7 @@
+       = clang_getCursorPlatformAvailability(Cursor,
+                                             &AlwaysDeprecated,
+                                             &DeprecatedMessage,
++                                            &Replacement,
+                                             &AlwaysUnavailable,
+                                             &UnavailableMessage,
+                                             PlatformAvailability, 2);
+@@ -743,8 +745,9 @@
+       printf("  (always unavailable: \"%s\")",
+              clang_getCString(UnavailableMessage));
+     } else if (AlwaysDeprecated) {
+-      printf("  (always deprecated: \"%s\")",
+-             clang_getCString(DeprecatedMessage));
++      printf("  (always deprecated: \"%s\", replacement: \"%s\")",
++             clang_getCString(DeprecatedMessage),
++             clang_getCString(Replacement));
+     } else {
+       for (I = 0; I != NumPlatformAvailability; ++I) {
+         if (I >= 2)
+@@ -771,6 +774,7 @@
+     }
+     
+     clang_disposeString(DeprecatedMessage);
++    clang_disposeString(Replacement);
+     clang_disposeString(UnavailableMessage);
+ 
+     if (clang_CXXConstructor_isDefaultConstructor(Cursor))
+@@ -798,6 +802,8 @@
        printf(" (variadic)");
      if (clang_Cursor_isObjCOptional(Cursor))
        printf(" (@optional)");
@@ -270,7 +346,7 @@ Index: tools/c-index-test/c-index-test.c
  
      if (Cursor.kind == CXCursor_IBOutletCollectionAttr) {
        CXType T =
-@@ -941,6 +943,10 @@
+@@ -941,6 +947,10 @@
          PRINT_PROP_ATTR(strong);
          PRINT_PROP_ATTR(unsafe_unretained);
          PRINT_PROP_ATTR(class);
@@ -281,7 +357,7 @@ Index: tools/c-index-test/c-index-test.c
          printf("]");
        }
      }
-@@ -1550,6 +1556,44 @@
+@@ -1550,6 +1560,44 @@
  }
  
  /******************************************************************************/
@@ -326,7 +402,7 @@ Index: tools/c-index-test/c-index-test.c
  /* Loading ASTs/source.                                                       */
  /******************************************************************************/
  
-@@ -4288,6 +4332,7 @@
+@@ -4288,6 +4336,7 @@
      "       c-index-test -test-print-type-size {<args>}*\n"
      "       c-index-test -test-print-bitwidth {<args>}*\n"
      "       c-index-test -test-print-type-declaration {<args>}*\n"
@@ -334,7 +410,7 @@ Index: tools/c-index-test/c-index-test.c
      "       c-index-test -print-usr [<CursorKind> {<args>}]*\n"
      "       c-index-test -print-usr-file <file>\n"
      "       c-index-test -write-pch <file> <compiler arguments>\n");
-@@ -4397,6 +4442,9 @@
+@@ -4397,6 +4446,9 @@
      return perform_test_load_tu(argv[2], "all", NULL, PrintMangledName, NULL);
    else if (argc > 2 && strcmp(argv[1], "-test-print-manglings") == 0)
      return perform_test_load_tu(argv[2], "all", NULL, PrintManglings, NULL);
@@ -348,7 +424,15 @@ Index: tools/libclang/CIndex.cpp
 ===================================================================
 --- tools/libclang/CIndex.cpp	(revision 304830)
 +++ tools/libclang/CIndex.cpp	(working copy)
-@@ -6925,6 +6925,10 @@
+@@ -26,6 +26,7 @@
+ #include "clang/Basic/Diagnostic.h"
+ #include "clang/Basic/DiagnosticCategories.h"
+ #include "clang/Basic/DiagnosticIDs.h"
++#include "clang/Basic/TargetInfo.h"
+ #include "clang/Basic/Version.h"
+ #include "clang/Frontend/ASTUnit.h"
+ #include "clang/Frontend/CompilerInstance.h"
+@@ -6925,6 +6926,10 @@
                .Case("strong", true)
                .Case("weak", true)
                .Case("class", true)
@@ -359,7 +443,82 @@ Index: tools/libclang/CIndex.cpp
                .Default(false))
              Tokens[I].int_data[0] = CXToken_Keyword;
          }
-@@ -7342,6 +7346,7 @@
+@@ -7141,6 +7146,7 @@
+ static int getCursorPlatformAvailabilityForDecl(const Decl *D,
+                                                 int *always_deprecated,
+                                                 CXString *deprecated_message,
++                                                CXString *deprecated_replacement,
+                                                 int *always_unavailable,
+                                                 CXString *unavailable_message,
+                                            CXPlatformAvailability *availability,
+@@ -7156,6 +7162,10 @@
+         clang_disposeString(*deprecated_message);
+         *deprecated_message = cxstring::createDup(Deprecated->getMessage());
+       }
++      if (deprecated_replacement) {
++        clang_disposeString(*deprecated_replacement);
++        *deprecated_replacement = cxstring::createDup(Deprecated->getReplacement());
++      }
+       continue;
+     }
+     
+@@ -7180,6 +7190,7 @@
+         availability[N].Obsoleted = convertVersion(Avail->getObsoleted());
+         availability[N].Unavailable = Avail->getUnavailable();
+         availability[N].Message = cxstring::createDup(Avail->getMessage());
++        availability[N].Replacement = cxstring::createDup(Avail->getReplacement());
+       }
+       ++N;
+     }
+@@ -7191,6 +7202,7 @@
+                                         cast<Decl>(EnumConst->getDeclContext()),
+                                                   always_deprecated,
+                                                   deprecated_message,
++                                                  deprecated_replacement,
+                                                   always_unavailable,
+                                                   unavailable_message,
+                                                   availability,
+@@ -7202,6 +7214,7 @@
+ int clang_getCursorPlatformAvailability(CXCursor cursor,
+                                         int *always_deprecated,
+                                         CXString *deprecated_message,
++                                        CXString *deprecated_replacement,
+                                         int *always_unavailable,
+                                         CXString *unavailable_message,
+                                         CXPlatformAvailability *availability,
+@@ -7210,6 +7223,8 @@
+     *always_deprecated = 0;
+   if (deprecated_message)
+     *deprecated_message = cxstring::createEmpty();
++  if (deprecated_replacement)
++    *deprecated_replacement = cxstring::createEmpty();
+   if (always_unavailable)
+     *always_unavailable = 0;
+   if (unavailable_message)
+@@ -7224,6 +7239,7 @@
+ 
+   return getCursorPlatformAvailabilityForDecl(D, always_deprecated,
+                                               deprecated_message,
++                                              deprecated_replacement,
+                                               always_unavailable,
+                                               unavailable_message,
+                                               availability,
+@@ -7233,8 +7249,14 @@
+ void clang_disposeCXPlatformAvailability(CXPlatformAvailability *availability) {
+   clang_disposeString(availability->Platform);
+   clang_disposeString(availability->Message);
++  clang_disposeString(availability->Replacement);
+ }
+ 
++CXString clang_getTargetPlatformName(CXTranslationUnit TU) {
++  ASTContext &Context = getASTUnit(TU)->getASTContext();
++  return cxstring::createDup(Context.getTargetInfo().getPlatformName());
++}
++
+ CXLanguageKind clang_getCursorLanguage(CXCursor cursor) {
+   if (clang_isDeclaration(cursor.kind))
+     return getDeclLanguage(cxcursor::getCursorDecl(cursor));
+@@ -7342,6 +7364,7 @@
      return CXObjCPropertyAttr_noattr;
  
    unsigned Result = CXObjCPropertyAttr_noattr;
@@ -367,7 +526,7 @@ Index: tools/libclang/CIndex.cpp
    const ObjCPropertyDecl *PD = dyn_cast<ObjCPropertyDecl>(getCursorDecl(C));
    ObjCPropertyDecl::PropertyAttributeKind Attr =
        PD->getPropertyAttributesAsWritten();
-@@ -7364,9 +7369,51 @@
+@@ -7364,9 +7387,51 @@
    SET_CXOBJCPROP_ATTR(class);
  #undef SET_CXOBJCPROP_ATTR
  
@@ -419,7 +578,7 @@ Index: tools/libclang/CIndex.cpp
  unsigned clang_Cursor_getObjCDeclQualifiers(CXCursor C) {
    if (!clang_isDeclaration(C.kind))
      return CXObjCDeclQualifier_None;
-@@ -7417,6 +7464,15 @@
+@@ -7417,6 +7482,15 @@
    return 0;
  }
  
